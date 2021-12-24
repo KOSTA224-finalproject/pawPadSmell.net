@@ -7,7 +7,7 @@
 		property="memberDTO.nickname" /> <result column="post_id" property="boardDTO.postId" 
 		/> </resultMap> -->
 	<insert id="boardWrite"
-		parameterType="org.kosta.pawPadSmell.model.domain.BoardDTO">
+		parameterType="BoardDTO">
 		insert into g_board(post_id, title, content,
 		member_id,
 		regdate, hits, board_id,
@@ -20,7 +20,7 @@
 	</insert>
 	
 	<update id="boardUpdate"
-		parameterType="org.kosta.pawPadSmell.model.domain.BoardDTO">
+		parameterType="BoardDTO">
 		insert into
 		g_board(post_id, title, content,
 		member_id,

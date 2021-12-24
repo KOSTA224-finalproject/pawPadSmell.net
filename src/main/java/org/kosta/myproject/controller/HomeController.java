@@ -52,6 +52,6 @@ public class HomeController {
 	public String secondHandBoards(Authentication authentication, Model model) {
 		model.addAttribute("board", boardMapper.getSecId());
 		model.addAttribute("list", boardMapper.getCategoryList());
-		return "second-list";
+		return "/board/second-list";
 	}
 }
