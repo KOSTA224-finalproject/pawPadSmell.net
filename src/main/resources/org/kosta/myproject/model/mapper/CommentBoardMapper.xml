@@ -8,7 +8,7 @@
 	</resultMap>
 	
 	<select id="findByComment" parameterType="int" resultType="org.kosta.myproject.model.domain.CommentBoardDTO" resultMap="commentListRM">
-		select c.comment_id,c.comment_content, m.member_id,m.nickname , c.regdate
+		select c.comment_id,c.comment_content, m.member_id,m.nickname , to_char(c.regdate,'yy-mm-dd hh24:mi') as regdate
 		from g_member m, g_board g, comment_board c
 		where c.member_id=m.member_id and c.post_id=g.post_id and c.post_id=#{postId} 
 		order by c.comment_id desc
@@ -25,4 +25,7 @@
 	<update id="commentUpdate" parameterType="CommentBoardDTO">
 		update comment_board set comment_content=#{commentContent} where comment_id=#{commentId}
 	</update>
+	<select id="getCommentCount" resultType="int">
+		select count(*) from comment_board where post_id=#{postId}
+	</select>
 </mapper>
