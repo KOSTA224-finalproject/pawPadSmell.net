@@ -127,6 +127,7 @@ public class BoardController {
 		boardMapper.hitsUpdate(postId);
 		model.addAttribute("list", boardMapper.getpostDetail(postId));
 		model.addAttribute("comment", commentBoardMapper.findByComment(postId));
+		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));
 		return "/board/board-detail";
 	}
 

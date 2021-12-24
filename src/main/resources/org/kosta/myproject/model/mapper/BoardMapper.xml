@@ -50,7 +50,14 @@
 		update g_board set hits=hits+1 where
 		post_id=#{postId}
 	</update>
-
+	<update id="commentUpdateUp">
+		update g_board set comment_count=comment_count+1 where
+		post_id=#{postId}
+	</update>
+	<update id="commentUpdateDown">
+		update g_board set comment_count=comment_count-1 where
+		post_id=#{postId}
+	</update>
 
 	<select id="getCategoryList" resultType="CategoryDTO">
 		select * from category
@@ -149,7 +156,8 @@
 		m.nickname, b.regdate,b.hits,
 		b.category_id,
 		b.board_id, c.category_name,
-		b.filename
+		b.filename,
+		b.comment_count
 		from category c,
 		g_board
 		b,
