@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kosta.myproject.model.mapper.CommentBoardMapper">
+	<resultMap type="CommentBoardDTO" id="commentListRM">
+		<result column="member_id" property="memberDTO.memberID" />
+		<result column="nickname" property="memberDTO.nickname" />
+		<result column="post_id" property="boardDTO.post_id" />		
+	</resultMap>
+	
+	<select id="findByComment" parameterType="int" resultMap="commentListRM">
+		select c.comment_id,c.comment_content, m.nickname , c.regdate
+		from g_member m, g_board g, comment_board c
+		where c.member_id=m.member_id and c.post_id=g.post_id and c.post_id=#{postId} 
+		order by c.comment_id desc
+	</select> 
+	<!-- <insert id="commentSave" parameterType="org.kosta.myproject.model.domain.CommentBoardDTO">
+		insert into comment_board 
+		(comment_id, member_id, post_id, comment_content,regdate)
+		values
+		(comment_id_seq.nextval,#{memberDTO.memberId},#{boardDTO.postId},#{commentContent},sysdate)
+	</insert> -->
+
+</mapper>

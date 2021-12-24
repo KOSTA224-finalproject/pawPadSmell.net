@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kosta.myproject.model.mapper.BoardMapper">
+
+	<!-- <resultMap type="BoardDTO" id="boardDTORM"> <result column= /> <result 
+		column="member_id" property="memberDTO.memberID" /> <result column="nickname" 
+		property="memberDTO.nickname" /> <result column="post_id" property="boardDTO.postId" 
+		/> </resultMap> -->
+	<insert id="boardWrite"
+		parameterType="org.kosta.pawPadSmell.model.domain.BoardDTO">
+		insert into g_board(post_id, title, content,
+		member_id,
+		regdate, hits, board_id,
+		category_id, comment_count,
+		filename, filepath)
+		values(board_seq.nextval,#{title},#{content},
+		1,sysdate,0,1,
+		1,0,
+		#{filename},#{filepath})
+	</insert>
+	
+	<update id="boardUpdate"
+		parameterType="org.kosta.pawPadSmell.model.domain.BoardDTO">
+		insert into
+		g_board(post_id, title, content,
+		member_id,
+		regdate, hits, board_id,
+		category_id, comment_count,
+		filename, filepath)
+		values(board_seq.nextval,#{title},#{content},
+		#{memberDTO.memberId},sysdate,0,#{boardTypeDTO.boardId},
+		#{categoryDTO.categoryId},#{categoryDTO.categoryName},
+		null,null)
+	</update>
+
+	<sql id="selectBoardList">
+		select
+		post_id,title,content,member_id,regdate,hits from
+		g_board
+	</sql>
+
+
+	<select id="getBoardList" resultType="BoardDTO">
+		<include refid="selectBoardList"></include>
+		order by post_id desc
+	</select>
+
+
+	<update id="hitsUpdate">
+		update g_board set hits=hits+1 where
+		post_id=#{postId}
+	</update>
+
+
+	<select id="getCategoryList" resultType="CategoryDTO">
+		select * from category
+	</select>
+
+
+
+	<select id="getCategoryCount" resultType="int">
+		select count(*) from
+		g_board
+		where board_id=#{boardId}
+		and category_id=#{categoryId}
+
+	</select>
+
+
+	<resultMap type="BoardDTO" id="boardRM">
+		<result column="nickname" property="memberDTO.nickname" />
+		<result column="category_name"
+			property="categoryDTO.categoryName" />
+	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM1">
+		<result column="nickname" property="memberDTO.nickname" />
+		<result column="board_id" property="boardTypeDTO.boardId" />
+		<result column="board_name" property="boardTypeDTO.boardId" />
+		<result column="category_id" property="categoryDTO.categoryId" />
+		<result column="rnum" property="rnum" />
+		<result column="category_name"
+			property="categoryDTO.categoryName" />
+	</resultMap>
+
+
+	<select id="getBoardType"
+		resultType="org.kosta.myproject.model.domain.BoardTypeDTO">
+		select * from boardtype
+	</select>
+
+
+	<select id="getBoardName"
+		resultType="org.kosta.myproject.model.domain.BoardTypeDTO">
+		select board_name from boardtype where board_id=#{boardId}
+	</select>
+
+
+
+	<select id="getCatName"
+		resultType="org.kosta.myproject.model.domain.CategoryDTO">
+		select category_name from category where
+		category_id=#{categoryId}
+	</select>
+
+
+	<select id="getAllLists" resultMap="boardRM1">
+		select v.rnum, v.post_id,
+		v.title, to_char(v.regdate, 'yyyy-mm-dd')
+		as
+		regdate, m.nickname,
+		v.hits, v.category_id, v.comment_count,
+		v.board_id
+		from (
+		select
+		row_number() over(
+		order by b.regdate desc)
+		as rnum, b.post_id, b.title,
+		b.regdate,
+		b.hits, b.member_id, b.board_id,
+		t.board_name,
+		c.category_name, b.comment_count,
+		c.category_id
+		from g_board b,
+		boardtype t, category c
+		where b.board_id =
+		t.board_id and b.board_id =
+		#{boardId}
+		and c.category_id =
+		b.category_id and
+		b.category_id=#{categoryId}
+		) v,
+		g_member m
+		where
+		v.member_id =
+		m.member_id and v.rnum between #{getStartRowNumber} and
+		#{getEndRowNumber}
+		order by v.regdate desc
+	</select>
+
+
+	<delete id="deletePost">
+		delete from g_board where post_id = #{postId}
+	</delete>
+
+
+	<select id="getpostDetail" resultMap="boardRM1">
+		select b.title,
+		b.content,b.post_id,
+		m.nickname, b.regdate,b.hits,
+		b.category_id,
+		b.board_id, c.category_name,
+		b.filename
+		from category c,
+		g_board
+		b,
+		g_member m
+		where b.member_id =
+		m.member_id
+		and
+		b.category_id=c.category_id
+		and b.post_id=#{postId}
+	</select>
+
+	<select id="getSecId" resultType="BoardTypeDTO">
+		select board_id
+		from boardtype
+		where board_id=2
+	</select>
+	<select id="getComId" resultType="BoardTypeDTO">
+		select board_id
+		from boardtype
+		where board_id=1
+	</select>
+
+
+</mapper>
