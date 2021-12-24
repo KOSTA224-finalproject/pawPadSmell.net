@@ -12,6 +12,10 @@ public interface CommentBoardMapper {
 
 	void commentSave(CommentBoardDTO commentBoardDTO);
 
+	void commentDelete(int commentId);
+
+	void commentUpdate(CommentBoardDTO commentBoardDTO);
+
 	
 
 }

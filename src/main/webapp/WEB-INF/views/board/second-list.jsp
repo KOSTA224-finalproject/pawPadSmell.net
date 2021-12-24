@@ -74,29 +74,26 @@ opacity
 <title>spring ajax</title>
 </head>
 <body>
-	<sec:authorize access="isAuthenticated()">
 	<div id="portfolio">
 			<div class="container-fluid p-0" id="up-on-scroll">
 				<div class="row g-0">
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<c:forEach var="category" items="${list}">
-						<a class="portfolio-box"
-							href="${path}/board/list/2/1"
+
+						<a class="portfolio-box" href="${path}/board/list/2/1"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/cat.jfif"
 							style="max-width: 100%; height: 50vh;" alt="..." />
 							<div class="portfolio-box-caption">
 								<div class="project-category text-white-50">Category</div>
-								<div class="project-name">
+								<div class="project-name" >
 									<h2>CAT</h2>
 								</div>
 							</div>
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							href="${path}/board/list/2/2"
+						<a class="portfolio-box" href="${path}/board/list/2/2"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/dog.jpg"
@@ -111,8 +108,7 @@ opacity
 					</div>
 
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							href="${path}/board/list/${board.boardId}/${category.categoryId}"
+						<a class="portfolio-box" href="${path}/board/list/2/3"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/bird.jpeg"
@@ -126,8 +122,7 @@ opacity
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							href="${path}/board/list/1/4"
+						<a class="portfolio-box" href="${path}/board/list/2/4"
 							style="max-width: 100%; height: 50vh; overflow: hidden;"
 							title="Project Name"> <img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/iguana.jpg"
@@ -142,8 +137,7 @@ opacity
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							href="${path}/board/list/1/5"
+						<a class="portfolio-box" href="${path}/board/list/2/5"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/fish.jpg"
@@ -157,8 +151,7 @@ opacity
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							href="${path}/board/list/1/6"
+						<a class="portfolio-box" href="${path}/board/list/2/6"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/flower.jpg"
@@ -169,13 +162,11 @@ opacity
 									<h2>ETC</h2>
 								</div>
 							</div>
-							</c:forEach>
 						</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		</sec:authorize>
 </body>
 </html>
 

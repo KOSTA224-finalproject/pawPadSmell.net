@@ -119,7 +119,7 @@ public class BoardController {
 		model.addAttribute("list", boardMapper.getAllLists(boardId, categoryId, pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
 
-		return "board-list";
+		return "/board/board-list";
 	}
 
 	@RequestMapping(value = "/{postId}")
@@ -127,7 +127,7 @@ public class BoardController {
 		boardMapper.hitsUpdate(postId);
 		model.addAttribute("list", boardMapper.getpostDetail(postId));
 		model.addAttribute("comment", commentBoardMapper.findByComment(postId));
-		return "board-detail";
+		return "/board/board-detail";
 	}
 
 	@RequestMapping("/delete/{postId}/{boardId}/{categoryId}")

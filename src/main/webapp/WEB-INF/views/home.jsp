@@ -193,7 +193,7 @@ opacity
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/dog.jpg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption">
+							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/2';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>DOG</h2>
@@ -203,12 +203,12 @@ opacity
 					</div>
 
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/3"
+						<a class="portfolio-box"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/bird.jpeg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption">
+							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/3';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>BIRD</h2>
@@ -223,7 +223,7 @@ opacity
 							src="/myweb/images/img/portfolio/thumbnails/iguana.jpg"
 							style="max-width: 100%; height: 52vh; object-fit: cover; overflow: hidden;"
 							alt="..." />
-							<div class="portfolio-box-caption">
+							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/4';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>REPTILE</h2>
@@ -237,7 +237,7 @@ opacity
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/fish.jpg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption">
+							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/5';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>FISH</h2>
@@ -251,7 +251,7 @@ opacity
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/flower.jpg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption p-3">
+							<div class="portfolio-box-caption p-3" onclick="location.href='${path}/board/list/1/6';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>ETC</h2>

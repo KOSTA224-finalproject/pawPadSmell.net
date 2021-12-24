@@ -64,7 +64,7 @@ public class MemberController {
 		// 수정한 회원정보로 Spring Security 회원정보를 업데이트한다
 		dto.setPassword(memberDTO.getPassword());
 		dto.setName(memberDTO.getName());
-		dto.setAddress(memberDTO.getAddress());	
+		dto.setAddress(memberDTO.getAddress());
 		return "member/update_result.tiles";
 	}
 	//로그인화면에서 회원가입을 눌렀을 경우 회원가입으로 이동하는 컨트롤러
