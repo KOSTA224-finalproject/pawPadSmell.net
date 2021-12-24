@@ -31,7 +31,7 @@
 				</form>
 				<li class="nav-item"><a class="nav-link" href="#"><h2>중고거래</h2></a></li>
 				<li class="nav-item"><a class="nav-link" href="#"><h2>커뮤니티</h2></a></li>
-				<li class="nav-item"><a class="nav-link" href="updateForm"><h2>회원정보수정</h2></a></li>
+				<li class="nav-item"><a class="nav-link" href="/updateForm"><h2>회원정보수정</h2></a></li>
 			</ul>
 		</div>
 	</div>

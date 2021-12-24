@@ -16,6 +16,8 @@ create table authorities(
 	constraint fk_authorities foreign key(user_id) references g_member(member_id)on delete cascade,
 	constraint member_authorities primary key(user_id,authority)
 );
+
+update g_member set name='12', password='12', address='12', phonenum='12', birth=to_date('2000-02-02','YYYY-MM-DD') where email='2@2';
 commit
 drop table g_member;
 CREATE TABLE g_member(
