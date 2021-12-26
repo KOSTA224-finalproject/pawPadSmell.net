@@ -31,7 +31,7 @@ public interface BoardMapper {
 
 	List<BoardTypeDTO> getBoardType();
 
-	BoardTypeDTO getBoardName(int boardId);
+	BoardTypeDTO getBoardName (int boardId);
 
 	CategoryDTO getCatName(int categoryId);
 

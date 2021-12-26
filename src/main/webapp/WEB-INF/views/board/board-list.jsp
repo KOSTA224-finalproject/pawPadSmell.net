@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +18,10 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body>
 
+<body>
+	<script type="text/javascript">
+</script>
 	<sec:authorize access="isAuthenticated()">
 
 		<button type="button" class="btn btn-primary"
@@ -25,7 +29,8 @@
 		<h1>${boardname.boardName}<br>
 			${categoryname.categoryName}게시판
 		</h1>
-		<button type="button" id="btnWrite">글쓰기</button>
+		<button type="button" value="글쓰기" 
+			onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
 		<table border="1" width="900px">
 			<tr>
 
