@@ -16,6 +16,10 @@ public interface CommentBoardMapper {
 
 	void commentUpdate(CommentBoardDTO commentBoardDTO);
 
+	int getCommentCount(int postId);
+
+
+
 	
 
 }

@@ -205,6 +205,8 @@ public class BoardController {
 		model.addAttribute("nick", nickname);
 		System.out.println(nickname);
 		System.out.println(boardMapper.getpostDetail(postId).memberDTO.getNickname());
+		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));
+
 		return "/board/board-detail";
 	}
 
