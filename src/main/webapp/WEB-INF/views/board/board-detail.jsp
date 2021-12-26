@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="sec"
+<%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -13,9 +15,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style>
 /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-
-
-
 .row.content {
 	height: 1500px
 }
@@ -54,38 +53,41 @@ footer {
 </head>
 <body>
 	<sec:authorize access="isAuthenticated()">
-	<div class="col-sm-9">
-		<hr>
-		<h2>${list.title}</h2>
-		<h5>
-			<span class="glyphicon glyphicon-time"></span> Post by
-			${list.memberDTO.nickname}
-		</h5>
-		<h5>
-			<span class="label label-danger">${list.categoryDTO.categoryName}</span>
-			<span class="label label-primary">${list.hits}</span>
-		</h5>
-		<br>
-		<p>${fn : replace(list.content, enter, "<br />") }</p>
-		<br> <br>
+
+		<div class="col-sm-9">
+			<hr>
+			<h2>${list.title}</h2>
+			<h5>
+				<span class="glyphicon glyphicon-time"></span> Post by
+				${list.memberDTO.nickname}
+			</h5>
+			<h5>
+				<span class="label label-danger">${list.categoryDTO.categoryName}</span>
+				<span class="label label-primary">${list.hits}</span>
+			</h5>
+			<br>
+			<p>${fn : replace(list.content, enter, "<br />") }</p>
+			<br> <br>
 
 
 
 
-		<form name="detailForm">
-			<!-- script에서 user_pwd에 접근하기 위한 폼 -->
-			<input type="file" value="파일">${list.filename } <input
-				type="button" value="삭제" onclick="location.href='${path}/board/delete/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}';" >
-				</input>
-			<input type="button" value="수정" /> <input type="button" value="글 목록"
-				onclick="location.href=document.referrer;" />
-		</form>
-	<div class="card mb-2 mt-5">
+
+			<form name="detailForm">
+				<!-- script에서 user_pwd에 접근하기 위한 폼 -->
+				<input type="file" value="파일">${list.filename }
+				<c:if test="${nick==list.memberDTO.nickname}">
+					<input type="button" value="삭제"
+						onclick="location.href='${path}/board/delete/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';"/>
+					<input type="button" value="수정" />
+				</c:if>
+				<input type="button" value="글 목록"
+					onclick="location.href=document.referrer;" />
+			</form>
 
        <div class="card mb-2 mt-5">
-
         <div class="card-header bg-light">
-            <i class="fa fa-comment fa">댓글&nbsp;[${list.commentCount }]</i>
+            <i class="fa fa-comment fa">${nick}댓글&nbsp;[${list.commentCount }]</i>
         </div>
         <form>
             <div class="card-body">
@@ -190,6 +192,7 @@ footer {
 		});
 	</script>
 	</div>
+
 </body>
 <script type="text/javascript">
 $(document).ready(function(){

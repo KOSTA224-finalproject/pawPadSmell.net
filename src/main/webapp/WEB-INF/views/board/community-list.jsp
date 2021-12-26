@@ -18,9 +18,9 @@
 		<c:forEach var="category" items="${list}">
 			<tr>
 				<td>
-				<form action=
-					"${path}/board/list/${board.boardId }/${category.categoryId}" method="get">
-						${category.categoryName}</form></td>
+				<a href=
+					"${path}/board/list/${board.boardId}/${category.categoryId}">
+						${category.categoryName}</a></td>
 						
 			</tr>
 		</c:forEach>

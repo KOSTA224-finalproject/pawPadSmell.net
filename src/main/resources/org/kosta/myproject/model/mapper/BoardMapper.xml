@@ -14,8 +14,8 @@
 		category_id, comment_count,
 		filename, filepath)
 		values(board_seq.nextval,#{title},#{content},
-		1,sysdate,0,1,
-		1,0,
+		#{memberDTO.memberId},sysdate,0,#{boardTypeDTO.boardId},
+		#{categoryDTO.categoryId},0,
 		#{filename},#{filepath})
 	</insert>
 	
