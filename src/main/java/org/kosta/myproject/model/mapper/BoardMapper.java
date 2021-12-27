@@ -7,6 +7,7 @@ import org.kosta.myproject.model.domain.BoardDTO;
 import org.kosta.myproject.model.domain.BoardTypeDTO;
 import org.kosta.myproject.model.domain.CategoryDTO;
 import org.kosta.myproject.model.domain.MemberDTO;
+import org.kosta.myproject.model.domain.MyPageDTO;
 
 @Mapper
 public interface BoardMapper {
@@ -40,4 +41,12 @@ public interface BoardMapper {
 	void boardWrite(BoardDTO boardDTO); // 게시글 등록 + 파일 업로드
 
 	BoardDTO boardUpdate(BoardDTO boardDTO); // 게시글 수정
+
+	int getMypageCount(int memberId);
+
+	List<BoardDTO> getAllMypage(int memberId,int getStartRowNumber, int getEndRowNumber );
+
+	void myPageWrite(MyPageDTO mypageDTO);
+
+	MyPageDTO myPageProfile(MemberDTO memberDTO);
 }
