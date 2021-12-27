@@ -32,7 +32,7 @@ public interface BoardMapper {
 
 	List<BoardTypeDTO> getBoardType();
 
-	BoardTypeDTO getBoardName(int boardId);
+	BoardTypeDTO getBoardName (int boardId);
 
 	CategoryDTO getCatName(int categoryId);
 
@@ -49,4 +49,9 @@ public interface BoardMapper {
 	void myPageWrite(MyPageDTO mypageDTO);
 
 	MyPageDTO myPageProfile(MemberDTO memberDTO);
+
+	void commentUpdateUp(int postId);
+
+	void commentUpdateDown(int postId);
+
 }

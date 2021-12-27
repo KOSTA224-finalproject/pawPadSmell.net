@@ -31,7 +31,7 @@ public class HomeController {
 		// Principal(사전적 의미:본인 ) 객체는 인증된 회원 정보 객체를 말한다
 		// org.kosta.myproject.config.security.MemberAuthenticationProvider 에서 할당
 		if (authentication != null) {
-			System.out.println("Home: 인증받은 사용자 " + authentication.getPrincipal());
+			System.out.println("Home: 인증받은 사용자 " + authentication.getPrincipal() + authentication.getName());
 			model.addAttribute("board", boardMapper.getComId());
 			model.addAttribute("list", boardMapper.getCategoryList());
 		} else
@@ -56,5 +56,11 @@ public class HomeController {
 		model.addAttribute("board", boardMapper.getSecId());
 		model.addAttribute("list", boardMapper.getCategoryList());
 		return "/board/second-list";
+	}
+	@RequestMapping("/community-list")
+	public String CommunityBoards(Model model) {
+		model.addAttribute("board", boardMapper.getComId());
+		model.addAttribute("list", boardMapper.getCategoryList());
+		return "/board/community-list";
 	}
 }

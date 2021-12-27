@@ -5,7 +5,7 @@ public class BoardDTO {
 	private int rnum;
 	private String title;
 	private String content;
-	private MemberDTO memberDTO;
+	public MemberDTO memberDTO;
 	private String regdate;
 	private int hits;
 	private BoardTypeDTO boardTypeDTO; 
