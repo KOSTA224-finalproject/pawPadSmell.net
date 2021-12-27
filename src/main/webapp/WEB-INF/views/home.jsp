@@ -4,77 +4,11 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
-@
-keyframes cat { 0% {
-	left: 0px;
-	top: 0px;
+@keyframes cat {
+  0%   {left:0px; top:0px;}
+  100%  {left:200px; top:0px;}
 }
 
-100
-
-
-
-
-
-
-
-
-%
-{
-left
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
-
-
-
-200px
-
-
-
-
-
-
-;
-top
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
-
-
-
-0px
-
-
-
-
-
-
-;
-}
-}
 #up-on-scroll {
 	transition: transform 0.7s, opacity 1s;
 }
@@ -85,49 +19,7 @@ top
 	animation-fill-mode: forwards;
 }
 
-@
-keyframes fadeInAnimation { 0% {
-	opacity: 0;
-}
-100
 
-
-
-
-
-
-
-
-%
-{
-opacity
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
-
-
-
-1
-
-
-
-
-
-
-;
-}
-}
 </style>
 <body id="page-top">
 	<sec:authorize access="isAuthenticated()">
