@@ -39,7 +39,7 @@
 	min-height: 300px;
 }
 </style>
-<sec:csrfInput />
+<%-- <sec:csrfInput /> --%>
 <sec:authorize access="isAuthenticated()">
 
 	<body>
@@ -47,7 +47,8 @@
 
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
 			<form action="/board/writepro/${boardId}/${categoryId}" 
-				enctype="multipart/form-data">
+				enctype="multipart/form-data" method="post">
+				<sec:csrfInput />
 				<span class="label label-danger">${boardname.boardName}</span>
 				<span
 					class="label label-primary">${categoryname.categoryName}</span><br>
