@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<sec:authentication property="principal" var="member" />
 <%-- 로그아웃 시 작동되는 스크립트 --%>
 <script type="text/javascript">
 		$(document).ready(function() {
@@ -11,6 +12,7 @@
 	</script>
 <%-- 로그인한 사용자가 보는 메뉴 --%>
 <sec:authorize access="isAuthenticated()">
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3"
 	id="mainNav">
 	<div class="container px-4 px-lg-5">
@@ -24,7 +26,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ms-auto my-2 my-lg-0">
-				<li class="nav-item"><a class="nav-link" href="나의 게시물"><h2><sec:authentication property="principal.name" />님</h2></a></li>
+			<li class="nav-item"><a class="nav-link" href="member/mypage"><h2>${member.name}님</h2></a></li>
 				<li class="nav-item"><a class="nav-link" href="#" id="logoutAction"><h2>로그아웃</h2></a></li>
 				<form id="logoutForm" action="/logout" method="post" style="display: none">
 					<sec:csrfInput />

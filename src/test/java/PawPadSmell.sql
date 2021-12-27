@@ -104,24 +104,26 @@ commit
 
 -----------------------------------------------------------------------------------------------
 -- 마이페이지 테이블
-
+insert into mypage(member_id, profile_filename,profile_filepath,profile_text) values(4,'2','3','4');
+insert into mypage(member_id, profile_filename,profile_filepath,profile_text) values(5,'4','5','6');
 drop table mypage;
 
 DROP TABLE mypage CASCADE CONSTRAINTS;
 
 create table mypage(
     member_id number primary key,
-    profile_filename varchar2(100) null,
-    profile_filepath varchar2(100) null,
-    profile_text varchar2(100) null,
+    profile_filename varchar2(100) ,
+    profile_filepath varchar2(100) ,
+    profile_text varchar2(100) ,
     CONSTRAINT pk_mypage_member_id foreign key (member_id) references g_member(member_id)
     on delete cascade
 );
-insert into mypage values('1','사진test','안녕하세요');
+insert into mypage values('1','사진test','we','안녕하세요');
 select * from mypage;
 -- casecade test
-delete from g_member where member_id=1;
+delete from mypage where member_id=4;
 
+select profile_filename,profile_filepath,profile_text from mypage where member_id=4
 -----------------------------------------------------------------------------------------------
 -- 친구
 
@@ -204,12 +206,16 @@ alter table board add(regdate varchar2(30));
 alter table board drop column regdate;
 drop sequence board_seq;
 
+select * from g_board
+
 create sequence board_seq;
 
+SELECT count(*)
+FROM g_board
+WHERE member_id=1
 
 
-
-insert into g_board values(board_seq.nextval,'갱얼쥐용품팔아여','강아지사용품이에여진',1,
+insert into g_board values(board_seq.nextval,'123갱얼쥐용품팔아여','강아지사용품이에여진',4,
 sysdate,0,2,2,0,null,null);
 
 
@@ -253,8 +259,8 @@ create table comment_board(
 );
 create sequence comment_id_seq;
 drop sequence comment_id_seq;
-insert into comment_board values(comment_id_seq.nextval,'1','3','댓글내용',
-to_char(sysdate,'yy-mm-dd hh24:mi'));
+insert into comment_board values(comment_id_seq.nextval,'1','1','댓글내용',
+to_date(sysdate,'yy-mm-dd hh24:mi'));
 select * from comment_board;
 
 ---------------------------------------------------------------------
@@ -275,10 +281,10 @@ drop sequence report_id_seq;
 create sequence report_id_seq;
 --댓글신고
 insert into report(report_id,report_reason,member_id,comment_id) values
-(report_id_seq.nextval,'신고사유','1','1');
+(report_id_seq.nextval,'신고사유','1','22');
 --게시물신고
 insert into report(report_id,report_reason,member_id,post_id) values
-(report_id_seq.nextval,'신고사유','1','2');
+(report_id_seq.nextval,'신고사유','1','1');
 select * from report;
 ----------------------------------------------------------------------------------------------------------------------------
 commit;
@@ -308,3 +314,18 @@ where m.member_id = g.member_id and g.member_id = 1
 
 
 DROP TABLE g_board;
+
+
+select rnum, post_id, title, to_char(regdate, 'yyyy-mm-dd') as regdate, nickname, hits, category_name,board_name
+from ( 
+select row_number() over(
+order by b.regdate desc) 
+as rnum, b.post_id, b.title, b.regdate, m.nickname, b.hits, t.board_name, c.category_name
+from g_board b, g_member m ,boardtype t,category c
+where b.member_id=m.member_id and b.member_id=2 and c.category_id=b.category_id and t.board_id=b.board_id
+) 
+where rnum between 1 and 5
+order by post_id desc
+
+
+
