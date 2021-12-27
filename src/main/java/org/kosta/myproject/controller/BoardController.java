@@ -231,7 +231,9 @@ public class BoardController {
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
 		System.out.println(userDetails);
 		String nickname = userDetails.getNickname();
+		int memberId=userDetails.getMemberId();
 		model.addAttribute("nick", nickname);
+		model.addAttribute("userMemberId", memberId);
 		System.out.println(nickname);
 		System.out.println(boardMapper.getpostDetail(postId).memberDTO.getNickname());
 		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));

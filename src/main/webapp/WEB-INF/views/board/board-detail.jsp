@@ -87,7 +87,7 @@ footer {
 
        <div class="card mb-2 mt-5">
         <div class="card-header bg-light">
-            <i class="fa fa-comment fa">${nick}댓글&nbsp;[${list.commentCount }]</i>
+            <i class="fa fa-comment fa">댓글&nbsp;[${list.commentCount }]</i>
         </div>
         <form>
             <div class="card-body">
@@ -116,12 +116,12 @@ footer {
 								<c:out value="${li.memberDTO.nickname}"/>
 							 </div>
 							<div><c:out value="${li.regdate}"/> &nbsp;</div>
-							<%-- <c:set var="userid" value="${li.memberDTO.memberId}"/> --%>
-							<%-- <c:if test="${userid eq #authentication.principal.getMemberId }"> --%>
+							<c:set var="userid" value="${userMemberId}"/>
+							<c:if test="${li.memberDTO.memberId eq userMemberId }">
 								<button id="" class="badge btn-warning comment-btn-update" data_cid="${li.commentId}" data_content="${li.commentContent }" data_cname="${li.memberDTO.nickname}">수정</button>
 								<span> | </span>
 								<button id="" class="badge btn-danger comment-btn-delete" value="${li.commentId}">삭제</button>
-							<%-- </c:if> --%>
+							</c:if>
 						</div>
 					</li>
 				</ul>
