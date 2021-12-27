@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -53,34 +54,55 @@ public class BoardController {
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
 		model.addAttribute("boardname", boardMapper.getBoardName(boardId));
 		model.addAttribute("categoryname", boardMapper.getCatName(categoryId));
-
+		;
+		
 		String nickname = userDetails.getNickname();
-		System.out.println("들어옴!");
+		System.out.println("작성화면으로 들어감!");
 		model.addAttribute("nick", nickname);
 		return "board/board-write";
 	}
 
 	@RequestMapping("/writepro/{boardId}/{categoryId}")
-	public String boardWrite(Authentication authentication, BoardDTO boardDTO, Model model, MultipartFile file,
+	public String boardWrite(Authentication authentication, BoardDTO boardDTO, Model model,  MultipartFile file,
 			@PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId)
 			throws IllegalStateException, IOException {// 작성한 글 및 파일 업로드 처리
-
+		
+		
+		//@RequestParam(value="file", required=false) MultipartFile file,
+/*
 		BoardTypeDTO boardTypeDTO = new BoardTypeDTO();
 		boardTypeDTO = (BoardTypeDTO) authentication.getPrincipal();
 		boardDTO.setBoardTypeDTO(boardTypeDTO);
-
+		System.out.println(boardDTO);
+		
 		CategoryDTO categoryDTO = new CategoryDTO();
 		categoryDTO = (CategoryDTO) authentication.getPrincipal();
 		boardDTO.setCategoryDTO(categoryDTO);
-
+*/
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO = (MemberDTO) authentication.getPrincipal();
 		boardDTO.setMemberDTO(memberDTO);
-		System.out.println(boardDTO);
-
-		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
-		String nickname = userDetails.getNickname();
-		model.addAttribute("nick", nickname);
+		model.addAttribute(memberDTO);
+		
+		BoardTypeDTO boardtypeDTO = new BoardTypeDTO();
+		boardtypeDTO.setBoardId(boardId);
+		boardDTO.setBoardTypeDTO(boardtypeDTO);
+		model.addAttribute(boardtypeDTO);
+		
+		CategoryDTO categoryDTO = new CategoryDTO();
+		categoryDTO.setCategoryId(categoryId);
+		boardDTO.setCategoryDTO(categoryDTO);
+		model.addAttribute(categoryDTO);
+		
+		/*
+		 * boardDTO.setMemberDTO(memberDTO); System.out.println(boardDTO);
+		 * 
+		 * MemberDTO userDetails = (MemberDTO) authentication.getPrincipal(); String
+		 * nickname = userDetails.getNickname(); //String nickname =
+		 * memberDTO.getNickname(); model.addAttribute("nick", nickname);
+		 */
+		System.out.println(boardDTO.toString()+"  "+memberDTO.toString()+ " " + categoryDTO.toString());
+		//System.out.println(boardDTO.getBoardTypeDTO().getBoardId()+boardDTO.getCategoryDTO().getCategoryId());
 		// 1. 실제 파일이 저장되는 경로 지정
 		// System.getProperty(“user.dir”) -> 현재 작업 디렉토리
 		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
@@ -89,9 +111,16 @@ public class BoardController {
 		// UUID : 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
 		// 랜덤으로 파일 이름 생성
 		UUID uuid = UUID.randomUUID();
+		//String uuid = UUID.randomUUID().toString();
 
 		// 3. uuid+원래 파일이름 = 새로운 파일이름 // 같은 이름의 파일을 업로드 시 기존의 파일 덮어쓰기 방지를 위함.
+		//System.out.println("uuid 는 !!  :  " + uuid);
+		//if(uuid != null){ System.out.println("uuid 생성됨!"); }
+		System.out.println(file.getOriginalFilename());
 		String fileName = uuid + "_" + file.getOriginalFilename();
+		//System.out.println(fileName);
+		//if(fileName == null){ System.out.println("파일 이름 못 받아옴 ㅠㅜ"); }
+
 
 		// 4. 파일 넣어주는 껍데기 : 파일 생성해주되 경로 설정하고 파일 이름도 받겠다.
 		// File(File parent, String Child) parent 객체 폴더의 child 라는 파일에 대한 File 객체를 생성
