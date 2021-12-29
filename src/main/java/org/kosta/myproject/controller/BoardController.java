@@ -163,7 +163,7 @@ public class BoardController {
 	@GetMapping("/list/{boardId}/{categoryId}")
 	public String getAllLists(Model model, @PathVariable("boardId") int boardId,
 			@PathVariable("categoryId") int categoryId, String pageNo) {
-
+			
 		int totalPostCount = boardMapper.getCategoryCount(boardId, categoryId);
 		PagingBean pagingBean = null;
 

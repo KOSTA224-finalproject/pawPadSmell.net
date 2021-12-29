@@ -4,7 +4,6 @@
 <%-- spring security custom tag를 사용하기 위한 선언 --%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <sec:authentication property="principal" var="member" />
 <html>
 
@@ -55,32 +54,19 @@
 					aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav ms-auto my-2 my-lg-0">
-						<li class="nav-item"><a class="nav-link" href="member/mypage"><h2>${member.name}님</h2></a></li>
-						<li class="nav-item"><a class="nav-link" href="#"
-							id="logoutAction"><h2>로그아웃</h2></a></li>
-						<form id="logoutForm" action="/logout" method="post"
-							style="display: none">
-							<sec:csrfInput />
-						</form>
-						<li class="nav-item"><a class="nav-link" href="#"><h2>중고거래</h2></a></li>
-						<li class="nav-item"><a class="nav-link" href="#"><h2>커뮤니티</h2></a></li>
-						<li class="nav-item"><a class="nav-link" href="/updateForm"><h2>회원정보수정</h2></a></li>
-					</ul>
-				</div>
 			</div>
 		</nav>
 
 		<div class="container">
 			<div class="row pt-5 h-100">
 				<div class="col-lg-7 mx-auto text-center mt-7 mb-5">
-
+				<c:choose>
+					<c:when test="${mypage==null }">
 					<h1>마이페이지</h1>
 					<br>
 					<h2>프로필사진</h2>
-					<a href="#"><img src="/myweb/images/logo-2.png"
-						style="width: 350px;"></a>
+					<img src=""
+						style="width: 350px;">
 					<form action="mypage/upload" method="post" enctype="multipart/form-data">
 						<input type="file" name="file">
 						<h2>자기소개글입니다</h2>
@@ -88,11 +74,32 @@
 							<sec:csrfInput />
 							<input class="form-control"
 								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="text" id="aa" placeholder="자기소개글" value="${mypage.profileText}"> <br>
+								type="text" name="profileText" id="aa" placeholder="자기소개글"> <br>
 							<input type="submit" class="btn btn-light btn-xl bg-primary"
 								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
 								value="저장">
 					</form>
+					</c:when>
+					<c:otherwise>
+							<h1>마이페이지</h1>
+					<br>
+					<h2>프로필사진</h2>
+					<form id="fileForm" method="post" enctype="multipart/form-data">
+					<img src="${mypage.profileFilepath}"
+						style="width: 350px;">
+						<h2>자기소개글입니다</h2>
+						<input type="file" name="file" id="file"  multiple>
+						<div class="form-floating mb-3">
+							<sec:csrfInput />
+							<input class="form-control"
+								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
+								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > <br>
+							<button type="button" id="updateBtn" class="btn btn-light btn-xl bg-primary"
+								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
+								>수정</button>
+					</form>
+					</c:otherwise>
+				</c:choose>
 				</div>
 			</div> 
 			<br>
@@ -158,3 +165,32 @@
 
 	</sec:authorize>
 </body>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	}); 
+$(function(){
+	$("#updateBtn").click(function(){
+		var form=$("#fileForm")[0];
+		var formData = new FormData(form);
+		$.ajax({
+			type : "post",
+			url : "getProfile",
+			processData:false,
+		    contentType:false,
+			enctype: 'multipart/form-data',
+			data: formData,
+			success : function(result) {
+				alert("수정되었습니다");
+				location.href="/member/mypage";
+			}
+		})
+	});
+});
+
+
+</script>
