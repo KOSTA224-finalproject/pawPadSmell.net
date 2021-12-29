@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <html>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 <!-- Bootstrap Icons -->
 <link
@@ -20,6 +20,8 @@
 	href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
 	rel="stylesheet" type="text/css" />
 <!-- SimpleLightbox plugin CSS -->
+
+
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css"
 	rel="stylesheet" />

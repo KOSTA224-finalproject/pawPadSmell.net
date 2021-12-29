@@ -4,11 +4,23 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
-@keyframes cat {
-  0%   {left:0px; top:0px;}
-  100%  {left:200px; top:0px;}
+@
+keyframes cat { 0% {
+	left: 0px;
+	top: 0px;
 }
 
+100
+%
+{
+left
+:
+200px;
+top
+:
+0px;
+}
+}
 #up-on-scroll {
 	transition: transform 0.7s, opacity 1s;
 }
@@ -18,8 +30,6 @@
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;
 }
-
-
 </style>
 <body id="page-top">
 	<sec:authorize access="isAuthenticated()">
@@ -71,9 +81,10 @@
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/cat.jfif"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/1';">
+							<div class="portfolio-box-caption"
+								onclick="location.href='${path}/board/list/1/1';">
 								<div class="project-category text-white-50">Category</div>
-								<div class="project-name" >
+								<div class="project-name">
 									<h2>CAT</h2>
 								</div>
 							</div>
@@ -85,7 +96,8 @@
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/dog.jpg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/2';">
+							<div class="portfolio-box-caption"
+								onclick="location.href='${path}/board/list/1/2';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>DOG</h2>
@@ -95,12 +107,12 @@
 					</div>
 
 					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
+						<a class="portfolio-box" style="max-width: 100%; height: 50vh;"
+							title="Project Name"> <img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/bird.jpeg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/3';">
+							<div class="portfolio-box-caption"
+								onclick="location.href='${path}/board/list/1/3';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>BIRD</h2>
@@ -115,7 +127,8 @@
 							src="/myweb/images/img/portfolio/thumbnails/iguana.jpg"
 							style="max-width: 100%; height: 52vh; object-fit: cover; overflow: hidden;"
 							alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/4';">
+							<div class="portfolio-box-caption"
+								onclick="location.href='${path}/board/list/1/4';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>REPTILE</h2>
@@ -129,7 +142,8 @@
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/fish.jpg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/5';">
+							<div class="portfolio-box-caption"
+								onclick="location.href='${path}/board/list/1/5';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>FISH</h2>
@@ -143,7 +157,8 @@
 							<img class="img-fluid"
 							src="/myweb/images/img/portfolio/thumbnails/flower.jpg"
 							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption p-3" onclick="location.href='${path}/board/list/1/6';">
+							<div class="portfolio-box-caption p-3"
+								onclick="location.href='${path}/board/list/1/6';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
 									<h2>ETC</h2>
@@ -234,103 +249,160 @@
 		</div>
 	</section>
 	<div id="portfolio">
-			<div class="container-fluid p-0" id="up-on-scroll">
-				<div class="row g-0">
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+		<div class="container-fluid p-0" id="up-on-scroll">
+			<div class="row g-0">
+				<div class="col-lg-4 col-sm-6" id="up-on-scroll">
 
-						<a class="portfolio-box" href="${path}/board/list/1/1"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
-							src="/myweb/images/img/portfolio/thumbnails/cat.jfif"
-							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/1';">
-								<div class="project-category text-white-50">Category</div>
-								<div class="project-name" >
-									<h2>CAT</h2>
-								</div>
+					<a class="portfolio-box" href="${path}/board/list/1/1"
+						style="max-width: 100%; height: 50vh;" title="Project Name"> <img
+						class="img-fluid"
+						src="/myweb/images/img/portfolio/thumbnails/cat.jfif"
+						style="max-width: 100%; height: 50vh;" alt="..." />
+						<div class="portfolio-box-caption"
+							onclick="location.href='${path}/board/list/1/1';">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">
+								<h2>CAT</h2>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/2"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
-							src="/myweb/images/img/portfolio/thumbnails/dog.jpg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/2';">
-								<div class="project-category text-white-50">Category</div>
-								<div class="project-name">
-									<h2>DOG</h2>
-								</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<a class="portfolio-box" href="${path}/board/list/1/2"
+						style="max-width: 100%; height: 50vh;" title="Project Name"> <img
+						class="img-fluid"
+						src="/myweb/images/img/portfolio/thumbnails/dog.jpg"
+						style="max-width: 100%; height: 50vh;" alt="..." />
+						<div class="portfolio-box-caption"
+							onclick="location.href='${path}/board/list/1/2';">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">
+								<h2>DOG</h2>
 							</div>
-						</a>
-					</div>
+						</div>
+					</a>
+				</div>
 
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
-							src="/myweb/images/img/portfolio/thumbnails/bird.jpeg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/3';">
-								<div class="project-category text-white-50">Category</div>
-								<div class="project-name">
-									<h2>BIRD</h2>
-								</div>
+				<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<a class="portfolio-box" style="max-width: 100%; height: 50vh;"
+						title="Project Name"> <img class="img-fluid"
+						src="/myweb/images/img/portfolio/thumbnails/bird.jpeg"
+						style="max-width: 100%; height: 50vh;" alt="..." />
+						<div class="portfolio-box-caption"
+							onclick="location.href='${path}/board/list/1/3';">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">
+								<h2>BIRD</h2>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/4"
-							style="max-width: 100%; height: 50vh; overflow: hidden;"
-							title="Project Name"> <img class="img-fluid"
-							src="/myweb/images/img/portfolio/thumbnails/iguana.jpg"
-							style="max-width: 100%; height: 52vh; object-fit: cover; overflow: hidden;"
-							alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/4';">
-								<div class="project-category text-white-50">Category</div>
-								<div class="project-name">
-									<h2>REPTILE</h2>
-								</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<a class="portfolio-box" href="${path}/board/list/1/4"
+						style="max-width: 100%; height: 50vh; overflow: hidden;"
+						title="Project Name"> <img class="img-fluid"
+						src="/myweb/images/img/portfolio/thumbnails/iguana.jpg"
+						style="max-width: 100%; height: 52vh; object-fit: cover; overflow: hidden;"
+						alt="..." />
+						<div class="portfolio-box-caption"
+							onclick="location.href='${path}/board/list/1/4';">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">
+								<h2>REPTILE</h2>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/5"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
-							src="/myweb/images/img/portfolio/thumbnails/fish.jpg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/5';">
-								<div class="project-category text-white-50">Category</div>
-								<div class="project-name">
-									<h2>FISH</h2>
-								</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<a class="portfolio-box" href="${path}/board/list/1/5"
+						style="max-width: 100%; height: 50vh;" title="Project Name"> <img
+						class="img-fluid"
+						src="/myweb/images/img/portfolio/thumbnails/fish.jpg"
+						style="max-width: 100%; height: 50vh;" alt="..." />
+						<div class="portfolio-box-caption"
+							onclick="location.href='${path}/board/list/1/5';">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">
+								<h2>FISH</h2>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/6"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
-							src="/myweb/images/img/portfolio/thumbnails/flower.jpg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
-							<div class="portfolio-box-caption p-3" onclick="location.href='${path}/board/list/1/6';">
-								<div class="project-category text-white-50">Category</div>
-								<div class="project-name">
-									<h2>ETC</h2>
-								</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<a class="portfolio-box" href="${path}/board/list/1/6"
+						style="max-width: 100%; height: 50vh;" title="Project Name"> <img
+						class="img-fluid"
+						src="/myweb/images/img/portfolio/thumbnails/flower.jpg"
+						style="max-width: 100%; height: 50vh;" alt="..." />
+						<div class="portfolio-box-caption p-3"
+							onclick="location.href='${path}/board/list/1/6';">
+							<div class="project-category text-white-50">Category</div>
+							<div class="project-name">
+								<h2>ETC</h2>
 							</div>
-						</a>
-					</div>
+						</div>
+					</a>
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
+	</div>
 	</div>
 
 
 	<script type="text/javascript">
+	   var socket = null;
+
+	   $(document).ready(function (){
+		   connectWs();
+	   });
+
+	   function connectWs(){
+	   	sock = new SockJS( "<c:url value="/echo"/>" );
+	   	//sock = new SockJS('/replyEcho');
+	   	socket = sock;
+
+	   	sock.onopen = function() {
+	           console.log('info: connection opened.');
+	     };
+
+	    sock.onmessage = function(evt) {
+		 	var data = evt.data;
+		   	console.log("ReceivMessage : " + data + "\n");
+
+		   	$.ajax({
+				url : '/board/{postId}/',
+				type : 'POST',
+				dataType: 'text',
+				success : function(data) {
+					if(data == '0'){
+					}else{
+						$('#alarmCountSpan').addClass('bell-badge-danger bell-badge')
+						$('#alarmCountSpan').text(data);
+					}
+				},
+				error : function(err){
+					alert('err');
+				}
+		   	});
+
+		   	// 모달 알림
+		   	var toastTop = app.toast.create({
+	            text: "알림 : " + data + "\n",
+	            position: 'top',
+	            closeButton: true,
+	          });
+	          toastTop.open();
+	    };
+
+	    sock.onclose = function() {
+	      	console.log('connect close');
+	      	/* setTimeout(function(){conntectWs();} , 1000); */
+	    };
+
+	    sock.onerror = function (err) {console.log('Errors : ' , err);};
+
+	   }
    function isElementUnderBottom(elem, triggerDiff) {
         const { top } = elem.getBoundingClientRect();
         const { innerHeight } = window;

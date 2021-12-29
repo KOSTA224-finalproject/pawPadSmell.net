@@ -10,6 +10,17 @@
 		<put-attribute name="main" value="/WEB-INF/views/home.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"/>
 	</definition>
+	<definition name="detail.tiles"
+		template="/WEB-INF/views/templates/layout.jsp">
+		<put-attribute name="title" value="pawPadSmell"/>
+		<put-attribute name="header"
+			value="/WEB-INF/views/templates/header2.jsp" />
+		<put-attribute name="main"
+			value="/WEB-INF/views/board/board-detail.jsp" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/templates/footer.jsp" />
+	</definition>
+	
 	<!-- <definition name="main2.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/main2.jsp"/>
 	</definition> -->
