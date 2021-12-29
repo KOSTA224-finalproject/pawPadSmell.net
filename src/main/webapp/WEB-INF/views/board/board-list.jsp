@@ -1,54 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Bootstrap Example</title>
+<title>게시글 리스트</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-	<script type="text/javascript">
-</script>
 	<sec:authorize access="isAuthenticated()">
-
-		<button type="button" class="btn btn-primary"
-			onclick="location.href='/';">메인페이지</button>
-		<h1>${boardname.boardName}<br>
-			${categoryname.categoryName}게시판
-		</h1>
-
-		<button type="button" value="글쓰기" 
-			onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
-
-		<table border="1" width="900px">
+	
+		<div class="container px-4 px-lg-5" style="margin-top: 130px;">
+		<!-- <button type="button" class="btn btn-primary"
+			onclick="location.href='/';">메인페이지</button> -->
+		<div style="margin-bottom: 30px;">
+			${boardname.boardName}&nbsp;${categoryname.categoryName}게시판
+		</div>
+		
+		<table class="table table-hover" style="text-align: center;">
 			<tr>
 
 				<td>작성자</td>
-				<td>제목</td>
+				<td width="60%">제목</td>
 
 				<td>날짜</td>
 				<td>조회수</td>
 				<td>댓글수</td>
 
 			</tr>
-
+			
 			<c:forEach var="dto" items="${list}">
 				<tr>
-
 					<td>${dto.memberDTO.nickname}</td>
 					<td><a href="<c:url value='/board/${dto.postId}'/>">
 
@@ -57,9 +45,8 @@
 					<td>${dto.regdate}</td>
 					<td>${dto.hits}</td>
 					<td>${dto.commentCount}</td>
-
 				</tr>
-			</c:forEach>
+				</c:forEach>
 		</table>
 		<%-- 페이징 처리 --%>
 		<nav aria-label="Page navigation example">
@@ -89,119 +76,9 @@
 				</c:if>
 			</ul>
 		</nav>
+		<button class="btn btn-primary btn-xl" type="button" value="글쓰기" style="float: right;"
+			onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
 	</sec:authorize>
-<div class="card">
-			<c:forEach items="${comment}" var="li">
-			
-			<div class="card-header">댓글</div>
-			<%-- <input type="hidden" id="commentId" value="${li.commentId}"> --%>
-				<ul id="commentbox${li.commentId}" class="list-group" >
-					<li class="list-group-item d-flex justify-content-between">
-						<div><c:out value="${li.commentContent }"/></div>
-						<div class="d-flex">
-							<div class="text-monospace">
-								<c:out value="${li.memberDTO.nickname}"/>
-							 </div>
-							<div><c:out value="${li.regdate}"/> &nbsp;</div>
-							<button id="" class="badge btn-warning comment-btn-update" data_cid="${li.commentId}" data_content="${li.commentContent }" data_cname="${li.memberDTO.nickname}">수정</button>
-							<span> | </span>
-							<button id="" class="badge btn-danger comment-btn-delete" value="${li.commentId}">삭제</button>
-						</div>
-					</li>
-				</ul>
-			</c:forEach>
-		</div>
-	
 	</div>
-	<script type="text/javascript">
-	//댓글 수정
-		$(document).ready(function(){
-			$(".comment-btn-update").click("click",function(){
-				let cId=$(this).attr("data_cid");
-				let cName=$(this).attr("data_cname");
-				let content=$(this).attr("data_content");
-				console.log(cId);
-				console.log(cName);
-				console.log(content);
-				let updateForm ='';
-				updateForm +='<ul id="commentbox'+cId+'" class="list-group" >';
-				updateForm += '<li class="list-group-item d-flex justify-content-between">';
-				updateForm += '<textarea class="form-control" id="updateContent" rows="1">'+content+'</textarea>';
-				updateForm += '<div class="d-flex">';
-				updateForm += '<div class="text-monospace">';
-				updateForm += ''+cName+'';
-				updateForm += '</div>';
-				updateForm += '<button id="" class="badge btn-warning update-comment">수정</button>';
-				updateForm += '<span> | </span>';
-				updateForm += '<button id="" class="badge btn-danger update-close">취소</button>';
-				updateForm += '</div>';
-				updateForm += '</li>';
-				updateForm += '</ul>';
-				$("#commentbox"+cId).replaceWith(updateForm);
-				$("#updateContent").focus();
-				$(".update-close").click(function(){
-					console.log("되니?");
-					location.reload();
-				});
-				$(".update-comment").click(function(){
-					let updateContent=$("#updateContent").val();
-					console.log(cId);
-					console.log(updateContent);
-					$.ajax({
-			            type: "POST",
-			            url: '/commentUpdate',
-			            data: JSON.stringify({
-			            		commentId:cId,
-			            		commentContent:updateContent}),	
-			            contentType: "application/json; charset=utf-8",
-			            dataType: "text",
-			        }).done(function (res) {
-			            alert("댓글수정이 완료되었습니다.");
-			            location.href = "/board/${postId}";
-			        }).fail(function (err) {
-			            alert(JSON.stringify(err));
-			        });
-				});
-			});
-		});
-	</script>
 </body>
-<script type="text/javascript">
-$(document).ready(function(){
-	let postId= $("#postId").val();
-	$("#comment-btn-save").click(function(){
-			let data = {
-	            commentContent: $("#commentContent").val()
-	        }
-	        console.log(data);
-	        console.log(postId);
-	       $.ajax({
-	            type: "POST",
-	            url: '/commentSave/${postId}',
-	            data: JSON.stringify(data),
-	            contentType: "application/json; charset=utf-8",
-	            //dataType: "json"
-	        }).done(function (res) {
-	            alert("댓글작성이 완료되었습니다.");
-	            location.href = "/board/${postId}";
-	        }).fail(function (err) {
-	            alert(JSON.stringify(err));
-	        });
-	});
-	$(".comment-btn-delete").click(function(){
-		let commentId=$(this).val();
-		console.log(commentId);
-		console.log(postId);
-	    $.ajax({
-			type:"DELETE",
-			url:'/commentDelete/'+commentId,
-		}).done(function (res) {
-            alert("댓글삭제가 완료되었습니다.");
-            location.href = '/board/${postId}';
-        }).fail(function (err) {
-            alert(JSON.stringify(err));
-        });
-	});
-});
-</script>
 </html>
