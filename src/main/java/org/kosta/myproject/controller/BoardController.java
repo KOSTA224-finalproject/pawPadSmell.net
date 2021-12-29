@@ -59,7 +59,7 @@ public class BoardController {
 		String nickname = userDetails.getNickname();
 		System.out.println("작성화면으로 들어감!");
 		model.addAttribute("nick", nickname);
-		return "board/board-write";
+		return "board/board-write.tiles2";
 	}
 
 	@RequestMapping("/writepro/{boardId}/{categoryId}")
@@ -157,7 +157,7 @@ public class BoardController {
 		BoardDTO boardTemp = boardMapper.boardUpdate(boardDTO);// 기존에 있던 내용 가져옴.
 		boardTemp.setTitle(boardDTO.getTitle());// 위 매개변수 board로 새롭게 받아온 내용을 기존의 내용에 덮어씌운다.
 		boardTemp.setContent(boardDTO.getContent());
-		return "redirect:/board/{postId}";
+		return "redirect:board/{postId}.tiles2";
 	}
 
 	@GetMapping("/list/{boardId}/{categoryId}")
@@ -185,7 +185,7 @@ public class BoardController {
 		model.addAttribute("list", boardMapper.getAllLists(boardId, categoryId, pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
 
-		return "/board/board-list";
+		return "board/board-list.tiles2";
 	}
 
 	@RequestMapping(value = "/{postId}")
@@ -238,7 +238,7 @@ public class BoardController {
 		System.out.println(boardMapper.getpostDetail(postId).memberDTO.getNickname());
 		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));
 
-		return "/board/board-detail";
+		return "board/board-detail.tiles2";
 	}
 
 	@RequestMapping("/delete/{postId}/{boardId}/{categoryId}")

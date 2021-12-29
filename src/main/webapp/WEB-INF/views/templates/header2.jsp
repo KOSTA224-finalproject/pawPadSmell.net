@@ -30,14 +30,14 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ms-auto my-2 my-lg-0">
-			<li class="nav-item"><a class="nav-link" href="member/mypage"><h4>${member.name}님</h4></a></li>
-				<li class="nav-item"><a class="nav-link" href="#" id="logoutAction"><h4>로그아웃</h4></a></li>
+			<li class="nav-item"><a class="nav-link" href="member/mypage"><h4 style="color:#000;">${member.name}님</h4></a></li>
+				<li class="nav-item"><a class="nav-link" href="#" id="logoutAction"><h4 style="color:#000;">로그아웃</h4></a></li>
 				<form id="logoutForm" action="/logout" method="post" style="display: none">
 					<sec:csrfInput />
 				</form>
 				<li class="nav-item dropdown">
 					<a class="nav-link" href="#" id="navbardrop" data-toggle="dropdown">
-						<h4>중고거래</h4>
+						<h4 style="color:#000;">중고거래</h4>
 					</a>
 					<div class="dropdown-menu">
         				<a class="dropdown-item" href="${path}/board/list/2/1">CAT</a>
@@ -50,7 +50,7 @@
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link" href="#" id="navbardrop" data-toggle="dropdown">
-						<h4>커뮤니티</h4>
+						<h4 style="color:#000;">커뮤니티</h4>
 					</a>
 					<div class="dropdown-menu">
         				<a class="dropdown-item" href="${path}/board/list/1/1">CAT</a>
@@ -61,30 +61,7 @@
         				<a class="dropdown-item" href="${path}/board/list/1/6">ETC</a>     					
      				</div>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="/updateForm"><h4>회원정보수정</h4></a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
-</sec:authorize>
-<%-- 비회원 사용자가 보는 메뉴 --%>
-<sec:authorize access="isAuthenticated()==false">
-<nav class="navbar navbar-expand-lg navbar-light fixed-top py-0"
-	id="mainNav">
-	<div class="container px-4 px-lg-5">
-		<a class="navbar-brand" href="/"><img
-			src="/myweb/images/logo-2.png" style="width: 190px;"></a>
-		<button class="navbar-toggler navbar-toggler-right" type="button"
-			data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-			aria-controls="navbarResponsive" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<ul class="navbar-nav ms-auto my-2 my-lg-0">
-				<li class="nav-item"><a class="nav-link" href="guest/loginForm"><h4>로그인</h4></a></li>
-				<li class="nav-item"><a class="nav-link" href="#"><h4>중고거래</h4></a></li>
-				<li class="nav-item"><a class="nav-link" href="#"><h4>커뮤니티</h4></a></li>
+				<li class="nav-item"><a class="nav-link" href="/updateForm"><h4 style="color:#000;">회원정보수정</h4></a></li>
 			</ul>
 		</div>
 	</div>

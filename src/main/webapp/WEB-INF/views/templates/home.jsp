@@ -30,7 +30,7 @@
 			<div class="container px-4 px-lg-5 h-100">
 				<div
 					class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-					<div class="col-lg-8 align-self-end">
+					<div class="col-lg-10 align-self-end">
 						<h1 class="text-white font-weight-bold">꼬순넷에 오신것을 환영합니다!</h1>
 						<br> <br> <br>
 						<hr class="divider" />
@@ -64,7 +64,7 @@
 		<div id="portfolio">
 			<div class="container-fluid p-0" id="up-on-scroll">
 				<div class="row g-0">
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4 col-sm-6" id="up-on-scroll" style="padding: 0;">
 
 						<a class="portfolio-box" href="${path}/board/list/1/1"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
@@ -79,7 +79,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4 col-sm-6" id="up-on-scroll" style="padding: 0;">
 						<a class="portfolio-box" href="${path}/board/list/1/2"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
@@ -94,7 +94,7 @@
 						</a>
 					</div>
 
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4 col-sm-6" id="up-on-scroll" style="padding: 0;">
 						<a class="portfolio-box"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
@@ -108,7 +108,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4 col-sm-6" id="up-on-scroll" style="padding: 0;">
 						<a class="portfolio-box" href="${path}/board/list/1/4"
 							style="max-width: 100%; height: 50vh; overflow: hidden;"
 							title="Project Name"> <img class="img-fluid"
@@ -123,7 +123,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4 col-sm-6" id="up-on-scroll" style="padding: 0;">
 						<a class="portfolio-box" href="${path}/board/list/1/5"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
@@ -137,7 +137,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4 col-sm-6" id="up-on-scroll" style="padding: 0;">
 						<a class="portfolio-box" href="${path}/board/list/1/6"
 							style="max-width: 100%; height: 50vh;" title="Project Name">
 							<img class="img-fluid"
@@ -236,13 +236,13 @@
 	<div id="portfolio">
 			<div class="container-fluid p-0" id="up-on-scroll">
 				<div class="row g-0">
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
+					<div class="col-lg-4" id="up-on-scroll" style="padding: 0;">
 
-						<a class="portfolio-box" href="${path}/board/list/1/1"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
+						<a class="fullsize portfolio-box" href="${path}/board/list/1/1"
+							title="Project Name">
+							<img class="image-thumbnail"
 							src="/myweb/images/img/portfolio/thumbnails/cat.jfif"
-							style="max-width: 100%; height: 50vh;" alt="..." />
+							style="" alt="..." />
 							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/1';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name" >
@@ -251,12 +251,12 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/2"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
+					<div class="col-lg-4" id="up-on-scroll" style="padding: 0;">
+						<a class="fullsize portfolio-box" href="${path}/board/list/1/2"
+							title="Project Name">
+							<img class="image-thumbnail"
 							src="/myweb/images/img/portfolio/thumbnails/dog.jpg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
+							style="" alt="..." />
 							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/2';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
@@ -266,12 +266,12 @@
 						</a>
 					</div>
 
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
+					<div class="col-lg-4" id="up-on-scroll" style="padding: 0;">
+						<a class="fullsize portfolio-box"
+							title="Project Name">
+							<img class="image-thumbnail"
 							src="/myweb/images/img/portfolio/thumbnails/bird.jpeg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
+							style="" alt="..." />
 							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/3';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
@@ -280,12 +280,12 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/4"
-							style="max-width: 100%; height: 50vh; overflow: hidden;"
-							title="Project Name"> <img class="img-fluid"
+					<div class="col-lg-4" id="up-on-scroll" style="padding: 0;">
+						<a class="fullsize portfolio-box" href="${path}/board/list/1/4"
+							overflow: hidden;"
+							title="Project Name"> <img class="image-thumbnail"
 							src="/myweb/images/img/portfolio/thumbnails/iguana.jpg"
-							style="max-width: 100%; height: 52vh; object-fit: cover; overflow: hidden;"
+							style="object-fit: cover; overflow: hidden;"
 							alt="..." />
 							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/4';">
 								<div class="project-category text-white-50">Category</div>
@@ -295,12 +295,12 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/5"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
+					<div class="col-lg-4" id="up-on-scroll" style="padding: 0;">
+						<a class="fullsize portfolio-box" href="${path}/board/list/1/5"
+							title="Project Name">
+							<img class="image-thumbnail"
 							src="/myweb/images/img/portfolio/thumbnails/fish.jpg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
+							style="" alt="..." />
 							<div class="portfolio-box-caption" onclick="location.href='${path}/board/list/1/5';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
@@ -309,12 +309,12 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-sm-6" id="up-on-scroll">
-						<a class="portfolio-box" href="${path}/board/list/1/6"
-							style="max-width: 100%; height: 50vh;" title="Project Name">
-							<img class="img-fluid"
+					<div class="col-lg-4" id="up-on-scroll" style="padding: 0;">
+						<a class="fullsize portfolio-box" href="${path}/board/list/1/6"
+							title="Project Name">
+							<img class="image-thumbnail"
 							src="/myweb/images/img/portfolio/thumbnails/flower.jpg"
-							style="max-width: 100%; height: 50vh;" alt="..." />
+							style="" alt="..." />
 							<div class="portfolio-box-caption p-3" onclick="location.href='${path}/board/list/1/6';">
 								<div class="project-category text-white-50">Category</div>
 								<div class="project-name">
