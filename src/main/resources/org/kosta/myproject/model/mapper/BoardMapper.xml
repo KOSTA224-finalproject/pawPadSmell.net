@@ -84,6 +84,12 @@
 		<result column="category_name"
 			property="categoryDTO.categoryName" />
 	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM2">
+		<result column="nickname" property="memberDTO.nickname"/>
+		<result column="board_name" property="boardTypeDTO.boardName"/>
+		<result column="rnum" property="rnum"/>
+		<result column="category_name" property="categoryDTO.categoryName"/>
+	</resultMap>
 
 
 	<select id="getBoardType"
@@ -176,5 +182,34 @@
 		where board_id=1
 	</select>
 
-
+	<select id="getMypageCount" resultType="int">
+		SELECT count(*)
+		FROM g_board
+		WHERE member_id=#{memberId}
+	</select>
+	
+	<select id="getAllMypage" resultMap="boardRM2">
+		select rnum, post_id, title,member_id, to_char(regdate, 'yyyy-mm-dd') as regdate, nickname, hits, category_name,board_name
+		from ( 
+		select row_number() over(
+		order by b.regdate desc) 
+		as rnum, b.post_id, b.title,m.member_id, b.regdate, m.nickname, b.hits, t.board_name, c.category_name
+		from g_board b, g_member m ,boardtype t,category c
+		where b.member_id=m.member_id and b.member_id=#{memberId} and c.category_id=b.category_id and t.board_id=b.board_id
+				) 
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by post_id desc
+	</select>
+	<insert id="myPageWrite" parameterType="mypageDTO">
+		insert into mypage(member_id,profile_filename,profile_filepath,profile_text) 
+		values(#{memberDTO.memberId},#{profileFilename},#{profileFilepath},#{profileText})
+	</insert>
+	
+	<select id="myPageProfile" resultType="mypageDTO">
+		select profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
+	</select>
+	<update id="updateProfile">
+		update mypage set profile_filename=#{profileFilename} ,profile_filepath=#{profileFilepath},profile_text=#{profileText}
+		where member_id=#{memberDTO.memberId}
+	</update>
 </mapper>

@@ -60,7 +60,7 @@ public class BoardController {
 		String nickname = userDetails.getNickname();
 		System.out.println("작성화면으로 들어감!");
 		model.addAttribute("nick", nickname);
-		return "board/board-write";
+		return "board/board-write.tiles2";
 	}
 
 	@RequestMapping("/writepro/{boardId}/{categoryId}")
@@ -199,17 +199,13 @@ public class BoardController {
 		//return "redirect:/board/{postId}";
 		
 	}
-	@RequestMapping("/goDetail")
-	public String goDetail() {
-		System.out.println("상세페이지로 가자");
-		return "board/board-detail";
-	}
+
 	
 //-------------------------------------------------------
 	@GetMapping("/list/{boardId}/{categoryId}")
 	public String getAllLists(Model model, @PathVariable("boardId") int boardId,
 			@PathVariable("categoryId") int categoryId, String pageNo) {
-
+			
 		int totalPostCount = boardMapper.getCategoryCount(boardId, categoryId);
 		PagingBean pagingBean = null;
 
@@ -231,7 +227,7 @@ public class BoardController {
 		model.addAttribute("list", boardMapper.getAllLists(boardId, categoryId, pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
 
-		return "/board/board-list";
+		return "board/board-list.tiles2";
 	}
 
 	@RequestMapping(value = "/{postId}")
@@ -284,7 +280,7 @@ public class BoardController {
 		System.out.println(boardMapper.getpostDetail(postId).memberDTO.getNickname());
 		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));
 
-		return "/board/board-detail";
+		return "board/board-detail.tiles2";
 	}
 
 	@RequestMapping("/delete/{postId}/{boardId}/{categoryId}")

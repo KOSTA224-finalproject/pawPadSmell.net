@@ -37,18 +37,16 @@
 <body>
 
 		<!-- Tiles header 영역 -->
-		<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="header2" />
 
 
 
 
 		<!-- Tiles content 영역 -->
-		<tiles:insertAttribute name="content" />
+		<tiles:insertAttribute name="content2" />
 
 
 
-		<!-- Tiles footer 영역 -->
-		<tiles:insertAttribute name="footer" />
 
 </body>
 </html>
