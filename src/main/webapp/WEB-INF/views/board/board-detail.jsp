@@ -44,22 +44,22 @@
 				</div>
 				<div class="card-body">${list.content }</div>
 
-				<%-- <input type="file" value="파일">${list.filename } --%>
-				
-			</div>
-			<form name="detailForm" >
-					<!-- script에서 user_pwd에 접근하기 위한 폼 -->
-					<div style="text-align:right; position: relative; right: 0%; top: 50%;">
-					<c:if test="${nick==list.memberDTO.nickname}">
-						<input class="btn btn-danger" type="button" value="삭제"
-							onclick="location.href='${path}/board/delete/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';" />
-						<input class="btn btn-primary" type="button" value="수정" />
-					</c:if>
-					<input class="btn btn-secondary" type="button" value="목록" style=""
-						onclick="location.href=document.referrer;" />
-					</div>
-				</form>
-			<div class="card mb-2 mt-5">
+				<%-- <input type="file" value="파일">${list.filename } --%
+
+			<form name="detailForm">
+				<!-- script에서 user_pwd에 접근하기 위한 폼 -->
+				<input type="file" value="파일">${list.filename }
+        <div style="text-align:right; position: relative; right: 0%; top: 50%;">
+          <c:if test="${nick==list.memberDTO.nickname}">
+            <input type="button" value="삭제" class="btn btn-danger"
+              onclick="location.href='${path}/board/delete/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';"/>
+            <input type="button" value="수정" class="btn btn-primary"
+              onclick="location.href='${path}/board/modify/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';"/>
+          </c:if>
+          <input type="button" value="글 목록" class="btn btn-secondary" onclick="location.href=document.referrer;" />
+        </div>
+			</form>
+<div class="card mb-2 mt-5">
 				<div class="card-header bg-light">
 					<i class="fa fa-comment fa">댓글&nbsp;[${list.commentCount }]</i>
 				</div>
@@ -79,6 +79,7 @@
 
 			<div class="card">
 				<c:forEach items="${comment}" var="li">
+
 
 					<div class="card-header">
 					<div class="text-monospace">

@@ -4,9 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 //스프링 시큐리티 설정 클래스 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +25,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return encoder;
 	}
 
-	
+	/*
+	 * @Override public void configure(WebSecurity web) {
+	 * web.httpFirewall(defaultHttpFirewall()); }
+	 * 
+	 * @Bean public HttpFirewall defaultHttpFirewall() { return new
+	 * DefaultHttpFirewall(); }
+	 */
 	/*
 	 	인증(authentication)을 위한 설정은 아래의 메서드에서 처리한다 (로그인 기능과 로그인 여부에 따른 서비스 접근에 대한 설정 ) 
 	 	인가(authorization)에 대한 설정은 각 컨트롤러 메서드에서 @Secured("ROLE_ADMIN") 와 같이 설정한다  
