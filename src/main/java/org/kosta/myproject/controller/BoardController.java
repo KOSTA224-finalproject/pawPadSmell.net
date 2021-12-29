@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -54,7 +55,7 @@ public class BoardController {
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
 		model.addAttribute("boardname", boardMapper.getBoardName(boardId));
 		model.addAttribute("categoryname", boardMapper.getCatName(categoryId));
-		;
+		
 		
 		String nickname = userDetails.getNickname();
 		System.out.println("작성화면으로 들어감!");
@@ -142,24 +143,65 @@ public class BoardController {
 
 //---------------------------------------------------------------------------------------------------
 //게시글 수정
-	// @GetMapping("/board/modify/{id}")
-	@GetMapping("/board/modify")
-	public String boardModify(@PathVariable("postId") int postId, Model model, BoardDTO boardDTO) {
+	
+	@GetMapping("/modify/{postId}/{boardId}/{categoryId}")//게시물 상세보기에서 수정 버튼을 누르면 게시글 수정 페이지로 이동 시켜주는 메서드
+	public String boardModify(@PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, Authentication authentication) {//게시글 수정 화면 호출
+		
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("postId", postId);
+		
+		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
+		model.addAttribute("boardname", boardMapper.getBoardName(boardId));
+		model.addAttribute("categoryname", boardMapper.getCatName(categoryId));
+		
+		
+		String nickname = userDetails.getNickname();
+		System.out.println("게시물 수정 페이지로 이동!");
+		model.addAttribute("nick", nickname);
 
-		// model.addAttribute("board", boardMapper.boardWrite(boardDTO)); *************
-		return "boardmodify";
+		model.addAttribute("boardDTO", boardMapper.getpostDetail(postId)); //기존에 있던 게시글 끌어오기 -> 수정 페이지에서 출력용
+		return "board/boardmodify";
 	}
 
-	@PostMapping("/board/update/{postId}")
-	public String boardUpdate(@PathVariable("postId") int postId, BoardDTO boardDTO) {// 여기 board에 새로 입력한 내용을 받아옴.
-		// 기존의 글을 검색한다.
-		// 기존의 board에서 받아오도록 Board 객체를 만든다.
-		BoardDTO boardTemp = boardMapper.boardUpdate(boardDTO);// 기존에 있던 내용 가져옴.
-		boardTemp.setTitle(boardDTO.getTitle());// 위 매개변수 board로 새롭게 받아온 내용을 기존의 내용에 덮어씌운다.
-		boardTemp.setContent(boardDTO.getContent());
-		return "redirect:board/{postId}.tiles2";
+
+	@PostMapping("/update/{postId}/{boardId}/{categoryId}")
+	@ResponseBody
+	public void boardUpdate(@PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, BoardDTO boardDTO,Authentication authentication, MultipartFile file) throws IllegalStateException, IOException {// 여기 boardDTO에 새로 입력한 내용을 받아옴.
+		
+		// 1. 실제 파일이 저장되는 경로 지정
+		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+
+		// 2. UUID로 식별자 랜덤으로 이름 만들어줌
+		UUID uuid = UUID.randomUUID();
+
+		// 3. uuid+원래 파일이름 = 새로운 파일이름 // 같은 이름의 파일을 업로드 시 기존의 파일 덮어쓰기 방지를 위함.
+		String fileName = uuid + "_" + file.getOriginalFilename();
+
+		// 4. 파일 넣어주는 껍데기 : 파일 생성해주되 경로 설정하고 파일 이름도 받겠다.
+		File saveFile = new File(projectPath, fileName);
+
+		// 5. 업로드된 파일 저장
+		file.transferTo(saveFile); // exception 경고 뜸. throws 해준다.
+
+		// 6. db에 파일명, 파일 경로 저장
+		boardDTO.setFilename(fileName);
+		boardDTO.setFilepath("/files/" + fileName);
+		
+		
+		// 기존의 boardDTO를 받아오도록 boardTemp 객체를 만든다.
+		//BoardDTO boardTemp = boardMapper.getpostDetail(postId);// 기존에 있던 게시물
+		//boardTemp.setTitle(boardDTO.getTitle());// 위 매개변수 boardTemp로 새롭게 받아온 내용을 기존의 내용에 덮어씌운다.
+		//boardTemp.setContent(boardDTO.getContent());
+		
+		boardMapper.boardUpdate(boardDTO);//디비에 수정된 내용 업데이트
+		//return "redirect:/board/goDetail/{postId}";
+		//return "redirect:/board/{postId}";
+		
 	}
 
+	
+//-------------------------------------------------------
 	@GetMapping("/list/{boardId}/{categoryId}")
 	public String getAllLists(Model model, @PathVariable("boardId") int boardId,
 			@PathVariable("categoryId") int categoryId, String pageNo) {
