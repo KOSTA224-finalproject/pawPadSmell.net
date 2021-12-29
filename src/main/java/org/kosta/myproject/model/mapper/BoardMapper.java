@@ -54,4 +54,6 @@ public interface BoardMapper {
 
 	void commentUpdateDown(int postId);
 
+	void updateProfile(MyPageDTO mypageDTO);
+
 }

@@ -213,4 +213,8 @@
 	<select id="myPageProfile" resultType="mypageDTO">
 		select profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
 	</select>
+	<update id="updateProfile">
+		update mypage set profile_filename=#{profileFilename} ,profile_filepath=#{profileFilepath},profile_text=#{profileText}
+		where member_id=#{memberDTO.memberId}
+	</update>
 </mapper>
