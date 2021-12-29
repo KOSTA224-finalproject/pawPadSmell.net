@@ -48,9 +48,11 @@
 				</tr>
 				</c:forEach>
 		</table>
+		
+		
 		<%-- 페이징 처리 --%>
 		<nav aria-label="Page navigation example">
-			<ul class="pagination" style="margin: 20px 0">
+			<ul class="pagination" style="margin: 20px 0; text-align: center;">
 				<c:if test="${pagingBean.previousPageGroup}">
 					<li class="page-item"><a class="page-link"
 						href="${path}/board/list/${boardId}/${categoryId}?pageNo=${pagingBean.startPageOfPageGroup-1}">Previous

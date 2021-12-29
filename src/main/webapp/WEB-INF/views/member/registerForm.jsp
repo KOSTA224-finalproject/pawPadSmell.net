@@ -195,11 +195,11 @@
 											if (result == 1) {
 												document.getElementById("idck").style.color = "red";
 												document.getElementById("idck").innerHTML = "이미 사용중인 아이디입니다.";
-												i = 1;
+												
 											} else {
 												document.getElementById("idck").style.color = "green";
 												document.getElementById("idck").innerHTML = "사용 가능한 아이디입니다.";
-												i = 0;
+												
 											}
 										}
 									});
@@ -214,7 +214,7 @@
 		let joinId=document.getElementById("input_id").value;
 		if(joinId==""){
 			alert("아이디를 입력하셔야 합니다.");
-			return result=false;
+			return false;
 		}
 	});
 	$(function() {
@@ -228,11 +228,11 @@
 											if (result == 1) {
 												document.getElementById("idck1").style.color = "red";
 												document.getElementById("idck1").innerHTML = "이미 사용중인 닉네임입니다.";
-												return result=false;
+												return false;
 											} else {
 												document.getElementById("idck1").style.color = "green";
 												document.getElementById("idck1").innerHTML = "사용 가능한 닉네임입니다.";
-												return result=true;
+												
 											}
 										}
 									});
@@ -248,20 +248,15 @@
 			if (pass1 != pass2) {
 				document.getElementById("checkPwd").style.color = "red";
 				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치하지 않습니다.";
-				return result=false;
+				return false;
 			} else {
 				document.getElementById("checkPwd").style.color = "green";
 				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치합니다.";
-				return result=true;
+				
 			}
 		});
 	});
-	$(function(){
-		$("#registerForm").submit(function(){
-			alert("유효하지 않은 입력입니다.");
-			return result;
-		});
-	});
+	
 
 </script>
 <script
