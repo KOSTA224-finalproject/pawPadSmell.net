@@ -39,7 +39,7 @@ public interface BoardMapper {
 
 	void boardWrite(BoardDTO boardDTO); // 게시글 등록 + 파일 업로드
 
-	BoardDTO boardUpdate(BoardDTO boardDTO); // 게시글 수정
+	void boardUpdate(BoardDTO boardDTO); // 게시글 수정
 
 	void commentUpdateUp(int postId);
 

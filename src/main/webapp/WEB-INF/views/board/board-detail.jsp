@@ -79,7 +79,8 @@ footer {
 				<c:if test="${nick==list.memberDTO.nickname}">
 					<input type="button" value="삭제"
 						onclick="location.href='${path}/board/delete/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';"/>
-					<input type="button" value="수정" />
+					<input type="button" value="수정" 
+						onclick="location.href='${path}/board/modify/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';"/>
 				</c:if>
 				<input type="button" value="글 목록"
 					onclick="location.href=document.referrer;" />
