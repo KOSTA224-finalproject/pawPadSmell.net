@@ -48,7 +48,7 @@
 			<div class="col-lg-7 mx-auto text-center mt-7 mb-5">
 				<a href="/"><img src="/myweb/images/logo-2.png"
 					style="width: 350px;"></a>
-				<form action="/guest/register" method="post">
+				<form action="/guest/register" method="post" id="registerForm">
 					<div class="form-floating mb-3">
 						<sec:csrfInput />
 						<input class="form-control" name="email" type="email"
@@ -71,7 +71,7 @@
 
 					<div class="form-floating mb-3">
 						<input class="form-control" name="joinPwck" type="password"
-							onkeyup="pwCheck()" placeholder="name@example.com"
+							id="pwCheck" placeholder="name@example.com"
 							data-sb-feedback="name:required" /> <label for="name">비밀번호
 							재확인</label> <span
 							style="margin-left: 5px; font-weight: 200; font-size: 20px; float: left;"
@@ -103,10 +103,6 @@
 							is not valid.</div>
 					</div>
 					<div class="form-floating mb-3">
-						<input class="form-control" type="text"
-							placeholder="name@example.com" data-sb-validations="required"
-							readonly="readonly" style="background-color: white;" /> <label>주소
-						</label>
 						<!-- 밑에가 주소 들어가는 input -->
 						<br> <input class="form-control"
 							style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
@@ -184,6 +180,7 @@
 <script type="text/javascript">
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
+	var result = true;
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	}); 
@@ -198,15 +195,27 @@
 											if (result == 1) {
 												document.getElementById("idck").style.color = "red";
 												document.getElementById("idck").innerHTML = "이미 사용중인 아이디입니다.";
-												i = 1;
+												
 											} else {
 												document.getElementById("idck").style.color = "green";
 												document.getElementById("idck").innerHTML = "사용 가능한 아이디입니다.";
-												i = 0;
+												
 											}
 										}
 									});
 						});
+	});
+	$(function() {
+		if(i==1){
+			alert("아이디가 중복되었습니다.");
+			document.getElementById("input_id").focus();
+			return false;
+		}
+		let joinId=document.getElementById("input_id").value;
+		if(joinId==""){
+			alert("아이디를 입력하셔야 합니다.");
+			return false;
+		}
 	});
 	$(function() {
 		$("#input_id1").keyup(function() {
@@ -219,11 +228,11 @@
 											if (result == 1) {
 												document.getElementById("idck1").style.color = "red";
 												document.getElementById("idck1").innerHTML = "이미 사용중인 닉네임입니다.";
-												i = 1;
+												return false;
 											} else {
 												document.getElementById("idck1").style.color = "green";
 												document.getElementById("idck1").innerHTML = "사용 가능한 닉네임입니다.";
-												i = 0;
+												
 											}
 										}
 									});
@@ -231,18 +240,23 @@
 	});
 
 	// 패스워드 일치 확인
-	function pwCheck() {
-		let password = document.forms[0];
-		let pass1 = password.password.value;
-		let pass2 = password.joinPwck.value;
-		if (pass1 != pass2) {
-			document.getElementById("checkPwd").style.color = "red";
-			document.getElementById("checkPwd").innerHTML = "비밀번호가 일치하지 않습니다.";
-		} else {
-			document.getElementById("checkPwd").style.color = "green";
-			document.getElementById("checkPwd").innerHTML = "비밀번호가 일치합니다.";
-		}
-	}
+	$(function() {
+		$("#pwCheck").keyup(function(){
+			let password = document.forms[0];
+			let pass1 = password.password.value;
+			let pass2 = password.joinPwck.value;
+			if (pass1 != pass2) {
+				document.getElementById("checkPwd").style.color = "red";
+				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치하지 않습니다.";
+				return false;
+			} else {
+				document.getElementById("checkPwd").style.color = "green";
+				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치합니다.";
+				
+			}
+		});
+	});
+	
 
 </script>
 <script

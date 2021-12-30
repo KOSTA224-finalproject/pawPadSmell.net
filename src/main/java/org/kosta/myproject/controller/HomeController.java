@@ -36,7 +36,7 @@ public class HomeController {
 			model.addAttribute("list", boardMapper.getCategoryList());
 		} else
 			System.out.println("Home: 인증받지 않은 사용자");
-		return "home.tiles";
+		return "templates/home.tiles";
 	}
 
 	/*

@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.kosta.myproject.model.mapper.BoardMapper">
 
+
 	<!-- <resultMap type="BoardDTO" id="boardDTORM"> <result column= /> <result 
 		column="member_id" property="memberDTO.memberID" /> <result column="nickname" 
 		property="memberDTO.nickname" /> <result column="post_id" property="boardDTO.postId" 
 		/> </resultMap> -->
+  
 	<insert id="boardWrite" useGeneratedKeys="true" keyColumn="post_id" keyProperty="postId"
+
 		parameterType="BoardDTO">
 		insert into g_board(post_id, title, content,
 		member_id,
@@ -22,16 +25,15 @@
 	
 	<update id="boardUpdate"
 		parameterType="BoardDTO">
-		insert into
-		g_board(post_id, title, content,
-		member_id,
-		regdate, hits, board_id,
-		category_id, comment_count,
-		filename, filepath)
-		values(board_seq.nextval,#{title},#{content},
-		#{memberDTO.memberId},sysdate,0,#{boardTypeDTO.boardId},
-		#{categoryDTO.categoryId},#{categoryDTO.categoryName},
-		null,null)
+		UPDATE g_board
+		SET
+		title = #{title},
+		content = #{content},
+		regdate = sysdate,
+		filename = #{filename},
+		filepath =#{filepath}
+		WHERE
+		post_id = #{postId}
 	</update>
 
 	<sql id="selectBoardList">
@@ -213,4 +215,8 @@
 	<select id="myPageProfile" resultType="mypageDTO">
 		select profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
 	</select>
+	<update id="updateProfile">
+		update mypage set profile_filename=#{profileFilename} ,profile_filepath=#{profileFilepath},profile_text=#{profileText}
+		where member_id=#{memberDTO.memberId}
+	</update>
 </mapper>
