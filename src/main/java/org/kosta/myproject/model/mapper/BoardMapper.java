@@ -8,6 +8,7 @@ import org.kosta.myproject.model.domain.BoardTypeDTO;
 import org.kosta.myproject.model.domain.CategoryDTO;
 import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.domain.MyPageDTO;
+import org.kosta.myproject.model.domain.StoreDTO;
 
 @Mapper
 public interface BoardMapper {
@@ -53,5 +54,7 @@ public interface BoardMapper {
 	void commentUpdateUp(int postId);
 
 	void commentUpdateDown(int postId);
+
+	void boardWrite(StoreDTO storeDTO);
 
 }

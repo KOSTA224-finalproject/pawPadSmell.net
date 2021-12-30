@@ -6,7 +6,7 @@
 		column="member_id" property="memberDTO.memberID" /> <result column="nickname" 
 		property="memberDTO.nickname" /> <result column="post_id" property="boardDTO.postId" 
 		/> </resultMap> -->
-	<insert id="boardWrite"
+	<insert id="boardWrite" useGeneratedKeys="true" keyColumn="post_id" keyProperty="postId"
 		parameterType="BoardDTO">
 		insert into g_board(post_id, title, content,
 		member_id,
