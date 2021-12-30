@@ -19,13 +19,13 @@ function connectWS() {
 
     ws.onmessage = function (event) {   
         sessionStorage.setItem(sessionStorage.length,event.data);
-/*         let $socketAlert = $('div#socketAlert');
+        let $socketAlert = $('div#socketAlert');
         $socketAlert.html(event.data);
         $socketAlert.css('display', 'block');
         
         setTimeout( function() {
         	$socketAlert.css('display', 'none');
-        }, 3000); */
+        }, 3000); 
     };
 
     ws.onclose = function (event) { 
