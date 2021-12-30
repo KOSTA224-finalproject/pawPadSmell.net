@@ -41,24 +41,23 @@
 	min-height: 300px;
 }
 </style>
-<%-- <sec:csrfInput /> --%>
-<sec:authorize access="isAuthenticated()">
 
+<sec:authorize access="isAuthenticated()">
 	<body>
 		<div class="layout">
 
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
-			<%-- <form action="/board/update/${postId}/${boardId}/${categoryId}" 
-				enctype="multipart/form-data" method="post"> --%>
-			<form id="uploadForm">
-				<input type="hidden" name="postId" value="${boardDTO.postId}">
-				<%-- <sec:csrfInput /> --%>
+			<form id="uploadForm" action="/board/update/${postId}/${boardId}/${categoryId}" 
+				enctype="multipart/form-data" method="post">
+			<!-- <form id="uploadForm"> -->
+				<%-- <input type="hidden" name="postId" value="${boardDTO.postId}"> --%>
+				<sec:csrfInput />
 				<span class="label label-danger">${boardname.boardName}</span> <span
 					class="label label-primary">${categoryname.categoryName}</span><br>
 				작성자: ${nick} <input name="title" type="text" value=${boardDTO.title}>
 				<textarea name="content">${boardDTO.content}</textarea>
 				<input type="file" name="file">
-				<button id="btn_modify" type="button">수정하기</button>
+				<button id="btn_modify" type="submit">수정하기</button>
 			</form>
 			<!-- 			<form >
 			    <input type="file" name="file" />
@@ -74,29 +73,14 @@
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	}); 
-	
-	
-	
-		$(function(){
-			$("#btn_modify").click(function(){
-				alert("에이젝스로 들어옴");
-				var form = $('#uploadForm')[0];
-			    var formData = new FormData(form);
-			    
-			    $.ajax({
-			        url : '/board/update/${postId}/${boardId}/${categoryId}',
-			        type : 'POST',
-			        enctype: 'multipart/form-data',
-			        data : formData,
-			        contentType : false,
-			        processData : false,        
-			    	success : function(result) {
-					alert("수정되었습니다");
-					location.href="/board/${postId}";
-					}
-			    })
+		
+			$(function(){
+				$("#btn_modify").click(function(){
+					$("#uploadForm").submit(function(){
+						return confirm("수정 하시겠습니까?😊");//return false 하면 이동되지 않는다 
+					});
+				});
 			});
-		});
 		
 
 	

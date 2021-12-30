@@ -94,7 +94,9 @@ public class BoardController {
 		categoryDTO.setCategoryId(categoryId);
 		boardDTO.setCategoryDTO(categoryDTO);
 		model.addAttribute(categoryDTO);
-		
+		System.out.println("***********************");
+		System.out.println(file.isEmpty());//파일이 선택되지 않았다면 true
+		if(file.isEmpty()==false) {
 		/*
 		 * boardDTO.setMemberDTO(memberDTO); System.out.println(boardDTO);
 		 * 
@@ -104,6 +106,7 @@ public class BoardController {
 		 */
 		System.out.println(boardDTO.toString()+"  "+memberDTO.toString()+ " " + categoryDTO.toString());
 		//System.out.println(boardDTO.getBoardTypeDTO().getBoardId()+boardDTO.getCategoryDTO().getCategoryId());
+		
 		// 1. 실제 파일이 저장되는 경로 지정
 		// System.getProperty(“user.dir”) -> 현재 작업 디렉토리
 		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
@@ -135,7 +138,10 @@ public class BoardController {
 		// 6. db에 파일명, 파일 경로 저장
 		boardDTO.setFilename(fileName);
 		boardDTO.setFilepath("/files/" + fileName);
-
+		}else {
+			boardDTO.setFilename("");
+			boardDTO.setFilepath("");
+		}
 		boardMapper.boardWrite(boardDTO);
 
 		return "redirect:/board/list/{boardId}/{categoryId}";// 게시글 리스트로 리다이렉트
@@ -166,9 +172,10 @@ public class BoardController {
 
 
 	@PostMapping("/update/{postId}/{boardId}/{categoryId}")
-	@ResponseBody
-	public void boardUpdate(@PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, BoardDTO boardDTO,Authentication authentication, MultipartFile file) throws IllegalStateException, IOException {// 여기 boardDTO에 새로 입력한 내용을 받아옴.
+	public String boardUpdate(@PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, BoardDTO boardDTO,Authentication authentication, MultipartFile file) throws IllegalStateException, IOException {// 여기 boardDTO에 새로 입력한 내용을 받아옴.
 		
+		
+		if(file.isEmpty()==false) {
 		// 1. 실제 파일이 저장되는 경로 지정
 		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
@@ -187,7 +194,10 @@ public class BoardController {
 		// 6. db에 파일명, 파일 경로 저장
 		boardDTO.setFilename(fileName);
 		boardDTO.setFilepath("/files/" + fileName);
-		
+		}else {
+			boardDTO.setFilename("");
+			boardDTO.setFilepath("");
+		}
 		
 		// 기존의 boardDTO를 받아오도록 boardTemp 객체를 만든다.
 		//BoardDTO boardTemp = boardMapper.getpostDetail(postId);// 기존에 있던 게시물
@@ -196,7 +206,7 @@ public class BoardController {
 		
 		boardMapper.boardUpdate(boardDTO);//디비에 수정된 내용 업데이트
 		//return "redirect:/board/goDetail/{postId}";
-		//return "redirect:/board/{postId}";
+		return "redirect:/board/{postId}";
 		
 	}
 

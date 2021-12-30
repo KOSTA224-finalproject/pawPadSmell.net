@@ -16,14 +16,15 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
-<%-- <sec:csrfInput /> --%>
-<sec:authorize access="isAuthenticated()">
 
+<sec:authorize access="isAuthenticated()">
 	<body>
 		<div class="container px-4 px-lg-5" style="margin-top: 130px;">
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
-			<form action="/board/writepro/${boardId}/${categoryId}"
-				enctype="multipart/form-data" method="post">
+			<form id="registerForm" action="/board/writepro/${boardId}/${categoryId}" enctype="multipart/form-data"  method="post">
+			<!-- <form id="registerForm" > -->
+<%-- 			<input type="hidden" name="boardId" value="${boardId}">
+			<input type="hidden" name="categoryId" value="${categoryId}"> --%>
 				<sec:csrfInput />
 				<div class="card">
 					<div class="card-header form-group">
@@ -57,6 +58,22 @@
 			location.href="${path}/board/list/${boardId}/${categoryId}";
 			//${path}/board/list/${boardId}/${categoryId}
 		}
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		}); 
+		
+
+		
+			$(function(){
+				$("#btn_boardwrite").click(function(){
+					$("#registerForm").submit(function(){
+						return confirm("등록 하시겠습니까?😊");//return false 하면 이동되지 않는다 
+					});
+				});
+			});
+		
 	</script>
 </sec:authorize>
 </html>
