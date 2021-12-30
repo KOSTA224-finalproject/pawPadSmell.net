@@ -226,20 +226,20 @@ delete from g_board where member_id=1;
 
 select * from g_board;
 
--- 중고거래
 drop table store;
 
 create table store(
-	post_id number primary key,
-	price number not null,
-	place varchar2(100) not null,
-	locinfo varchar2(100),
-	constraint fk_store_post_id foreign key(post_id) references g_board(post_id) on delete cascade
+   post_id number primary key,
+   price number not null,
+   place varchar2(100) not null,
+   locinfo_x number,
+   locinfo_y number,
+   constraint fk_store_post_id foreign key(post_id) references g_board(post_id) on delete cascade
 )
-
+create sequence store_id_seq;
 select * from store;
 
-insert into store values(1,3000,'서울시 강남구 삼성동 어쩌구','192823,93489');
+insert into store values(1,3000,'서울시 강남구 삼성동 어쩌구');
 
 
 

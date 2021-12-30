@@ -234,7 +234,6 @@ public class BoardController {
 		model.addAttribute("list", boardMapper.getAllLists(boardId, categoryId, pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
 
-		model.addAttribute("storeList", storeMapper.getAllList());
 
 
 		return "board/board-list.tiles2";
