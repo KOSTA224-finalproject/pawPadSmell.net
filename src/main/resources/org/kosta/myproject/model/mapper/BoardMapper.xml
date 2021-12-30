@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.kosta.myproject.model.mapper.BoardMapper">
 
-	<insert id="boardWrite"
+
+	<!-- <resultMap type="BoardDTO" id="boardDTORM"> <result column= /> <result 
+		column="member_id" property="memberDTO.memberID" /> <result column="nickname" 
+		property="memberDTO.nickname" /> <result column="post_id" property="boardDTO.postId" 
+		/> </resultMap> -->
+  
+	<insert id="boardWrite" useGeneratedKeys="true" keyColumn="post_id" keyProperty="postId"
+
 		parameterType="BoardDTO">
 		insert into g_board(post_id, title, content,
 		member_id,

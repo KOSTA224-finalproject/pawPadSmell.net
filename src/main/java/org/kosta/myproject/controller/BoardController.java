@@ -17,6 +17,7 @@ import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.domain.PagingBean;
 import org.kosta.myproject.model.mapper.BoardMapper;
 import org.kosta.myproject.model.mapper.CommentBoardMapper;
+import org.kosta.myproject.model.mapper.StoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -37,13 +38,17 @@ public class BoardController {
 	@Resource
 	private CommentBoardMapper commentBoardMapper;
 	@Resource
+	private StoreMapper storeMapper;
+	@Resource
 	private PagingBean pagingBean;
 
 	@Autowired
-	public BoardController(BoardMapper boardMapper, CommentBoardMapper commentBoardMapper, PagingBean pagingBean) {
+	public BoardController(BoardMapper boardMapper, CommentBoardMapper commentBoardMapper, StoreMapper storeMapper,
+			PagingBean pagingBean) {
 		super();
 		this.boardMapper = boardMapper;
 		this.commentBoardMapper = commentBoardMapper;
+		this.storeMapper = storeMapper;
 		this.pagingBean = pagingBean;
 	}
 
@@ -62,6 +67,8 @@ public class BoardController {
 		model.addAttribute("nick", nickname);
 		return "board/board-write.tiles2";
 	}
+
+	
 
 	@RequestMapping("/writepro/{boardId}/{categoryId}")
 	public String boardWrite(Authentication authentication, BoardDTO boardDTO, Model model,  MultipartFile file,
@@ -227,7 +234,11 @@ public class BoardController {
 		model.addAttribute("list", boardMapper.getAllLists(boardId, categoryId, pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
 
+		model.addAttribute("storeList", storeMapper.getAllList());
+
+
 		return "board/board-list.tiles2";
+
 	}
 
 	@RequestMapping(value = "/{postId}")
@@ -269,6 +280,7 @@ public class BoardController {
 		} // 쿠키가 없다면 쿠키를 만들어주고 카운트 늘림
 
 		model.addAttribute("list", boardMapper.getpostDetail(postId));
+		model.addAttribute("store", storeMapper.getStoreDetail(postId));
 		model.addAttribute("comment", commentBoardMapper.findByComment(postId));
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
 		System.out.println(userDetails);
