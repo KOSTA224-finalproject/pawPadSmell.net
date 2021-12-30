@@ -161,7 +161,7 @@ public class BoardController {
 		model.addAttribute("nick", nickname);
 
 		model.addAttribute("boardDTO", boardMapper.getpostDetail(postId)); //기존에 있던 게시글 끌어오기 -> 수정 페이지에서 출력용
-		return "board/boardmodify";
+		return "board/boardmodify.tiles2";
 	}
 
 
