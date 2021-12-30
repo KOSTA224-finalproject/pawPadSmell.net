@@ -16,49 +16,33 @@
 <meta name="_csrf_header" content="${_csrf.headerName}">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<style>
-.layout {
-	width: 500px;
-	margin: 0 auto;
-	margin-top: 40px;
-}
-
-.layout input {
-	width: 100%;
-	box-sizing: border-box
-}
-
-.layout textarea {
-	width: 100%;
-	margin-top: 10px;
-	min-height: 300px;
-}
-</style>
 <%-- <sec:csrfInput /> --%>
 <sec:authorize access="isAuthenticated()">
 
 	<body>
-		<div class="layout">
+		<div class="container px-4 px-lg-5" style="margin-top: 130px;">
 
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
 			<%-- <form action="/board/update/${postId}/${boardId}/${categoryId}" 
 				enctype="multipart/form-data" method="post"> --%>
 			<form id="uploadForm">
 				<input type="hidden" name="postId" value="${boardDTO.postId}">
-				<%-- <sec:csrfInput /> --%>
-				<span class="label label-danger">${boardname.boardName}</span> <span
-					class="label label-primary">${categoryname.categoryName}</span><br>
-				작성자: ${nick} <input name="title" type="text" value=${boardDTO.title}>
-				<textarea name="content">${boardDTO.content}</textarea>
-				<input type="file" name="file">
-				<button id="btn_modify" type="button">수정하기</button>
+				<div class="card">
+					<div class="card-header form-group">
+						<%-- <sec:csrfInput /> --%>
+						<span class="badge badge-danger">${boardname.boardName}</span>
+						<span class="badge badge-primary">${categoryname.categoryName}</span> <br>
+						<span>작성자: ${nick}</span>
+						<input class="form-control" name="title" type="text" value=${boardDTO.title}>
+					</div>
+					<div class="card-body form-group">
+						<textarea name="content" class="form-control" rows="10">${boardDTO.content}</textarea>
+					</div>
+					<div class="card-footer" >
+						<input type="file" class="form-control" name="file">
+					</div>
+				</div>
+				<button id="btn_modify" class="btn btn-primary" type="button" style="position: relative; float:right; margin-top: 15px;">수정</button>
 			</form>
 			<!-- 			<form >
 			    <input type="file" name="file" />
