@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -62,8 +63,52 @@
      				</div>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="/updateForm"><h4 style="color:#000;">회원정보수정</h4></a></li>
-			</ul>
+
+
+    <div id="modal" class="modal">
+        <div class="modal-dialog">
+            
+            <div id="modal-content-socket">
+             <a href="javascript:void(0);" onclick="closemodal();">X</a>   
+                
+            </div>
+        </div>
+    </div>
+		<div class="alert alert-dark" id="socketAlert" role="alert">
+			<span id="output"></span>
 		</div>
-	</div>
-</nav>
-</sec:authorize>
+
+		<script type="text/javascript">
+let id = sessionStorage.length;
+let alertMSG = '<a href="javascript:void(0);" onclick="callFunction();">총 '+id+'개의 알림이 있습니다.</a>';
+
+
+document.getElementById("output").innerHTML=alertMSG;
+
+//const modal = document.getElementById("modal")
+//const btnModal = document.getElementById("btn-modal")
+//btnModal.addEventListener("click", e => {
+ //   modal.style.display = "flex"
+//})
+
+function callFunction() {
+	const modal = document.getElementById("modal");
+	modal.style.display = "flex";
+		for(let i = 0; i < sessionStorage.length; i++){
+			document.getElementById("modal-content-socket").innerHTML += "<div style='display:inline;'>" + sessionStorage.getItem(i) + "<br></div>"
+           }
+return true;
+}
+
+function closemodal() {
+	const modal = document.getElementById("modal");
+	modal.style.display = "none";
+	document.getElementById("modal-content-socket").innerHTML = "";
+return true;
+}
+
+
+
+</script>
+					<!-- <div id="socketAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+ --></sec:authorize>

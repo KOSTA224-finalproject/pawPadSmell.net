@@ -17,6 +17,7 @@
 <title>상세보기</title>
 </head>
 <body>
+
 	<sec:authorize access="isAuthenticated()">
 		<div class="container col-9" style="margin-top: 130px;">
 			<div class="card" style="margin-bottom: 20px;">
@@ -43,8 +44,12 @@
 
 					</table>
 				</div>
-				<div class="card-body" style="min-height: 220px;">${list.content }</div>
-				<div class="card-footer"><input type="file" value="파일">${list.filename }</div>
+				<div class="card-body" style="min-height: 220px;">
+				
+					${list.content }
+					
+					${list.filepath}</div>
+				<!-- <div class="card-footer"></div> -->
 			</div>
 				<%-- <input type="file" value="파일">${list.filename } --%>
 
@@ -59,7 +64,7 @@
 								onclick="location.href='${path}/board/modify/${list.postId}/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';" />
 						</c:if>
 						<input type="button" value="목록" class="btn btn-secondary"
-							onclick="location.href=document.referrer;" />
+							onclick="location.href='${path}/board/list/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';" />
 					</div>
 				</form>
 				<div class="card mb-2 mt-5">
@@ -124,90 +129,70 @@
 			xhr.setRequestHeader(header, token);
 		});
 		//댓글 수정
-		$(document).ready(function() {
+/* 		$(document).ready(function() {
 			$("#boardwrite").click(function() {
 
 			});
-		});
-		$(document)
-				.ready(
-						function() {
-							$(".comment-btn-update")
-									.click(
-											"click",
-											function() {
-												let cId = $(this).attr(
-														"data_cid");
-												let cName = $(this).attr(
-														"data_cname");
-												let content = $(this).attr(
-														"data_content");
-												console.log(cId);
-												console.log(cName);
-												console.log(content);
-												let updateForm = '';
-												updateForm += '<ul id="commentbox'+cId+'" class="list-group" >';
-												updateForm += '<li class="list-group-item d-flex justify-content-between">';
-												updateForm += '<textarea class="form-control" id="updateContent" rows="1">'
-														+ content
-														+ '</textarea>';
-												updateForm += '<div class="d-flex">';
-												updateForm += '<div class="text-monospace">';
-												updateForm += '' + cName + '';
-												updateForm += '</div>';
-												updateForm += '<button id="" class="badge btn-warning update-comment">수정</button>';
-												updateForm += '<span> | </span>';
-												updateForm += '<button id="" class="badge btn-danger update-close">취소</button>';
-												updateForm += '</div>';
-												updateForm += '</li>';
-												updateForm += '</ul>';
-												$("#commentbox" + cId)
-														.replaceWith(updateForm);
-												$("#updateContent").focus();
-												$(".update-close").click(
-														function() {
-															console.log("되니?");
-															location.reload();
-														});
-												$(".update-comment")
-														.click(
-																function() {
-																	let updateContent = $(
-																			"#updateContent")
-																			.val();
-																	console
-																			.log(cId);
-																	console
-																			.log(updateContent);
-																	$
-																			.ajax(
-																					{
-																						type : "POST",
-																						url : '/commentUpdate',
-																						data : JSON
-																								.stringify({
-																									commentId : cId,
-																									commentContent : updateContent
-																								}),
-																						contentType : "application/json; charset=utf-8",
-																						dataType : "text",
-																					})
-																			.done(
-																					function(
-																							res) {
-																						alert("댓글수정이 완료되었습니다.");
-																						location.href = "/board/${postId}";
-																					})
-																			.fail(
-																					function(
-																							err) {
-																						alert(JSON
-																								.stringify(err));
-																					});
-																});
-											});
+			});
+		}); */
+		$(document).ready(function() {
+			$(".comment-btn-update").click("click",function() {
+				let cId = $(this).attr(
+				"data_cid");
+				let cName = $(this).attr(
+				"data_cname");
+				let content = $(this).attr(
+				"data_content");
+				console.log(cId);
+				console.log(cName);
+				console.log(content);
+				let updateForm = '';
+				updateForm += '<ul id="commentbox'+cId+'" class="list-group" >';
+				updateForm += '<li class="list-group-item d-flex justify-content-between">';
+				updateForm += '<textarea class="form-control" id="updateContent" rows="1">'
+				+ content
+				+ '</textarea>';
+				updateForm += '<div class="d-flex">';
+				updateForm += '<div class="text-monospace">';
+				updateForm += '' + cName + '';
+				updateForm += '</div>';
+				updateForm += '<button id="" class="badge btn-warning update-comment">수정</button>';
+				updateForm += '<span> | </span>';
+				updateForm += '<button id="" class="badge btn-danger update-close">취소</button>';
+				updateForm += '</div>';
+				updateForm += '</li>';
+				updateForm += '</ul>';
+				$("#commentbox" + cId).replaceWith(updateForm);
+				$("#updateContent").focus();
+				$(".update-close").click(function() {
+							console.log("되니?");
+							location.reload();
+							});
+							$(".update-comment").click(function() {
+								let updateContent = $("#updateContent").val();
+									console.log(cId);
+									console.log(updateContent);
+									$.ajax({
+											type : "POST",
+											url : '/commentUpdate',
+											data : JSON.stringify({
+												commentId : cId,
+												commentContent : updateContent
+												}),
+												contentType : "application/json; charset=utf-8",
+												dataType : "text",
+												}).done(
+													function(res) {
+													alert("댓글수정이 완료되었습니다.");
+													window.location.reload();
+													}).fail(function(err) {
+															alert(JSON.stringify(err));
+													});
+										});
 						});
-	</script>
+
+		});
+
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -219,37 +204,115 @@
 		let postId = $("#postId").val();
 		$("#comment-btn-save").click(function() {
 			let data = {
-				commentContent : $("#commentContent").val()
-			}
-			console.log(data);
-			console.log(postId);
-			$.ajax({
-				type : "POST",
-				url : '/commentSave/${postId}',
-				data : JSON.stringify(data),
-				contentType : "application/json; charset=utf-8",
-			//dataType: "json"
-			}).done(function(res) {
-				alert("댓글작성이 완료되었습니다.");
-				location.href = "/board/${postId}";
-			}).fail(function(err) {
-				alert(JSON.stringify(err));
-			});
-		});
-		$(".comment-btn-delete").click(function() {
-			let commentId = $(this).val();
-			console.log(commentId);
-			console.log(postId);
-			$.ajax({
-				type : "DELETE",
-				url : '/commentDelete/${postId}/' + commentId,
-			}).done(function(res) {
-				alert("댓글삭제가 완료되었습니다.");
-				location.href = '/board/${postId}';
-			}).fail(function(err) {
-				alert(JSON.stringify(err));
-			});
+	            commentContent: $("#commentContent").val()
+	        }
+	        console.log(data);
+	        console.log(postId);
+	       $.ajax({
+	            type: "POST",
+	            url: '/commentSave/${postId}',
+	            data: JSON.stringify(data),
+	            contentType: "application/json; charset=utf-8",
+	            //dataType: "json"
+	        }).done(function (res) {
+	        	
+	        	if (socket) {
+					// websocket에 보내기!! (reply,댓글작성자,게시글작성자,글번호)
+					let socketMsg = "reply," + "${nick}" + "," + "${list.memberDTO.nickname}" + "," + ${postId};
+					socket.send(socketMsg);
+				}
+	        	
+	            alert("댓글작성이 완료되었습니다.");
+	            location.href = "/board/${postId}";
+	            
+	            
+	        }).fail(function (err) {
+	            alert(JSON.stringify(err));
+	        });
+
+	});
+
+	$(".comment-btn-delete").click(function(){
+		let commentId=$(this).val();
+		console.log(commentId);
+		console.log(postId);
+	    $.ajax({
+			type:"DELETE",
+			url:'/commentDelete/${postId}/'+commentId,
+		}).done(function (res) {
+            alert("댓글삭제가 완료되었습니다.");
+            location.href = '/board/${postId}';
+        }).fail(function (err) {
+            alert(JSON.stringify(err));
+        });
+	});
+});
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		gBno = '${postId}';
+		gBoardWriter = '${nick}';
+		gIsDirect = true;
+		$('#comment-btn-save').on('click', function(evt) {
+			evt.preventDefault();
+			if (socket.readyState !== 1)
+				return;
+			let msg = $('textarea#commentContent').val();
+			socket.send(msg);
 		});
 	});
+/* 	$(document).ready(	function() {
+		// var $boxFooter = $("section.content div.box-footer");
+
+
+		//listPage(1, '${postId}'); // QQQ
+		gBno = '${postId}';
+		gBoardWriter = '${postId}';
+
+		//$('#myModal').modal('show');
+		
+	    showAttaches(${postId});	
+	    
+	    gIsDirect = true;
+	    
+	    $('#btnSend').on('click', function(evt) {
+	    	evt.preventDefault();
+	    	if (socket.readyState !== 1) return;
+	    	
+	   	    let msg = $('textarea#commentContent').val();
+	   	    socket.send(msg);
+	   	});
+	    
+	}); */ */
+	/* function save() {
+		let jsonData = getValidData( $('#replyer'), $('#replytext') );
+		if (!jsonData) return;
+		
+		let url = gIsEdit ? "/replies/" + gRno : "/replies/",
+			method = gIsEdit ? 'PATCH' : 'POST';
+		
+		console.debug("QQQ>>", gIsEdit, gBno)
+		if (!gIsEdit)
+			jsonData.bno = gBno;//게시글 번호
+		
+		sendAjax(url, (isSuccess, res) => {
+			if (isSuccess) {
+				let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다." : "댓글이 등록되었습니다.";  
+				alert(resultMsg);
+				listPage(gIsEdit ? gPage : 1);
+				closeMod();
+
+				if (socket) {
+					// websocket에 보내기!! (reply,댓글작성자,게시글작성자,글번호)
+					let socketMsg = "reply," + jsonData.replyer + "," + gBoardWriter + "," + gBno;
+					console.debug("sssssssmsg>>", socketMsg)
+					socket.send(socketMsg);
+				}
+			} else {
+				console.debug("Error on editReply>>", res);
+			}
+		}, method, jsonData);
+	} */
 </script>
 </html>

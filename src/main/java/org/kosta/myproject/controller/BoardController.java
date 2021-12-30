@@ -244,29 +244,28 @@ public class BoardController {
 	@RequestMapping(value = "/{postId}")
 	public String getPostDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			Authentication authentication, Model model, @PathVariable int postId) {
-
+		
+//		System.out.println(authentication.getDetails());
+//		System.out.println(response);
+//		
 		Cookie cookie = new Cookie("postId", Integer.toString(postId));
 		response.addCookie(cookie);
 		Cookie[] cookies = request.getCookies();
 		int visitor = 0;// 쿠키들을 불러오고 쿠키가 있는지 변수확인
 
-		System.out.println(cookies);
 
 		for (Cookie cookie1 : cookies) {
-			System.out.println(cookie.getName());
 			if (cookie1.getName().equals("visit")) {// 쿠키들 중에 visit이름이 있는지 확인
 				visitor = 1;
-				System.out.println("visit통과");
+
 				if (cookie1.getValue().contains(Integer.toString(postId))) {
 					// visit 안에 접속한 페이지 번호가 있는지 확인
-					System.out.println(cookies);
 
-					System.out.println("visitif통과");
 				} else {
 					cookie1.setValue(cookie1.getValue() + "_" + Integer.toString(postId));
 					response.addCookie(cookie1);
 					boardMapper.hitsUpdate(postId);
-					System.out.println(cookies);
+
 
 				} // 쿠키에 페이지번호가없다면 추가해주고 카운트 늘리기
 
@@ -283,16 +282,19 @@ public class BoardController {
 		model.addAttribute("store", storeMapper.getStoreDetail(postId));
 		model.addAttribute("comment", commentBoardMapper.findByComment(postId));
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
-		System.out.println(userDetails);
+//		System.out.println(userDetails);
 		String nickname = userDetails.getNickname();
 		int memberId=userDetails.getMemberId();
 		model.addAttribute("nick", nickname);
+
 		model.addAttribute("userMemberId", memberId);
 		System.out.println(nickname);
 		System.out.println(boardMapper.getpostDetail(postId).memberDTO.getNickname());
+
 		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));
 
 		return "board/board-detail.tiles2";
+
 	}
 
 	@RequestMapping("/delete/{postId}/{boardId}/{categoryId}")

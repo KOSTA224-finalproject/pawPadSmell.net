@@ -161,11 +161,12 @@
 
 	<select id="getpostDetail" resultMap="boardRM1">
 		select b.title,
-		b.content,b.post_id,
+		b.content, b.post_id,
 		m.nickname, b.regdate,b.hits,
 		b.category_id,
 		b.board_id, c.category_name,
 		b.filename,
+		b.filepath,
 		b.comment_count
 		from category c,
 		g_board
