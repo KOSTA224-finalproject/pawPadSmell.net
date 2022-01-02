@@ -16,8 +16,8 @@
 
 <body>
 	<sec:authorize access="isAuthenticated()">
-
-		<div class="container px-4 px-lg-5" style="margin-top: 130px;">
+	
+		<div class="container col-10 px-4 px-lg-5" style="margin-top: 130px; margin-bottom: 140px;">
 			<!-- <button type="button" class="btn btn-primary"
 			onclick="location.href='/';">메인페이지</button> -->
 			<div style="margin-bottom: 20px; display: inline-block;">
@@ -31,26 +31,28 @@
 				style="float: right;"
 				onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
 			<table class="table table-hover" style="text-align: center;">
-				<tr>
-					<td>No</td>
-					<td>작성자</td>
-					<td width="60%">제목</td>
-					<td>날짜</td>
-					<td>조회수</td>
-					<td>댓글수</td>
-				</tr>
-
-				<c:forEach var="dto" items="${list}">
+				<thead>
 					<tr>
-						<td>${dto.postId}</td>
-						<td>${dto.memberDTO.nickname}</td>
-						<td><a style="color: #000; text-decoration: none;"
-							href="<c:url value='/board/${dto.postId}'/>"> ${dto.title} </a></td>
-						<td>${dto.regdate}</td>
-						<td>${dto.hits}</td>
-						<td>${dto.commentCount}</td>
+						<th>No</th>
+						<th>작성자</th>
+						<th width="60%">제목</th>
+						<th>날짜</th>
+						<th>조회수</th>
+						<th>댓글수</th>
 					</tr>
-				</c:forEach>
+				</thead>
+				<tbody>
+					<c:forEach var="dto" items="${list}">
+						<tr>
+							<td>${dto.postId}</td>
+							<td>${dto.memberDTO.nickname}</td>
+							<td><a style="color: #000; text-decoration: none;" href="<c:url value='/board/${dto.postId}'/>"> ${dto.title} </a></td>
+							<td>${dto.regdate}</td>
+							<td>${dto.hits}</td>
+							<td>${dto.commentCount}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 
 
@@ -87,6 +89,7 @@
 					</c:if>
 				</ul>
 			</nav>
+			</div>
 	</sec:authorize>
 
 </body>

@@ -71,18 +71,41 @@
 							<a class="dropdown-item" href="${path}/board/list/1/5">FISH</a> <a
 								class="dropdown-item" href="${path}/board/list/1/6">ETC</a>
 						</div></li>
-					<li class="nav-item"><a class="nav-link" href="/updateForm"><h4
-								>회원정보수정</h4></a></li>
+					<li class="nav-item"><a class="nav-link" href="/updateForm"><h4>회원정보수정</h4></a></li>
 					
 				</ul>
 			</div>
 		</div>
-		<div class="alert alert-dark" id="socketAlert" role="alert">
-						<span id="output"></span>
-					</div>
+		<div class="alert alert-secondary" id="socketAlert" role="alert" style="top:5px; right: 50px;;">
+			<span id="output"></span>
+		</div>
 	</nav>
 
+	<div id="modal" class="modal">
+		<div class="modal-dialog">
 
+			<div class="modal-content">
+				
+				<!-- Modal Header -->
+      			<div class="modal-header">
+        			<h4 class="modal-title">알림</h4>
+        			<!-- <button type="button" class="close" onclick="closemodal()" data-dismiss="modal">&times;</button> -->
+      			</div>
+
+      <!-- Modal body -->
+      			<div class="modal-body" id="modal-content-socket">
+       				<!-- <a href="javascript:void(0);" onclick="closemodal();">X</a> -->
+      			</div>
+
+      <!-- Modal footer -->
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-danger" onclick="closemodal()" data-dismiss="modal">Close</button>
+      			</div>
+				
+
+			</div>
+		</div>
+	</div>
 
 
 	<script type="text/javascript">
@@ -115,7 +138,6 @@
 			return true;
 		}
 	</script>
-	</nav>
 </sec:authorize>
 <%-- 비회원 사용자가 보는 메뉴 --%>
 <sec:authorize access="isAuthenticated()==false">

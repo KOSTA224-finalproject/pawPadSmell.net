@@ -114,7 +114,7 @@
 							type="text" name="address1" id="sample2_postcode"
 							placeholder="우편번호" readonly="readonly"> <br> <input
 							class="btn btn-light btn-xl bg-primary"
-							style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
+							style="position: relative; margin: 0; padding: 0; height: 42px; width: 25%; left: 2%; top:-17px; font-weight: bold;"
 							type="button" onclick="sample2_execDaumPostcode()"
 							value="우편번호 찾기"> <br> <input
 							class="form-control  input-box bg-100"
