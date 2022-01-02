@@ -36,7 +36,7 @@ function connectWS() {
 }
 
 </script>
-<div class="container-fluid text-center" id="up-on-scroll">
+<div class="text-center" id="up-on-scroll">
 
 <!-- <section class="page-section bg-whitle text-black" id="up-on-scroll">
       <div class="container px-4 px-lg-5 text-center" id="up-on-scroll">
@@ -49,7 +49,7 @@ function connectWS() {
       
    </section> -->
    <div class="bg-light py-5" id="up-on-scroll">
-      <div class="container px-4 px-lg-5">
+      <div class="px-4 px-lg-5">
          <div class="text-center text-muted">Copyright &copy; 2021
             - Kosta224 pawPadSmell</div>
             <a href="https://github.com/KOSTA224-finalproject/pawPadSmell.net">Github</a>

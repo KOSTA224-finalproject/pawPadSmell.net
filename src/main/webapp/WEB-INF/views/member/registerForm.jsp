@@ -107,12 +107,12 @@
 						<br> <input class="form-control"
 							style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
 							type="text" name="address1" id="sample2_postcode"
-							placeholder="우편번호" readonly="readonly"> <br> <input
-							class="btn btn-light btn-xl bg-primary"
-							style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
+							placeholder="우편번호" readonly="readonly"> <br> 
+							<input class="btn btn-light btn-xl bg-primary"
+							style="position: relative; margin: 0; padding: 0; height: 42px; width: 25%; left: 2%; top:-17px; font-weight: bold;"
 							type="button" onclick="sample2_execDaumPostcode()"
-							value="우편번호 찾기"> <br> <input
-							class="form-control  input-box bg-100"
+							value="우편번호 찾기"> <br> 
+							<input class="form-control  input-box bg-100"
 							style="background-color: white; font-weight: 500;" type="text"
 							name="address2" id="sample2_address" placeholder="주소"
 							readonly="readonly"><br> <input
