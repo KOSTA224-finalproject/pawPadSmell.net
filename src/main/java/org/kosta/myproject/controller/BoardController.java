@@ -69,7 +69,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("/writepro/{boardId}/{categoryId}")
-	public String boardWrite(Authentication authentication, BoardDTO boardDTO, Model model,  MultipartFile file,
+	public String boardWrite(HttpSession session, Authentication authentication, BoardDTO boardDTO, Model model,  MultipartFile file,
 			@PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId)
 			throws IllegalStateException, IOException {// 작성한 글 및 파일 업로드 처리
 		
@@ -100,7 +100,7 @@ public class BoardController {
 		boardDTO.setCategoryDTO(categoryDTO);
 		model.addAttribute(categoryDTO);
 		System.out.println("***********************");
-		System.out.println(file.isEmpty());//파일이 선택되지 않았다면 true
+		System.out.println("파일이 있으면 false >> " + file.isEmpty());//파일이 선택되지 않았다면 true
 		if(file.isEmpty()==false) {
 		/*
 		 * boardDTO.setMemberDTO(memberDTO); System.out.println(boardDTO);
@@ -109,13 +109,22 @@ public class BoardController {
 		 * nickname = userDetails.getNickname(); //String nickname =
 		 * memberDTO.getNickname(); model.addAttribute("nick", nickname);
 		 */
-		System.out.println(boardDTO.toString()+"  "+memberDTO.toString()+ " " + categoryDTO.toString());
+		//System.out.println(boardDTO.toString()+"  "+memberDTO.toString()+ " " + categoryDTO.toString());
 		//System.out.println(boardDTO.getBoardTypeDTO().getBoardId()+boardDTO.getCategoryDTO().getCategoryId());
 		
 		// 1. 실제 파일이 저장되는 경로 지정
 		// System.getProperty(“user.dir”) -> 현재 작업 디렉토리
-		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
+		//System.out.println(System.getProperty("user.dir"));//C:\kosta224\study\FINAL_PROJECT\GIT_FINAL\pawPadSmell.net
+		
+		//String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		//C:\kosta224\study\FINAL_PROJECT\WORKSPACE_FINAL\.metadata
+		
+		//String projectPath = "C:\\kosta224\\study\\FINAL_PROJECT\\WORKSPACE_FINAL\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\eMall\\imgUpload";
+	
+		String projectPath = session.getServletContext().getRealPath("/")+"newfiles";
+		System.out.println(projectPath);//C:\kosta224\study\FINAL_PROJECT\GIT_FINAL\pawPadSmell.net\src\main\webapp\
+	
+		//src="${pageContext.request.contextPath}/upload/default.jpg"
 		// 2. UUID로 식별자 랜덤으로 이름 만들어줌
 		// UUID : 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
 		// 랜덤으로 파일 이름 생성
@@ -125,7 +134,7 @@ public class BoardController {
 		// 3. uuid+원래 파일이름 = 새로운 파일이름 // 같은 이름의 파일을 업로드 시 기존의 파일 덮어쓰기 방지를 위함.
 		//System.out.println("uuid 는 !!  :  " + uuid);
 		//if(uuid != null){ System.out.println("uuid 생성됨!"); }
-		System.out.println(file.getOriginalFilename());
+		System.out.println(file.getOriginalFilename());//dog1.jpg
 		String fileName = uuid + "_" + file.getOriginalFilename();
 		//System.out.println(fileName);
 		//if(fileName == null){ System.out.println("파일 이름 못 받아옴 ㅠㅜ"); }
@@ -177,13 +186,15 @@ public class BoardController {
 
 
 	@PostMapping("/update/{postId}/{boardId}/{categoryId}")
-	public String boardUpdate(@PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, BoardDTO boardDTO,Authentication authentication, MultipartFile file) throws IllegalStateException, IOException {// 여기 boardDTO에 새로 입력한 내용을 받아옴.
+	public String boardUpdate( HttpSession session, @PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, BoardDTO boardDTO,Authentication authentication, MultipartFile file) throws IllegalStateException, IOException {// 여기 boardDTO에 새로 입력한 내용을 받아옴.
 		
 		
 		if(file.isEmpty()==false) {
 		// 1. 실제 파일이 저장되는 경로 지정
-		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
+		//String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		//String projectPath = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\eMall\\imgUpload";
+			
+		String projectPath = session.getServletContext().getRealPath("/")+"newfiles";
 		// 2. UUID로 식별자 랜덤으로 이름 만들어줌
 		UUID uuid = UUID.randomUUID();
 
