@@ -19,7 +19,7 @@
 <body>
 
 	<sec:authorize access="isAuthenticated()">
-		<div class="container col-9" style="margin-top: 130px;">
+		<div class="container col-9" style="margin-top: 130px; margin-bottom: 100px;">
 			<div class="card" style="margin-bottom: 20px;">
 				<div class="card-header">
 					<table class="table table-borderless">
