@@ -20,7 +20,7 @@
 <sec:authorize access="isAuthenticated()">
 
 	<body>
-		<div class="container px-4 px-lg-5" style="margin-top: 130px;">
+		<div class="container px-4 px-lg-5" style="margin-top: 130px; margin-bottom: 100px;">
 
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
 			<form id="uploadForm" action="/board/update/${postId}/${boardId}/${categoryId}" 
