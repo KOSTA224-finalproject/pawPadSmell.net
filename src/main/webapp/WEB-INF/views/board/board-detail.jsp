@@ -46,8 +46,9 @@
 				</div>
 				<div class="card-body" style="min-height: 220px;">
 
-					${list.content }<br> <img src="${list.filepath}"
-						style="width: 350px;">
+					${list.content }<br> <%-- <img src="${list.filepath}"
+						style="width: 350px;"> --%> <img src="${pageContext.request.contextPath}/newfiles/${list.filename}" style="width: 350px;">
+						<%-- <jsp:include page="../../include/AdminTopFixMenu.jsp" /> --%>
 				</div>
 				<!-- <div class="card-footer"></div> -->
 			</div>
