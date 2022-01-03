@@ -31,8 +31,9 @@ public class MypageController {
 	@RequestMapping("member/mypage")
 	public String Mypage(Authentication authentication, MemberDTO memberDTO, Model model, String pageNo,
 			MyPageDTO mypageDTO) {
-		System.out.println("헬로");
 		memberDTO = (MemberDTO) authentication.getPrincipal();
+//		memberDTO = (MemberDTO) authentication;
+		System.out.println(memberDTO);
 		int totalpostcount = boardMapper.getMypageCount(memberDTO.getMemberId());
 		model.addAttribute("mypage",boardMapper.myPageProfile(memberDTO));
 		PagingBean pagingBean = null;

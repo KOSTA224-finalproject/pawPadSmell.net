@@ -6,7 +6,7 @@ public class MemberDTO implements Serializable {
 	private static final long serialVersionUID = 6440047762418162093L;
 	private int memberId;
 	private String email;
-	private String name;
+	public String name;
 	private String nickname;
 	private String address;
 	private String phonenum;
