@@ -19,6 +19,7 @@ public enum CustomOAuthProvider {
                     .clientSecret("d1AUDB6zHIdJQnAtPGNuQvvWzsfjm99m")
                     .userNameAttributeName("id") // userInfo API Response에서 얻어올 ID 프로퍼티
                     .clientName("Kakao"); // spring 내에서 인식할 OAuth2 Provider Name
+        
         }
     };
 
@@ -31,6 +32,7 @@ public enum CustomOAuthProvider {
         builder.clientAuthenticationMethod(method);
         builder.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE);
         Builder redirectUri = builder.redirectUri(CustomOAuthProvider.DEFAULT_LOGIN_REDIRECT_URL);
+        System.out.println("빌더 들어옴!");
         return builder;
     }
 
