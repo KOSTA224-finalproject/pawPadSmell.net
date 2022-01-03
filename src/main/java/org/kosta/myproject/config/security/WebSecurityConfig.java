@@ -1,15 +1,27 @@
 package org.kosta.myproject.config.security;
 
+import java.util.Date;
+import java.util.LinkedHashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.firewall.DefaultHttpFirewall;
-import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
+
 //스프링 시큐리티 설정 클래스 
 @Configuration
 @EnableWebSecurity
@@ -50,8 +62,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			위의 지정한 url 에는 permitAll() 로그인 인증없이 서비스 되고 
 			그 외의 요청에는 anyRequest().authenticated()  로그인 인증된 사용자만 접근할 수 있다 
 		 */
-		http.authorizeRequests().antMatchers("/", "/home", "/myweb/**", "/guest/**","/replyEcho").permitAll()
-		.anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/", "/home", "/myweb/**", "/guest/**","/replyEcho","/oath2/**").permitAll()
+		.anyRequest().authenticated()
+		.and()
+		.oauth2Login()
+		.successHandler(new MyOAuth2SuccessHandler());
 		
 		// 인증(authentication): 로그인을 위한 설정
 		http.formLogin().loginPage("/guest/loginForm") // 로그인 폼이 있는 url
@@ -68,6 +83,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//Ajax 요청에 대한 인증,인가 확인  
 		http.exceptionHandling().authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/"));
 	}
+
+public class MyOAuth2SuccessHandler implements AuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) {
+        String id = authentication.getName();
+        System.out.println("들어와ㅓㅆ어요" + id);
+
+        LinkedHashMap<String, Object> properties = (LinkedHashMap<String, Object>) ((DefaultOAuth2User)authentication.getPrincipal()).getAttributes().get("properties");
+        String name = (String) properties.get("nickname");
+
+        String token = JWT.create()
+			                .withClaim("id", id)
+			                .withClaim("name", name)
+			                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+			                .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
+
+        res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+    }
+}
 
 	
 

@@ -46,7 +46,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 					TextMessage tmpMsg = new TextMessage(replyWriter + "님이 " + "<a href='/board/" + postId + "'>"
 							+ postId + "</a>번 게시글에 댓글을 달았습니다!");
 					boardWriterSession.sendMessage(tmpMsg);
-					System.out.println("메세지에룔"+tmpMsg);
+					System.out.println("메세지"+tmpMsg);
 				}
 			}
 		}
