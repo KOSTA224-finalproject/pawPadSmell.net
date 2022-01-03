@@ -9,7 +9,6 @@
 		/> </resultMap> -->
   
 	<insert id="boardWrite" useGeneratedKeys="true" keyColumn="post_id" keyProperty="postId"
-
 		parameterType="BoardDTO">
 		insert into g_board(post_id, title, content,
 		member_id,
@@ -84,6 +83,7 @@
 	</resultMap>
 	<resultMap type="BoardDTO" id="boardRM1">
 		<result column="nickname" property="memberDTO.nickname" />
+		<result column="member_id" property="memberDTO.memberId" />
 		<result column="board_id" property="boardTypeDTO.boardId" />
 		<result column="board_name" property="boardTypeDTO.boardId" />
 		<result column="category_id" property="categoryDTO.categoryId" />
@@ -96,6 +96,9 @@
 		<result column="board_name" property="boardTypeDTO.boardName"/>
 		<result column="rnum" property="rnum"/>
 		<result column="category_name" property="categoryDTO.categoryName"/>
+	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM3">
+		<result column="nickname" property="memberDTO.nickname"/>
 	</resultMap>
 
 
@@ -123,7 +126,7 @@
 		select v.rnum, v.post_id,
 		v.title, to_char(v.regdate, 'yyyy-mm-dd')
 		as
-		regdate, m.nickname,
+		regdate, m.nickname, m.member_id,
 		v.hits, v.category_id, v.comment_count,
 		v.board_id
 		from (
@@ -220,4 +223,41 @@
 		update mypage set profile_filename=#{profileFilename} ,profile_filepath=#{profileFilepath},profile_text=#{profileText}
 		where member_id=#{memberDTO.memberId}
 	</update>
+	<select id="searchPost" resultMap="boardRM3">
+		SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname , title
+		FROM (
+		select row_number() over(
+		order by regdate desc)
+		as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
+		from g_board b , g_member m
+		WHERE content LIKE '%'||#{search}||'%' and
+		b.category_id=#{categoryId} and b.board_id=#{boardId} and b.member_id=m.member_id
+		)
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by regdate desc
+	</select>
+	<select id="getSearchCount" resultType="int">
+		select count(*) from g_board where content like '%'||#{search}||'%' and category_id=#{categoryId} and board_id=#{boardId}
+	</select>
+	<select id="getMemberInfo" resultType="mypageDTO">
+		select member_id,profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
+	</select>
+	<select id="getMemberInfoCount" resultType="int">
+		SELECT count(*)
+		FROM g_board
+		WHERE member_id=#{memberId}
+	</select>
+	<select id="getAllMemberInfo" resultMap="boardRM2">
+		select rnum, post_id, title,member_id, to_char(regdate, 'yyyy-mm-dd') as regdate, nickname, hits, category_name,board_name
+		from ( 
+		select row_number() over(
+		order by b.regdate desc) 
+		as rnum, b.post_id, b.title,m.member_id, b.regdate, m.nickname, b.hits, t.board_name, c.category_name
+		from g_board b, g_member m ,boardtype t,category c
+		where b.member_id=m.member_id and b.member_id=#{memberId} and c.category_id=b.category_id and t.board_id=b.board_id
+				) 
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by post_id desc
+	</select>
+	
 </mapper>

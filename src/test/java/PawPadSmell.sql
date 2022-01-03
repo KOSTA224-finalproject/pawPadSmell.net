@@ -50,7 +50,7 @@ SELECT * FROM g_member;
 DELETE 
   FROM g_member
  WHERE g_member_id = 1;
-delete from g_member where member_id=2;
+delete from g_member where member_id=21;
 commit;
 
 -----------------------------------------------------------------------------------------------
@@ -211,16 +211,20 @@ drop sequence board_seq;
 
 select * from g_board
 
+
 create sequence board_seq;
 
 SELECT count(*)
 FROM g_board
-WHERE member_id=1
+WHERE member_id=1 
 
 
-insert into g_board values(board_seq.nextval,'123갱얼쥐용품팔아여','강아지사용품이에여진',4,
-sysdate,0,2,2,0,null,null);
-
+insert into g_board values(board_seq.nextval,'123팔아여','하이루2',4,
+sysdate,0,1,1,0,null,null);
+insert into g_board values(board_seq.nextval,'검색 test2','하이루1',4,
+sysdate,0,1,1,0,null,null);
+insert into g_board values(board_seq.nextval,'검색 test1','하이루',3,
+sysdate,0,1,1,0,null,null);
 
 
 
@@ -329,6 +333,36 @@ where b.member_id=m.member_id and b.member_id=2 and c.category_id=b.category_id 
 ) 
 where rnum between 1 and 5
 order by post_id desc
+
+
+SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname ,title
+FROM (
+select row_number() over(
+order by regdate desc)
+as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
+from g_board b , g_member m
+WHERE content LIKE '%검색%' and
+b.category_id=1 and b.board_id=1 and b.member_id=m.member_id
+)
+where rnum between 1 and 5
+order by regdate desc
+
+
+SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname ,title
+FROM (
+select row_number() over(
+order by regdate desc)
+as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
+from g_board b , g_member m
+WHERE content LIKE '%하이%' and
+b.category_id=1 and b.board_id=1 and b.member_id=m.member_id
+)
+where rnum between 1 and 5
+order by regdate desc
+
+select * from g_board where board_id=2 and category_id=2
+
+select count(*) from g_board where content like '%검색%'
 
 
 

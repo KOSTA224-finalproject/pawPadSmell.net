@@ -5,65 +5,70 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
+<!-- ajax 통신을 위한 meta tag -->
+<meta name="_csrf" content="${_csrf.token}">
+<meta name="_csrf_header" content="${_csrf.headerName}">
 <head>
 <meta charset="UTF-8">
 <!-- jquery.min.js  <- 제이쿼리 사용시 꼭 필요 -->
-<title>게시물 작성폼</title>
+<title>게시물 수정폼</title>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<style>
-.layout {
-	width: 500px;
-	margin: 0 auto;
-	margin-top: 40px;
-}
-
-.layout input {
-	width: 100%;
-	box-sizing: border-box
-}
-
-.layout textarea {
-	width: 100%;
-	margin-top: 10px;
-	min-height: 300px;
-}
-</style>
-<sec:csrfInput />
+<%-- <sec:csrfInput /> --%>
 <sec:authorize access="isAuthenticated()">
 
 	<body>
-		<div class="layout">
+		<div class="container px-4 px-lg-5" style="margin-top: 130px; margin-bottom: 100px;">
 
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
-			<form action="/board/writepro/${boardId}/${categoryId}" 
-				enctype="multipart/form-data">
-				<span class="label label-danger">${list.categoryDTO.categoryName}</span>
-				<span class="label label-primary">${list.hits}</span><br>
-				작성자: ${nick} <input name="title" type="text"
-					value="${list.title}">
-				<textarea name="content">${list.content}</textarea>
-
-				<input type="file" name="file">
-				<!-- 
-            name 값이름 지정 시 서버에서 이 이름으로 데이터를 얻게 된다. 
-            accept는 전송 허용 가능한 파일의 타입을 지정하는 것 -> 악성 파일 공격 대비
-            ex)
-             accept="image/png, image/jpeg"
-            -->
-				<button id="btn_boardwrite" type="submit">작성</button>
+			<form id="uploadForm" action="/board/update/${postId}/${boardId}/${categoryId}" 
+				enctype="multipart/form-data" method="post">
+				<%-- <input type="hidden" name="postId" value="${boardDTO.postId}"> --%>
+				<div class="card">
+					<div class="card-header form-group">
+						<sec:csrfInput />
+						<span class="badge badge-danger">${boardname.boardName}</span>
+						<span class="badge badge-primary">${categoryname.categoryName}</span> <br>
+						<span>작성자: ${nick}</span>
+						<input class="form-control" name="title" type="text" value=${boardDTO.title}>
+					</div>
+					<div class="card-body form-group">
+						<textarea name="content" class="form-control" rows="10">${boardDTO.content}</textarea>
+					</div>
+					<div class="card-footer" >
+						<input type="file" class="form-control" name="file" accept=".gif, .jpg, .png, .PNG">
+					</div>
+				</div>
+				<button id="btn_modify" class="btn btn-primary" type="submit" style="position: relative; float:right; margin-top: 15px;">수정</button>
 			</form>
+			<!-- 			<form >
+			    <input type="file" name="file" />
+			    <button type="button" id="uploadBtn">Save</button>
+			</form> -->
 		</div>
+		
 	</body>
+	
+	<script type="text/javascript">
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	}); 
+	
+	
+	
+	$(function(){
+		$("#btn_modify").click(function(){
+			$("#uploadForm").submit(function(){
+				return confirm("수정 하시겠습니까?😊");//return false 하면 이동되지 않는다 
+			});
+		});
+	});
+		
+	
+	</script>
 </sec:authorize>
 </html>

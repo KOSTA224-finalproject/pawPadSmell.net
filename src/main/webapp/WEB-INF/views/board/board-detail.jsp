@@ -19,7 +19,7 @@
 <body>
 
 	<sec:authorize access="isAuthenticated()">
-		<div class="container col-9" style="margin-top: 130px;">
+		<div class="container col-9" style="margin-top: 130px; margin-bottom: 100px;">
 			<div class="card" style="margin-bottom: 20px;">
 				<div class="card-header">
 					<table class="table table-borderless">
@@ -46,8 +46,13 @@
 				</div>
 				<div class="card-body" style="min-height: 220px;">
 
-					${list.content }<br> <img src="${list.filepath}"
-						style="width: 350px;">
+					${list.content }<br> <%-- <img src="${list.filepath}"
+						style="width: 350px;"> --%> 
+						<c:set var="name" value="${list.filename}"/>
+						<c:if test="${name ne null}">
+						    <img src="${pageContext.request.contextPath}/newfiles/${list.filename}" style="width: 350px;">
+						</c:if>
+						<%-- <jsp:include page="../../include/AdminTopFixMenu.jsp" /> --%>
 				</div>
 				<!-- <div class="card-footer"></div> -->
 			</div>

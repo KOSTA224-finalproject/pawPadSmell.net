@@ -4,7 +4,7 @@
 <%-- spring security custom tag를 사용하기 위한 선언 --%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<sec:authentication property="principal" var="member" />
+<%-- <sec:authentication property="principal" var="member" /> --%>
 <html>
 
 <!-- ajax 통신을 위한 meta tag -->
@@ -36,7 +36,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>mypage</title>
+<title>회원 정보 조회 페이지</title>
 
 </head>
 
@@ -60,51 +60,25 @@
 		<div class="container">
 			<div class="row pt-5 h-100">
 				<div class="col-lg-7 mx-auto text-center mt-7 mb-5">
-				<c:choose>
-					<c:when test="${mypage==null }">
-					<h1>마이페이지</h1>
+							<h1>회원 정보 조회</h1>
 					<br>
 					<h2>프로필사진</h2>
-					<img src=""
-						style="width: 350px;">
-					<form action="mypage/upload" method="post" enctype="multipart/form-data">
-						<input type="file" name="file">
-						<h2>자기소개글입니다</h2>
-						<div class="form-floating mb-3">
-							<sec:csrfInput />
-							<input class="form-control"
-								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="profileText" id="aa" placeholder="자기소개글"> <br>
-							<button  class="btn btn-light btn-xl bg-primary"
-								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
-								>저장</button>
-					</form>
-					</c:when>
-					<c:otherwise>
-							<h1>마이페이지</h1>
-					<br>
-					<h2>프로필사진</h2>
-					<form id="fileForm" method="post" enctype="multipart/form-data">
 					<img src="${mypage.profileFilepath}"
 						style="width: 350px;">
 						<h2>자기소개글입니다</h2>
-						<input type="file" name="file" id="file"  multiple>
 						<div class="form-floating mb-3">
 							<sec:csrfInput />
-							<input class="form-control"
-								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > <br>
-							<button type="button" id="updateBtn" class="btn btn-light btn-xl bg-primary"
-								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
-								>수정</button>
-					</form>
-					</c:otherwise>
-				</c:choose>
+							<input class="form-control"	
+								style="text-align:center; font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: center; margin-bottom: 20px; background-color: white; "
+								type="text" name="profileText" id="profileText" placeholder="아직 자기소개글을 작성하지 않았습니다" value="${mypage.profileText }"  > <br>
+<%-- 							<input class="form-control"
+								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: center; margin-bottom: 20px; background-color: white; "
+								type="text" name="profileText" id="profileText" placeholder="아직 자기소개글을 작성하지 않았습니다" value="${mypage.profileText }"  > <br> --%>
 				</div>
 			</div> 
-			<br>
+			<br> 
 
-			<h2>${member.name }님이작성하신 글 목록입니다!</h2>
+			<h2>${member.name}님이 작성하신 글 목록입니다!</h2>
 
 			<table border="1" width="900px">
 				<tr>
@@ -122,13 +96,13 @@
 
 
 					<tr>
-						<td>${dto.boardTypeDTO.boardName},${dto.categoryDTO.categoryName}</td>
-						<td>${dto.memberDTO.nickname}내용</td>
+						<td>${dto.boardTypeDTO.boardName} / ${dto.categoryDTO.categoryName}</td>
+						<td>${dto.memberDTO.nickname}</td>
 						<td><a href="<c:url value='/board/${dto.postId}'/>">
 								${dto.title} </a></td>
-						<td>내용${dto.regdate}</td>
-						<td>내용${dto.hits}</td>
-						<td>내용${dto.commentCount}</td>
+						<td>${dto.regdate}</td>
+						<td>${dto.hits}</td>
+						<td>${dto.commentCount}</td>
 					</tr>
 
 				</c:forEach>
@@ -173,6 +147,8 @@
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	}); 
+	
+/*
 $(function(){
 	$("#updateBtn").click(function(){
 		var form=$("#fileForm")[0];
@@ -196,7 +172,7 @@ $(function(){
 		})
 	});
 });
-
+*/
 
 
 </script>
