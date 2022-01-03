@@ -2,11 +2,15 @@ package org.kosta.myproject.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.kosta.myproject.model.domain.BoardDTO;
 import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.domain.MyPageDTO;
 import org.kosta.myproject.model.domain.PagingBean;
@@ -15,6 +19,7 @@ import org.kosta.myproject.model.mapper.MemberMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,6 +150,41 @@ public class MypageController {
 	       System.out.println("mypageDTO:"+" "+mypageDTO);
 	       boardMapper.updateProfile(mypageDTO);
 		
+	}
+	
+	@RequestMapping("member/{memberId}")
+	public String memberInfo( Authentication authentication, Model model, String pageNo,
+		MyPageDTO mypageDTO, @PathVariable int memberId, MemberDTO memberDTO ) {
+		
+		System.out.println(memberId);
+		memberDTO = memberMapper.getMember(memberId);
+		
+		mypageDTO = boardMapper.getMemberInfo(memberId);
+		System.out.println("첫번째 mypageDTO >>>> "+mypageDTO);
+		//mypageDTO.setMemberDTO(memberDTO);  //java.lang.NullPointerException: null
+		//System.out.println("두번째 mypageDTO >>>> "+mypageDTO);   
+		
+		model.addAttribute("mypage", mypageDTO);
+		model.addAttribute("member", memberDTO);
+		System.out.println(memberDTO);
+		
+		int totalpostcount = boardMapper.getMemberInfoCount(memberId);
+		PagingBean pagingBean = null;
+
+		if (pageNo == null)
+			pagingBean = new PagingBean(totalpostcount);
+		else {
+			pagingBean = new PagingBean(totalpostcount, Integer.parseInt(pageNo));
+		}
+
+		model.addAttribute("pagingBean", pagingBean);
+		
+		  model.addAttribute("list",
+		  boardMapper.getAllMemberInfo(memberId,
+		  pagingBean.getStartRowNumber(), pagingBean.getEndRowNumber()));
+		  //List<BoardDTO> getAllMemberInfo(int memberId,int getStartRowNumber, int getEndRowNumber );//회원 정보 조회 - 작성한 게시글 리스트
+		
+		return "member/memberInfo";
 	}
 
 }

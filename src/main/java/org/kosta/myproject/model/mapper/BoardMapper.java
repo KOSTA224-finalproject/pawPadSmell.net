@@ -50,6 +50,12 @@ public interface BoardMapper {
 	void myPageWrite(MyPageDTO mypageDTO);
 
 	MyPageDTO myPageProfile(MemberDTO memberDTO);
+	
+	MyPageDTO getMemberInfo(int memberId);//회원 정보 조회
+	
+	List<BoardDTO> getAllMemberInfo(int memberId,int getStartRowNumber, int getEndRowNumber );//회원 정보 조회 - 작성한 게시글 리스트
+	
+	int getMemberInfoCount(int memberId);//회원 정보 조회 - 회원이 작성한 게시물 수
 
 	void commentUpdateUp(int postId);
 
@@ -64,5 +70,5 @@ public interface BoardMapper {
 
 	int getSearchCount(int boardId, int categoryId,String search);
 
-
+	
 }
