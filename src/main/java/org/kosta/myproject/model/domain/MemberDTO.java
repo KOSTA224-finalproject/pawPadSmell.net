@@ -131,4 +131,5 @@ public class MemberDTO implements Serializable {
 				+ ", enable=" + enable + "]";
 	}
 
+
 }

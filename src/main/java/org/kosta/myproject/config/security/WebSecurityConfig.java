@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -28,6 +27,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 //@Secured @PreAuthorize, @PostAuthorize 애노테이션을 사용하여 인증,인가 처리를 하고 싶을때 사용하는 옵션
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 
 	//비밀번호 암호화를 위한 bean 생성 -> MemberService 에서 비번 암호화를 위해 사용 , 
 	//MemberAuthenticationProvider 에서 비번 일치여부를 위해 사용 
@@ -62,11 +62,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			위의 지정한 url 에는 permitAll() 로그인 인증없이 서비스 되고 
 			그 외의 요청에는 anyRequest().authenticated()  로그인 인증된 사용자만 접근할 수 있다 
 		 */
-		http.authorizeRequests().antMatchers("/", "/home", "/myweb/**", "/guest/**","/replyEcho","/oath2/**").permitAll()
+		http.authorizeRequests().antMatchers("/", "/home", "/myweb/**", "/guest/**","/replyEcho","/oauth2/**").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.oauth2Login()
-		.successHandler(new MyOAuth2SuccessHandler());
+		.userInfoEndpoint() // oauth2 로그인 성공 후 가져올 때의 설정들
+		.customUserType(KakaoOAuth2User.class, "kakao");
+        // 소셜로그인 성공 시 후속 조치를 진행할 UserService 인터페이스 구현체 등록
+//       .userService(customOAuth2UserService); // 리소스 서버에서 사용자 정보를 가져온 상태에서 추가로 진행하고자 하는 기능 명시
+
 		
 		// 인증(authentication): 로그인을 위한 설정
 		http.formLogin().loginPage("/guest/loginForm") // 로그인 폼이 있는 url
