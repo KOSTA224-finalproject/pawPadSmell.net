@@ -85,6 +85,8 @@ h1, h2, h3, h4, h5, h6, p {
   font-family: 'Noto Sans KR', sans-serif;
 } 
 
+#mainNav.h4 { margin-top: 8px; }
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -181,6 +183,7 @@ address {
   font-style: normal;
   line-height: inherit;
 }
+
 
 ol,
 ul {
@@ -5536,6 +5539,21 @@ textarea.form-control-lg {
   align-items: center;
   min-height: calc(100% - 1rem);
 }
+
+#modal-content-socket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+
 
 .modal-content {
   position: relative;

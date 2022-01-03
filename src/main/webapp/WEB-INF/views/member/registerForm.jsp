@@ -107,12 +107,12 @@
 						<br> <input class="form-control"
 							style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
 							type="text" name="address1" id="sample2_postcode"
-							placeholder="우편번호" readonly="readonly"> <br> <input
-							class="btn btn-light btn-xl bg-primary"
-							style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
+							placeholder="우편번호" readonly="readonly"> <br> 
+							<input class="btn btn-light btn-xl bg-primary"
+							style="position: relative; margin: 0; padding: 0; height: 42px; width: 25%; left: 2%; top:-17px; font-weight: bold;"
 							type="button" onclick="sample2_execDaumPostcode()"
-							value="우편번호 찾기"> <br> <input
-							class="form-control  input-box bg-100"
+							value="우편번호 찾기"> <br> 
+							<input class="form-control  input-box bg-100"
 							style="background-color: white; font-weight: 500;" type="text"
 							name="address2" id="sample2_address" placeholder="주소"
 							readonly="readonly"><br> <input
@@ -195,6 +195,7 @@
 											if (result == 1) {
 												document.getElementById("idck").style.color = "red";
 												document.getElementById("idck").innerHTML = "이미 사용중인 아이디입니다.";
+
 												$("#reg_submit").attr("disabled",true);
 												i = 1;
 											} else {
@@ -202,6 +203,7 @@
 												document.getElementById("idck").innerHTML = "사용 가능한 아이디입니다.";
 												$("#reg_submit").attr("disabled",false);
 												i = 0;
+
 											}
 										}
 									});
@@ -216,7 +218,7 @@
 		let joinId=document.getElementById("input_id").value;
 		if(joinId==""){
 			alert("아이디를 입력하셔야 합니다.");
-			return result=false;
+			return false;
 		}
 	});
 	$(function() {
@@ -230,6 +232,7 @@
 											if (result == 1) {
 												document.getElementById("idck1").style.color = "red";
 												document.getElementById("idck1").innerHTML = "이미 사용중인 닉네임입니다.";
+
 												$("#reg_submit").attr("disabled",true);
 												return result=false;
 											} else {
@@ -237,6 +240,7 @@
 												document.getElementById("idck1").innerHTML = "사용 가능한 닉네임입니다.";
 												$("#reg_submit").attr("disabled",false);
 												return result=true;
+
 											}
 										}
 									});
@@ -252,13 +256,14 @@
 			if (pass1 != pass2) {
 				document.getElementById("checkPwd").style.color = "red";
 				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치하지 않습니다.";
-				return result=false;
+				return false;
 			} else {
 				document.getElementById("checkPwd").style.color = "green";
 				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치합니다.";
-				return result=true;
+				
 			}
 		});
+
 		$("#reg_submit").click(function(){
 			let password = document.forms[0];
 			let pass1 = password.password.value;
@@ -270,6 +275,7 @@
 			}
 		});
 	});
+
 
 
 </script>

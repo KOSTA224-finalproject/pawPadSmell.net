@@ -6,7 +6,7 @@
 <%-- javascript 한글처리가 안될 때는 변수에 담아서 el로 처리한다  --%>
 <sec:authentication property="principal" var="member"/>
  <script>
- alert("${member.name}+님 회원정보수정되었습니다.");
+ alert("${member.name}님 회원정보수정되었습니다.");
  location.href="/";
  </script>
  </body>

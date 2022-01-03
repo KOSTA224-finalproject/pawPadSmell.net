@@ -18,6 +18,7 @@ import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.domain.PagingBean;
 import org.kosta.myproject.model.mapper.BoardMapper;
 import org.kosta.myproject.model.mapper.CommentBoardMapper;
+import org.kosta.myproject.model.mapper.StoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -37,13 +39,17 @@ public class BoardController {
 	@Resource
 	private CommentBoardMapper commentBoardMapper;
 	@Resource
+	private StoreMapper storeMapper;
+	@Resource
 	private PagingBean pagingBean;
 
 	@Autowired
-	public BoardController(BoardMapper boardMapper, CommentBoardMapper commentBoardMapper, PagingBean pagingBean) {
+	public BoardController(BoardMapper boardMapper, CommentBoardMapper commentBoardMapper, StoreMapper storeMapper,
+			PagingBean pagingBean) {
 		super();
 		this.boardMapper = boardMapper;
 		this.commentBoardMapper = commentBoardMapper;
+		this.storeMapper = storeMapper;
 		this.pagingBean = pagingBean;
 	}
 
@@ -55,7 +61,7 @@ public class BoardController {
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
 		model.addAttribute("boardname", boardMapper.getBoardName(boardId));
 		model.addAttribute("categoryname", boardMapper.getCatName(categoryId));
-		;
+		
 		
 		String nickname = userDetails.getNickname();
 		System.out.println("작성화면으로 들어감!");
@@ -64,7 +70,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("/writepro/{boardId}/{categoryId}")
-	public String boardWrite(Authentication authentication, BoardDTO boardDTO, Model model,  MultipartFile file,
+	public String boardWrite(HttpSession session, Authentication authentication, BoardDTO boardDTO, Model model,  MultipartFile file,
 			@PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId)
 			throws IllegalStateException, IOException {// 작성한 글 및 파일 업로드 처리
 		
@@ -94,7 +100,9 @@ public class BoardController {
 		categoryDTO.setCategoryId(categoryId);
 		boardDTO.setCategoryDTO(categoryDTO);
 		model.addAttribute(categoryDTO);
-		
+		System.out.println("***********************");
+		System.out.println("파일이 있으면 false >> " + file.isEmpty());//파일이 선택되지 않았다면 true
+		if(file.isEmpty()==false) {
 		/*
 		 * boardDTO.setMemberDTO(memberDTO); System.out.println(boardDTO);
 		 * 
@@ -102,12 +110,22 @@ public class BoardController {
 		 * nickname = userDetails.getNickname(); //String nickname =
 		 * memberDTO.getNickname(); model.addAttribute("nick", nickname);
 		 */
-		System.out.println(boardDTO.toString()+"  "+memberDTO.toString()+ " " + categoryDTO.toString());
+		//System.out.println(boardDTO.toString()+"  "+memberDTO.toString()+ " " + categoryDTO.toString());
 		//System.out.println(boardDTO.getBoardTypeDTO().getBoardId()+boardDTO.getCategoryDTO().getCategoryId());
+		
 		// 1. 실제 파일이 저장되는 경로 지정
 		// System.getProperty(“user.dir”) -> 현재 작업 디렉토리
-		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
+		//System.out.println(System.getProperty("user.dir"));//C:\kosta224\study\FINAL_PROJECT\GIT_FINAL\pawPadSmell.net
+		
+		//String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		//C:\kosta224\study\FINAL_PROJECT\WORKSPACE_FINAL\.metadata
+		
+		//String projectPath = "C:\\kosta224\\study\\FINAL_PROJECT\\WORKSPACE_FINAL\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\eMall\\imgUpload";
+	
+		String projectPath = session.getServletContext().getRealPath("/")+"newfiles";
+		System.out.println(projectPath);//C:\kosta224\study\FINAL_PROJECT\GIT_FINAL\pawPadSmell.net\src\main\webapp\
+	
+		//src="${pageContext.request.contextPath}/upload/default.jpg"
 		// 2. UUID로 식별자 랜덤으로 이름 만들어줌
 		// UUID : 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
 		// 랜덤으로 파일 이름 생성
@@ -117,7 +135,7 @@ public class BoardController {
 		// 3. uuid+원래 파일이름 = 새로운 파일이름 // 같은 이름의 파일을 업로드 시 기존의 파일 덮어쓰기 방지를 위함.
 		//System.out.println("uuid 는 !!  :  " + uuid);
 		//if(uuid != null){ System.out.println("uuid 생성됨!"); }
-		System.out.println(file.getOriginalFilename());
+		System.out.println(file.getOriginalFilename());//dog1.jpg
 		String fileName = uuid + "_" + file.getOriginalFilename();
 		//System.out.println(fileName);
 		//if(fileName == null){ System.out.println("파일 이름 못 받아옴 ㅠㅜ"); }
@@ -135,7 +153,10 @@ public class BoardController {
 		// 6. db에 파일명, 파일 경로 저장
 		boardDTO.setFilename(fileName);
 		boardDTO.setFilepath("/files/" + fileName);
-
+		}else {
+			boardDTO.setFilename("");
+			boardDTO.setFilepath("");
+		}
 		boardMapper.boardWrite(boardDTO);
 
 		return "redirect:/board/list/{boardId}/{categoryId}";// 게시글 리스트로 리다이렉트
@@ -143,24 +164,71 @@ public class BoardController {
 
 //---------------------------------------------------------------------------------------------------
 //게시글 수정
-	// @GetMapping("/board/modify/{id}")
-	@GetMapping("/board/modify")
-	public String boardModify(@PathVariable("postId") int postId, Model model, BoardDTO boardDTO) {
+	
+	@GetMapping("/modify/{postId}/{boardId}/{categoryId}")//게시물 상세보기에서 수정 버튼을 누르면 게시글 수정 페이지로 이동 시켜주는 메서드
+	public String boardModify(@PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, Authentication authentication) {//게시글 수정 화면 호출
+		
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("postId", postId);
+		
+		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
+		model.addAttribute("boardname", boardMapper.getBoardName(boardId));
+		model.addAttribute("categoryname", boardMapper.getCatName(categoryId));
+		
+		
+		String nickname = userDetails.getNickname();
+		System.out.println("게시물 수정 페이지로 이동!");
+		model.addAttribute("nick", nickname);
 
-		// model.addAttribute("board", boardMapper.boardWrite(boardDTO)); *************
-		return "boardmodify";
+		model.addAttribute("boardDTO", boardMapper.getpostDetail(postId)); //기존에 있던 게시글 끌어오기 -> 수정 페이지에서 출력용
+		return "board/board-modify.tiles2";
 	}
 
-	@PostMapping("/board/update/{postId}")
-	public String boardUpdate(@PathVariable("postId") int postId, BoardDTO boardDTO) {// 여기 board에 새로 입력한 내용을 받아옴.
-		// 기존의 글을 검색한다.
-		// 기존의 board에서 받아오도록 Board 객체를 만든다.
-		BoardDTO boardTemp = boardMapper.boardUpdate(boardDTO);// 기존에 있던 내용 가져옴.
-		boardTemp.setTitle(boardDTO.getTitle());// 위 매개변수 board로 새롭게 받아온 내용을 기존의 내용에 덮어씌운다.
-		boardTemp.setContent(boardDTO.getContent());
-		return "redirect:board/{postId}.tiles2";
+
+	@PostMapping("/update/{postId}/{boardId}/{categoryId}")
+	public String boardUpdate( HttpSession session, @PathVariable("postId") int postId, @PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId, Model model, BoardDTO boardDTO,Authentication authentication, MultipartFile file) throws IllegalStateException, IOException {// 여기 boardDTO에 새로 입력한 내용을 받아옴.
+		
+		
+		if(file.isEmpty()==false) {
+		// 1. 실제 파일이 저장되는 경로 지정
+		//String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		//String projectPath = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\eMall\\imgUpload";
+			
+		String projectPath = session.getServletContext().getRealPath("/")+"newfiles";
+		// 2. UUID로 식별자 랜덤으로 이름 만들어줌
+		UUID uuid = UUID.randomUUID();
+
+		// 3. uuid+원래 파일이름 = 새로운 파일이름 // 같은 이름의 파일을 업로드 시 기존의 파일 덮어쓰기 방지를 위함.
+		String fileName = uuid + "_" + file.getOriginalFilename();
+
+		// 4. 파일 넣어주는 껍데기 : 파일 생성해주되 경로 설정하고 파일 이름도 받겠다.
+		File saveFile = new File(projectPath, fileName);
+
+		// 5. 업로드된 파일 저장
+		file.transferTo(saveFile); // exception 경고 뜸. throws 해준다.
+
+		// 6. db에 파일명, 파일 경로 저장
+		boardDTO.setFilename(fileName);
+		boardDTO.setFilepath("/files/" + fileName);
+		}else {
+			boardDTO.setFilename("");
+			boardDTO.setFilepath("");
+		}
+		
+		// 기존의 boardDTO를 받아오도록 boardTemp 객체를 만든다.
+		//BoardDTO boardTemp = boardMapper.getpostDetail(postId);// 기존에 있던 게시물
+		//boardTemp.setTitle(boardDTO.getTitle());// 위 매개변수 boardTemp로 새롭게 받아온 내용을 기존의 내용에 덮어씌운다.
+		//boardTemp.setContent(boardDTO.getContent());
+		
+		boardMapper.boardUpdate(boardDTO);//디비에 수정된 내용 업데이트
+		//return "redirect:/board/goDetail/{postId}";
+		return "redirect:/board/{postId}";
+		
 	}
 
+	
+//-------------------------------------------------------
 	@GetMapping("/list/{boardId}/{categoryId}")
 	public String getAllLists(Model model, @PathVariable("boardId") int boardId,
 			@PathVariable("categoryId") int categoryId, String pageNo) {
@@ -186,35 +254,37 @@ public class BoardController {
 		model.addAttribute("list", boardMapper.getAllLists(boardId, categoryId, pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
 
+
+
 		return "board/board-list.tiles2";
+
 	}
 
 	@RequestMapping(value = "/{postId}")
 	public String getPostDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			Authentication authentication, Model model, @PathVariable int postId) {
-
+		
+//		System.out.println(authentication.getDetails());
+//		System.out.println(response);
+//		
 		Cookie cookie = new Cookie("postId", Integer.toString(postId));
 		response.addCookie(cookie);
 		Cookie[] cookies = request.getCookies();
 		int visitor = 0;// 쿠키들을 불러오고 쿠키가 있는지 변수확인
 
-		System.out.println(cookies);
 
 		for (Cookie cookie1 : cookies) {
-			System.out.println(cookie.getName());
 			if (cookie1.getName().equals("visit")) {// 쿠키들 중에 visit이름이 있는지 확인
 				visitor = 1;
-				System.out.println("visit통과");
+
 				if (cookie1.getValue().contains(Integer.toString(postId))) {
 					// visit 안에 접속한 페이지 번호가 있는지 확인
-					System.out.println(cookies);
 
-					System.out.println("visitif통과");
 				} else {
 					cookie1.setValue(cookie1.getValue() + "_" + Integer.toString(postId));
 					response.addCookie(cookie1);
 					boardMapper.hitsUpdate(postId);
-					System.out.println(cookies);
+
 
 				} // 쿠키에 페이지번호가없다면 추가해주고 카운트 늘리기
 
@@ -228,18 +298,22 @@ public class BoardController {
 		} // 쿠키가 없다면 쿠키를 만들어주고 카운트 늘림
 
 		model.addAttribute("list", boardMapper.getpostDetail(postId));
+		model.addAttribute("store", storeMapper.getStoreDetail(postId));
 		model.addAttribute("comment", commentBoardMapper.findByComment(postId));
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
-		System.out.println(userDetails);
+//		System.out.println(userDetails);
 		String nickname = userDetails.getNickname();
 		int memberId=userDetails.getMemberId();
 		model.addAttribute("nick", nickname);
+
 		model.addAttribute("userMemberId", memberId);
 		System.out.println(nickname);
 		System.out.println(boardMapper.getpostDetail(postId).memberDTO.getNickname());
+
 		model.addAttribute("commentsCount", commentBoardMapper.getCommentCount(postId));
 
 		return "board/board-detail.tiles2";
+
 	}
 
 	@RequestMapping("/delete/{postId}/{boardId}/{categoryId}")

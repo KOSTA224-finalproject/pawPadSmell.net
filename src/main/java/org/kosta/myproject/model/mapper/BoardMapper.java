@@ -8,6 +8,7 @@ import org.kosta.myproject.model.domain.BoardTypeDTO;
 import org.kosta.myproject.model.domain.CategoryDTO;
 import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.domain.MyPageDTO;
+import org.kosta.myproject.model.domain.StoreDTO;
 
 @Mapper
 public interface BoardMapper {
@@ -40,7 +41,7 @@ public interface BoardMapper {
 
 	void boardWrite(BoardDTO boardDTO); // 게시글 등록 + 파일 업로드
 
-	BoardDTO boardUpdate(BoardDTO boardDTO); // 게시글 수정
+	void boardUpdate(BoardDTO boardDTO); // 게시글 수정
 
 	int getMypageCount(int memberId);
 
@@ -54,10 +55,14 @@ public interface BoardMapper {
 
 	void commentUpdateDown(int postId);
 
+
+	void boardWrite(StoreDTO storeDTO);
+
 	void updateProfile(MyPageDTO mypageDTO);
 
 	List<BoardDTO> searchPost(int categoryId,int boardId,String search,int getStartRowNumber, int getEndRowNumber);
 
 	int getSearchCount(int boardId, int categoryId,String search);
+
 
 }
