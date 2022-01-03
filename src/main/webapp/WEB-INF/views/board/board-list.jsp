@@ -20,46 +20,46 @@
 		<div class="container col-10 px-4 px-lg-5" style="margin-top: 130px; margin-bottom: 140px;">
 			<!-- <button type="button" class="btn btn-primary"
 			onclick="location.href='/';">메인페이지</button> -->
-		<form action="/board/search/${boardId}/${categoryId}">
-			<input type="text" name="search">
-			<button><img src="https://w7.pngwing.com/pngs/509/879/png-transparent-google-search-keyword-research-company-search-miscellaneous-company-logo.png"
-			 height ="20" width="30" style="border: none;"></button>
-		</form>
-			<div style="margin-bottom: 20px; display: inline-block;">
-				<h5 style="display: inline-block; position: relative; top: 7px;">
-					<span class="badge badge-danger">${boardname.boardName}</span> <span
-						class="badge badge-primary">${categoryname.categoryName}</span>&nbsp;
-					게시판
-				</h5>
-			</div>
-			<button class="btn btn-primary btn-xl" type="button" value="글쓰기"
-				style="float: right;"
-				onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
-			<table class="table table-hover" style="text-align: center;">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>작성자</th>
-						<th width="60%">제목</th>
-						<th>날짜</th>
-						<th>조회수</th>
-						<th>댓글수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="dto" items="${list}">
+			<form action="/board/search/${boardId}/${categoryId}">
+				<input type="text" name="search">
+				<button><img src="https://w7.pngwing.com/pngs/509/879/png-transparent-google-search-keyword-research-company-search-miscellaneous-company-logo.png"
+				 height ="20px" width="30px" style="border: none;"></button>
+			</form>
+				<div style="margin-bottom: 20px; display: inline-block;">
+					<h5 style="display: inline-block; position: relative; top: 7px;">
+						<span class="badge badge-danger">${boardname.boardName}</span> <span
+							class="badge badge-primary">${categoryname.categoryName}</span>&nbsp;
+						게시판
+					</h5>
+				</div>
+				<button class="btn btn-primary btn-xl" type="button" value="글쓰기"
+					style="float: right;"
+					onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
+				<table class="table table-hover" style="text-align: center;">
+					<thead>
 						<tr>
-							<td>${dto.postId}</td>
-							<td>${dto.memberDTO.nickname}</td>
-							<td><a style="color: #000; text-decoration: none;" href="<c:url value='/board/${dto.postId}'/>"> ${dto.title} </a></td>
-							<td>${dto.regdate}</td>
-							<td>${dto.hits}</td>
-							<td>${dto.commentCount}</td>
+							<th>No</th>
+							<th>작성자</th>
+							<th width="60%">제목</th>
+							<th>날짜</th>
+							<th>조회수</th>
+							<th>댓글수</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-      
+					</thead>
+					<tbody>
+						<c:forEach var="dto" items="${list}">
+							<tr>
+								<td>${dto.postId}</td>
+								<td>${dto.memberDTO.nickname}</td>
+								<td><a style="color: #000; text-decoration: none;" href="<c:url value='/board/${dto.postId}'/>"> ${dto.title} </a></td>
+								<td>${dto.regdate}</td>
+								<td>${dto.hits}</td>
+								<td>${dto.commentCount}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+      		</div>
 		<%-- 페이징 처리 --%>
 		<c:choose>
 		<c:when test="${search != null}">
@@ -68,7 +68,7 @@
 				<c:if test="${pagingBean.previousPageGroup}">
 					<li class="page-item" style="display: inline-block;"><a
 							style="" class="page-link"
-							href="${path}/board/search/${boardId}/${categoryId}?pageNo=${pagingBean.startPageOfPageGroup-1}}&&search=${search}">이전
+							href="${path}/board/search/${boardId}/${categoryId}?pageNo=${pagingBean.startPageOfPageGroup-1}&&search=${search}">이전
 						</a></li>
 				</c:if>
 				<c:forEach begin="${pagingBean.startPageOfPageGroup}"
@@ -88,7 +88,7 @@
 				<c:if test="${pagingBean.nextPageGroup}">
 				<li class="page-item" style="display: inline-block;"><a
 							class="page-link"
-							href="${path}/board/search/${boardId}/${categoryId}?pageNo=${pagingBean.endPageOfPageGroup+1&&search=${search}}">다음</a></li>
+							href="${path}/board/search/${boardId}/${categoryId}?pageNo=${pagingBean.endPageOfPageGroup+1}&&search=${search}">다음</a></li>
 				</c:if>
 			</ul>
 		</nav>
@@ -133,7 +133,7 @@
 		<button class="btn btn-primary btn-xl" type="button" value="글쓰기" style="float: right;"
 			onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
 	</sec:authorize>
-	</div>
+	
 </body>
 
 </html>
