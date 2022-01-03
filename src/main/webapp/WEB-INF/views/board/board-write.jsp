@@ -30,7 +30,7 @@
 						<span class="badge badge-danger">${boardname.boardName}</span>
 						<span class="badge badge-primary">${categoryname.categoryName}</span> <br>
 						<span>작성자: ${nick}</span>
-						<input name="title" class="form-control" type="text" placeholder="제목을 입력하세요.">
+						<input name="title" class="form-control" type="text" placeholder="제목을 입력하세요." accept=".gif, .jpg, .png, .PNG">
 						
 					</div>
 					<div class="card-body form-group">

@@ -38,7 +38,7 @@
 						<textarea name="content" class="form-control" rows="10">${boardDTO.content}</textarea>
 					</div>
 					<div class="card-footer" >
-						<input type="file" class="form-control" name="file">
+						<input type="file" class="form-control" name="file" accept=".gif, .jpg, .png, .PNG">
 					</div>
 				</div>
 				<button id="btn_modify" class="btn btn-primary" type="submit" style="position: relative; float:right; margin-top: 15px;">수정</button>
