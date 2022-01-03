@@ -50,7 +50,7 @@
 						<c:forEach var="dto" items="${list}">
 							<tr>
 								<td>${dto.postId}</td>
-								<td>${dto.memberDTO.nickname}</td>
+								<td><a style="color: #000; text-decoration: none;" href="<c:url value='/member/${dto.memberDTO.memberId}'/>">${dto.memberDTO.nickname}</a></td>
 								<td><a style="color: #000; text-decoration: none;" href="<c:url value='/board/${dto.postId}'/>"> ${dto.title} </a></td>
 								<td>${dto.regdate}</td>
 								<td>${dto.hits}</td>
