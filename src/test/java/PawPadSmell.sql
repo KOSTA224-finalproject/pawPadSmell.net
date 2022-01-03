@@ -4,6 +4,9 @@ SELECT * FROM tab;
 ---------------------------------------------------------------------------
 --회원 
 
+select * from G_MEMBER;
+
+
 SELECT g.email,a.user_id,a.authority
 FROM g_member g, authorities a
 WHERE g.member_id=a.user_id;

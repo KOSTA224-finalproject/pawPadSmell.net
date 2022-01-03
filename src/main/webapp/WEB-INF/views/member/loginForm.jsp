@@ -80,12 +80,17 @@
 							><h5>로그인</h5></button>
 						</div>
 					</form>
+					<a href="/oauth2/authorization/kakao">
+					<img src="/myweb/images/kakao_login_medium_wide.png">
+					</a>
 					<br>
+					<br>
+				
 
 					<div class="asd"
 						style="display: flex; align-items: center; justify-content: center;">
 						<form style="width: 221px; padding-right: 20px;">
-							<div class="d-grid gap-2">
+							<div class="d-grid gap-5">
 								<a href="/guest/findIdForm" class="btn btn-light btn-xl bg-primary"
 									role="button" style="">아이디찾기</a>
 							</div>
