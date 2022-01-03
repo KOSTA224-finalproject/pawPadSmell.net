@@ -4,6 +4,8 @@ package org.kosta.myproject.config.security;
 import java.util.Map;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.kosta.myproject.model.domain.AuthorityDTO;
+import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,34 +25,41 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
     private MemberMapper membermapper;
 
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public void saveAuthorizedClient(OAuth2AuthorizedClient oAuth2AuthorizedClient, Authentication authentication) {
 		String providerType = oAuth2AuthorizedClient.getClientRegistration().getRegistrationId();
         OAuth2AccessToken accessToken = oAuth2AuthorizedClient.getAccessToken();
-
+        
         OAuth2User oauth2User = (OAuth2User)authentication.getPrincipal();
-        System.out.println(oauth2User);
-        // kakao는 kakao_account에 유저정보가 있다. (email)
-//        Map<String, Object> kakaoAccount = (Map<String, Object>)oauth2User.getAttribute("kakao_account");
-//        // kakao_account안에 또 profile이라는 JSON객체가 있다. (nickname, profile_image)
-//        Map<String, Object> kakaoProfile = (Map<String, Object>)kakaoAccount.get("profile");
-//        System.out.println(kakaoProfile);
 
-//        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+
+        // kakao는 kakao_account에 유저정보가 있다. (email)
+
+//        System.out.println(kakaoProfile);
+//
 //        System.out.println(oauth2User);
-//        String id = String.valueOf(oauth2User.getAttributes().get("id"));
+        String name = oauth2User.getAttribute("name");
+        int id = Integer.parseInt(oauth2User.getName());
 //        System.out.println(id);
 //        String name = (String) ((LinkedHashMap<?, ?>) ((LinkedHashMap<?, ?>) oauth2User.getAttribute("kakao_account")).get("profile")).get("nickname");
 //        System.out.println(name);
 //        String email = (String) ((LinkedHashMap<?, ?>) ((LinkedHashMap<?, ?>) oauth2User.getAttribute("kakao_account"))).get("email");
 //        System.out.println(email);
         
-//        MemberDTO member = new MemberDTO(email, name, name, "null", "null", "null", "null", 1);
-//        membermapper.registerMember(member);
-//        AuthorityDTO authority = new AuthorityDTO(member.getMemberId(), "ROLE_MEMBER");
-//		membermapper.registerRole(authority);
-//		System.out.println(authority);
+        MemberDTO member = new MemberDTO(Integer.toString(id), name, name, "null", "null", "null", "20000101", 1);
+        if(membermapper.findMemberById(Integer.toString(id))==null) {
+        	membermapper.registerMember(member);
+            AuthorityDTO authority = new AuthorityDTO(member.getMemberId(), "ROLE_MEMBER");
+    		membermapper.registerRole(authority);
+    		System.out.println(authority);
+        }else {
+        	membermapper.findMemberById(Integer.toString(id));
+        }
         
+        System.out.println(member);
+
+
+//        
     }
 
     @Override

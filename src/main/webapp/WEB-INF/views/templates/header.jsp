@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet"
@@ -13,6 +13,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <sec:authentication property="principal" var="member" />
 
+
 <%-- 로그아웃 시 작동되는 스크립트 --%>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -21,6 +22,7 @@
 			$("#logoutForm").submit();
 		});
 	});
+	console.log(${principal});
 </script>
 
 <%-- 로그인한 사용자가 보는 메뉴 --%>
@@ -39,8 +41,19 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto my-2 my-lg-0">
-					<li class="nav-item"><a class="nav-link" href="member/mypage"><h4
-								>${member.name}님</h4></a></li>
+					<li class="nav-item"><a class="nav-link" href="member/mypage">
+							<h4>
+								<c:choose>
+									<c:when test="${member.getAttribute('name') == null}" >
+										${member.name}님
+									</c:when>
+									<c:otherwise>
+										${member.getAttribute("name")}님
+									</c:otherwise>
+								</c:choose>
+							</h4>
+					</a></li>
+
 					<li class="nav-item"><a class="nav-link" href="#"
 						id="logoutAction"><h4>로그아웃</h4></a></li>
 					<form id="logoutForm" action="/logout" method="post"
@@ -72,11 +85,12 @@
 								class="dropdown-item" href="${path}/board/list/1/6">ETC</a>
 						</div></li>
 					<li class="nav-item"><a class="nav-link" href="/updateForm"><h4>회원정보수정</h4></a></li>
-					
+
 				</ul>
 			</div>
 		</div>
 		<div class="alert alert-secondary" id="socketAlert" role="alert" style="top:5px; right: 50px;;">
+
 			<span id="output"></span>
 		</div>
 	</nav>
