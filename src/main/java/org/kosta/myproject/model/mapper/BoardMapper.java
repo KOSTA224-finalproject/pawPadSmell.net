@@ -60,5 +60,9 @@ public interface BoardMapper {
 
 	void updateProfile(MyPageDTO mypageDTO);
 
+	List<BoardDTO> searchPost(int categoryId,int boardId,String search,int getStartRowNumber, int getEndRowNumber);
+
+	int getSearchCount(int boardId, int categoryId,String search);
+
 
 }
