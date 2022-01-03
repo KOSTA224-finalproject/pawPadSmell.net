@@ -83,10 +83,22 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ms-auto my-2 my-lg-0">
 				<li class="nav-item"><a class="nav-link" href="guest/loginForm"><h4>로그인</h4></a></li>
-				<li class="nav-item"><a class="nav-link" href="#"><h4>중고거래</h4></a></li>
-				<li class="nav-item"><a class="nav-link" href="#"><h4>커뮤니티</h4></a></li>
+				<li class="nav-item"><a class="nav-link" href="#" id="register1"><h4>중고거래</h4></a></li>
+				<li class="nav-item"><a class="nav-link" href="#" id="register2"><h4>커뮤니티</h4></a></li>
 			</ul>
 		</div>
 	</div>
 </nav>
+<script type="text/javascript">
+$(function() {
+	$("#register1").click(function(){
+		alert("로그인이 필요한 서비스 입니다");
+		location.href="guest/loginForm";
+	});
+	$("#register2").click(function(){
+		alert("로그인이 필요한 서비스 입니다");
+		location.href="guest/loginForm";
+	});
+});
+</script>
 </sec:authorize>

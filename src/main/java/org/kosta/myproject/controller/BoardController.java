@@ -2,6 +2,7 @@ package org.kosta.myproject.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -252,5 +253,35 @@ public class BoardController {
 
 		return "redirect:/board/list/{boardId}/{categoryId}";
 	}
+	@GetMapping("/search/{boardId}/{categoryId}")
+	public String search(@PathVariable("boardId") int boardId,@PathVariable("categoryId") int categoryId,String search,String pageNo,Model model) {
+		
+		
+		int totalPostCount = boardMapper.getSearchCount(boardId, categoryId,search);
+		PagingBean pagingBean = null;
 
+		if (pageNo == null) {
+			// 현재 페이지가 1page로 할당되어 있음
+			pagingBean = new PagingBean(totalPostCount);
+		} else {
+			// client에서 보낸 page번호로 할당한다
+			pagingBean = new PagingBean(totalPostCount, Integer.parseInt(pageNo));
+		}
+		model.addAttribute("search",search);
+		model.addAttribute("pagingBean", pagingBean);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("boardname", boardMapper.getBoardName(boardId));
+		model.addAttribute("categoryname", boardMapper.getCatName(categoryId));
+		List<BoardDTO> list =boardMapper.searchPost(categoryId,boardId,search,pagingBean.getStartRowNumber(),pagingBean.getEndRowNumber());
+		System.out.println(list);
+		String return1=null;
+		if(list.isEmpty()) {
+			return1="board/search_fail";
+		}else {
+			model.addAttribute("list", list);
+			return1="board/board-list.tiles2";
+		}
+		return return1;
+	}
 }

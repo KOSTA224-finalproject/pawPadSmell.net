@@ -95,6 +95,9 @@
 		<result column="rnum" property="rnum"/>
 		<result column="category_name" property="categoryDTO.categoryName"/>
 	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM3">
+		<result column="nickname" property="memberDTO.nickname"/>
+	</resultMap>
 
 
 	<select id="getBoardType"
@@ -217,4 +220,20 @@
 		update mypage set profile_filename=#{profileFilename} ,profile_filepath=#{profileFilepath},profile_text=#{profileText}
 		where member_id=#{memberDTO.memberId}
 	</update>
+	<select id="searchPost" resultMap="boardRM3">
+		SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname , title
+		FROM (
+		select row_number() over(
+		order by regdate desc)
+		as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
+		from g_board b , g_member m
+		WHERE content LIKE '%'||#{search}||'%' and
+		b.category_id=#{categoryId} and b.board_id=#{boardId} and b.member_id=m.member_id
+		)
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by regdate desc
+	</select>
+	<select id="getSearchCount" resultType="int">
+		select count(*) from g_board where content like '%'||#{search}||'%' and category_id=#{categoryId} and board_id=#{boardId}
+	</select>
 </mapper>

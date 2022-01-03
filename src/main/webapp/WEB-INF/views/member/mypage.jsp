@@ -75,9 +75,9 @@
 							<input class="form-control"
 								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
 								type="text" name="profileText" id="aa" placeholder="자기소개글"> <br>
-							<input type="submit" class="btn btn-light btn-xl bg-primary"
+							<button  class="btn btn-light btn-xl bg-primary"
 								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
-								value="저장">
+								>저장</button>
 					</form>
 					</c:when>
 					<c:otherwise>
@@ -179,18 +179,24 @@ $(function(){
 		var formData = new FormData(form);
 		$.ajax({
 			type : "post",
-			url : "getProfile",
+			url : "${path}/member/getProfile",
 			processData:false,
 		    contentType:false,
 			enctype: 'multipart/form-data',
 			data: formData,
-			success : function(result) {
+			success : function(result) {//debounce   timer 
+				// d
+				setTimeout(function(){
 				alert("수정되었습니다");
-				location.href="/member/mypage";
+				//location.href="/member/mypage";
+				location.reload();
+					
+				}, 2000);
 			}
 		})
 	});
 });
+
 
 
 </script>
