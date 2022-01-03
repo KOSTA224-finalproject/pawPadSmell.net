@@ -18,7 +18,7 @@ import org.kosta.myproject.model.domain.MemberDTO;
 import org.kosta.myproject.model.domain.PagingBean;
 import org.kosta.myproject.model.mapper.BoardMapper;
 import org.kosta.myproject.model.mapper.CommentBoardMapper;
-import org.kosta.myproject.model.mapper.StoreMapper;
+//import org.kosta.myproject.model.mapper.StoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -38,18 +38,18 @@ public class BoardController {
 	private BoardMapper boardMapper;
 	@Resource
 	private CommentBoardMapper commentBoardMapper;
-	@Resource
-	private StoreMapper storeMapper;
+	//@Resource
+	//private StoreMapper storeMapper;
 	@Resource
 	private PagingBean pagingBean;
 
 	@Autowired
-	public BoardController(BoardMapper boardMapper, CommentBoardMapper commentBoardMapper, StoreMapper storeMapper,
-			PagingBean pagingBean) {
+	public BoardController(BoardMapper boardMapper, CommentBoardMapper commentBoardMapper,
+			PagingBean pagingBean) {// StoreMapper storeMapper,
 		super();
 		this.boardMapper = boardMapper;
 		this.commentBoardMapper = commentBoardMapper;
-		this.storeMapper = storeMapper;
+		//this.storeMapper = storeMapper;
 		this.pagingBean = pagingBean;
 	}
 
@@ -298,7 +298,7 @@ public class BoardController {
 		} // 쿠키가 없다면 쿠키를 만들어주고 카운트 늘림
 
 		model.addAttribute("list", boardMapper.getpostDetail(postId));
-		model.addAttribute("store", storeMapper.getStoreDetail(postId));
+		//model.addAttribute("store", storeMapper.getStoreDetail(postId));
 		model.addAttribute("comment", commentBoardMapper.findByComment(postId));
 		MemberDTO userDetails = (MemberDTO) authentication.getPrincipal();
 //		System.out.println(userDetails);

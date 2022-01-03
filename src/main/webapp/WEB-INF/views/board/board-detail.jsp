@@ -47,7 +47,11 @@
 				<div class="card-body" style="min-height: 220px;">
 
 					${list.content }<br> <%-- <img src="${list.filepath}"
-						style="width: 350px;"> --%> <img src="${pageContext.request.contextPath}/newfiles/${list.filename}" style="width: 350px;">
+						style="width: 350px;"> --%> 
+						<c:set var="name" value="${list.filename}"/>
+						<c:if test="${name ne null}">
+						    <img src="${pageContext.request.contextPath}/newfiles/${list.filename}" style="width: 350px;">
+						</c:if>
 						<%-- <jsp:include page="../../include/AdminTopFixMenu.jsp" /> --%>
 				</div>
 				<!-- <div class="card-footer"></div> -->
