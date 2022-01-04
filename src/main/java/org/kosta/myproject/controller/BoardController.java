@@ -232,7 +232,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("/storewritepro/{boardId}/{categoryId}")
-	public String storeboardWrite(Authentication authentication, BoardDTO boardDTO, Model model, MultipartFile file,
+	public String storeboardWrite(HttpSession session, Authentication authentication, BoardDTO boardDTO, Model model, MultipartFile file,
 			@PathVariable("boardId") int boardId, @PathVariable("categoryId") int categoryId)
 			throws IllegalStateException, IOException {// 작성한 글 및 파일 업로드 처리
 
@@ -252,7 +252,7 @@ public class BoardController {
 		model.addAttribute(categoryDTO);
 
 		// 1. 실제 파일이 저장되는 경로 지정
-		String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		String projectPath = session.getServletContext().getRealPath("/")+"newfiles";
 
 		// 2. UUID로 식별자 랜덤으로 이름 만들어줌
 		UUID uuid = UUID.randomUUID();
@@ -405,9 +405,12 @@ public class BoardController {
 		String return1=null;
 		if(list.isEmpty()) {
 			return1="board/search_fail";
-		}else {
+		}else if(boardId == 1) {
 			model.addAttribute("list", list);
 			return1="board/board-list.tiles2";
+		}else {
+			model.addAttribute("list", list);
+			return1="board/storeboard-list.tiles2";
 		}
 		return return1;
 	}

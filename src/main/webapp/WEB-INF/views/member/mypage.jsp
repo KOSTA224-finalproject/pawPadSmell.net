@@ -23,57 +23,81 @@
 <title>mypage</title>
 
 </head>
+<style>
+.filebox label { 
+	display:block; margin: 5px auto; width:110px; text-align:center;
+	/* padding: .5em .75em; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; */
+	 } 
+.filebox input[type="file"] { /* 파일 필드 숨기기 */ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
 
+
+</style>
 <body>
 	<sec:authorize access="isAuthenticated()">
 
 		<div class="container" style="margin-top: 130px; margin-bottom: 140px;">
-			<div class="row pt-5 h-100">
-				<div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+			<h3>${member.name}<span style="font-size: 16px;">님의 페이지</span></h3>
+			<div class="card" style="margin-bottom: 20px;">
+				<div class="card-body">
 				<c:choose>
 					<c:when test="${mypage==null }">
-					<h1>마이페이지</h1>
 					<br>
-					<h2>프로필사진</h2>
-					<img src="/img/profile.png"
-						style="width: 350px;">
 					<form action="mypage/upload" method="post" enctype="multipart/form-data">
-						<input type="file" name="file">
-						<h2>자기소개글입니다</h2>
-						<div class="form-floating mb-3">
+						<div class="row">
+						<div class="col-4">
+							<div class="card">
+								<div class="card-header">
+									<img src="/img/profile.png"
+							style="display:block; width: 280px; height: 350px; margin:auto;">
+								</div>
+							<div class="filebox" > 
+								<label class="btn btn-primary" for="file">사진 변경</label> 
+								<input type="file" name="file" id="file"> 
+							</div>
+							</div>
+						</div>
+						<div class="col-8">
 							<sec:csrfInput />
-							<input class="form-control"
+							<textarea name="profileText" id="profileText" class="form-control" rows="15" placeholder="내용을 입력하세요.">${mypage.profileText }</textarea>
+							<%-- <input class="form-control"
 								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="profileText" id="aa" placeholder="자기소개글"> <br>
-							<button  class="btn btn-light btn-xl bg-primary"
-								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
-								>저장</button>
+								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > --%> <br>
+							<button id="updateBtn" class="btn btn-primary" style="position:relative; top:-15px; float: right;">저장</button>
+						</div>
 						</div>
 					</form>
 					</c:when>
 					<c:otherwise>
-							<h1>마이페이지</h1>
 					<br>
-					<h2>프로필사진</h2>
 					<form id="fileForm" method="post" enctype="multipart/form-data">
-					<img src="${mypage.profileFilepath}"
-						style="width: 350px;">
-						<h2>자기소개글입니다</h2>
-						<input type="file" name="file" id="file"  multiple>
-						<div class="form-floating mb-3">
+						<div class="row">
+						<div class="col-4">
+							<div class="card">
+								<div class="card-header">
+									<img src="${pageContext.request.contextPath}/myfiles/${mypage.profileFilepath}"
+							style="display:block; width: 280px; height: 350px; margin:auto;">
+								</div>
+							<div class="filebox" > 
+								<label class="btn btn-primary" for="file">사진 변경</label> 
+								<input type="file" name="file" id="file"> 
+							</div>
+							</div>
+						</div>
+						<div class="col-8">
 							<sec:csrfInput />
-							<input class="form-control"
+							<textarea name="profileText" id="profileText" class="form-control" rows="15" placeholder="내용을 입력하세요.">${mypage.profileText }</textarea>
+							<%-- <input class="form-control"
 								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > <br>
-							<button type="button" id="updateBtn" class="btn btn-light btn-xl bg-primary"
-								style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
-								>수정</button>
+								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > --%> <br>
+							<button type="button" id="updateBtn" class="btn btn-primary" style="position:relative; top:-15px; float: right;">저장</button>
+						</div>
 						</div>
 					</form>
 					</c:otherwise>
 				</c:choose>
 				</div>
-			</div> 
+				</div>
+			
 			<br>
 
 			<h2>${member.name }님이작성하신 글 목록입니다!</h2>
@@ -138,7 +162,7 @@
 			</nav>
 			
 		</div>
-
+	</div> 
 	</sec:authorize>
 </body>
 <script

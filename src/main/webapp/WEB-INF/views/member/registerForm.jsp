@@ -194,13 +194,13 @@
 										success : function(result) {
 											if (result == 1) {
 												document.getElementById("idck").style.color = "red";
-												document.getElementById("idck").innerHTML = "이미 사용중인 아이디입니다.";
+												document.getElementById("idck").innerHTML = "이미 사용중인 이메일입니다.";
 
 												$("#reg_submit").attr("disabled",true);
 												i = 1;
 											} else {
 												document.getElementById("idck").style.color = "green";
-												document.getElementById("idck").innerHTML = "사용 가능한 아이디입니다.";
+												document.getElementById("idck").innerHTML = "사용 가능한 이메일입니다.";
 												$("#reg_submit").attr("disabled",false);
 												i = 0;
 

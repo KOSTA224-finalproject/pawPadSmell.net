@@ -56,12 +56,12 @@ public class MypageController {
 	}
 
 	@RequestMapping("member/mypage/upload")
-	public String Upload(Model model, Authentication authentication, MemberDTO memberDTO, String pageNo,MyPageDTO mypageDTO,MultipartFile file) throws IllegalStateException, IOException {
+	public String Upload(HttpSession session,Model model, Authentication authentication, MemberDTO memberDTO, String pageNo,MyPageDTO mypageDTO,MultipartFile file) throws IllegalStateException, IOException {
 		memberDTO = (MemberDTO) authentication.getPrincipal();
 	   
 	       //1. 실제 파일이 저장되는 경로 지정
 	       //System.getProperty(“user.dir”) -> 현재 작업 디렉토리
-	        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		String projectPath = session.getServletContext().getRealPath("/")+"myfiles";
 	        
 	    //2. UUID로 식별자 랜덤으로 이름 만들어줌
 	        //UUID : 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
@@ -82,7 +82,7 @@ public class MypageController {
 	       
 	    //6. db에 파일명, 파일 경로 저장
 	       mypageDTO.setProfileFilename(fileName);
-	       mypageDTO.setProfileFilepath("/files/" + fileName);
+	       mypageDTO.setProfileFilepath(fileName);
 	       mypageDTO.setMemberDTO(memberDTO);
 	       System.out.println(memberDTO.toString());
 	       System.out.println("mypageDTO:"+" "+mypageDTO);
@@ -120,7 +120,7 @@ public class MypageController {
 	       //1. 실제 파일이 저장되는 경로 지정
 	       //System.getProperty(“user.dir”) -> 현재 작업 디렉토리
 	       // String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-		  String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+		  String projectPath = session.getServletContext().getRealPath("/")+"myfiles";
 	            
 	    //2. UUID로 식별자 랜덤으로 이름 만들어줌
 	        //UUID : 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
@@ -145,7 +145,7 @@ public class MypageController {
 	       
 	    //6. db에 파일명, 파일 경로 저장
 	       mypageDTO.setProfileFilename(fileName);
-	       mypageDTO.setProfileFilepath("/files/" + fileName);
+	       mypageDTO.setProfileFilepath(fileName);
 	       mypageDTO.setMemberDTO(memberDTO);
 	       System.out.println(memberDTO.toString());
 	       System.out.println("mypageDTO:"+" "+mypageDTO);

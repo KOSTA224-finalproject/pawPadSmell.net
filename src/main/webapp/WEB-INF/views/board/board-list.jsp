@@ -22,7 +22,7 @@
 			onclick="location.href='/';">메인페이지</button> -->
 			<form action="/board/search/${boardId}/${categoryId}">
 				<input type="text" name="search" class="form-control" placeholder="Search" style="width: 300px; display: inline;">
-				<button class="btn btn-success" type="submit" style="position:relative; top:-2px; left:-5px;'">Go<!-- <img src="https://cdn-icons-png.flaticon.com/128/483/483356.png"
+				<button class="btn btn-success" type="submit" style="position:relative; top:-2px; left:-5px;'">검색<!-- <img src="https://cdn-icons-png.flaticon.com/128/483/483356.png"
 				 height ="30px" width="30px" style="border: none;"> --></button>
 			</form>
 				<div style="margin-bottom: 20px; display: inline-block;">
@@ -38,20 +38,20 @@
 				<table class="table table-hover" style="text-align: center;">
 					<thead>
 						<tr>
-							<th>No</th>
-							<th>작성자</th>
+							<th scope="col" width="5%">No</th>
 							<th width="50%">제목</th>
-							<th>날짜</th>
-							<th>조회수</th>
-							<th>댓글수</th>
+							<th scope="col" width="10%">작성자</th>
+							<th scope="col" width="10%">날짜</th>
+							<th scope="col" width="7%">조회수</th>
+							<th scope="col" width="7%">댓글수</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="dto" items="${list}">
 							<tr>
 								<td>${dto.postId}</td>
-								<td><a style="color: #000; text-decoration: none;" href="<c:url value='/member/${dto.memberDTO.memberId}'/>">${dto.memberDTO.nickname}</a></td>
 								<td><a style="color: #000; text-decoration: none;" href="<c:url value='/board/${dto.postId}'/>"> ${dto.title} </a></td>
+								<td><a style="color: #000; text-decoration: none;" href="<c:url value='/member/${dto.memberDTO.memberId}'/>">${dto.memberDTO.nickname}</a></td>					
 								<td>${dto.regdate}</td>
 								<td>${dto.hits}</td>
 								<td>${dto.commentCount}</td>

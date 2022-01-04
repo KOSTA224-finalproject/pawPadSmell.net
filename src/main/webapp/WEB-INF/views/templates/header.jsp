@@ -43,14 +43,13 @@
 				<ul class="navbar-nav ms-auto my-2 my-lg-0">
 					<li class="nav-item"><a class="nav-link" href="member/mypage">
 							<h4>
-								<c:choose>
-									<c:when test="${member.getAttribute('name') == null}" >
+								
+									
 										${member.name}님
-									</c:when>
-									<c:otherwise>
-										${member.getAttribute("name")}님
-									</c:otherwise>
-								</c:choose>
+								
+										<%-- ${member.getAttribute("name")}님 --%>
+								
+							
 							</h4>
 					</a></li>
 
@@ -175,6 +174,7 @@
 			</ul>
 		</div>
 	</div>
+	
 </nav>
 <script type="text/javascript">
 $(function() {
@@ -187,6 +187,7 @@ $(function() {
 		location.href="guest/loginForm";
 	});
 });
+
 </script>
 </sec:authorize>
 

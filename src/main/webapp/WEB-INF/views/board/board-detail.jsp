@@ -68,6 +68,7 @@
 							</div>
 						</div>
 					</div>
+					</div>
 					<br>
 				<form name="detailForm">
 				<!-- script에서 user_pwd에 접근하기 위한 폼 -->
@@ -167,16 +168,15 @@
 				let updateForm = '';
 				updateForm += '<ul id="commentbox'+cId+'" class="list-group" >';
 				updateForm += '<li class="list-group-item d-flex justify-content-between">';
-				updateForm += '<textarea class="form-control" id="updateContent" rows="1">'
+				updateForm += '<textarea class="form-control" id="updateContent" rows="1" style="width:90%;">'
 				+ content
 				+ '</textarea>';
 				updateForm += '<div class="d-flex">';
 				updateForm += '<div class="text-monospace">';
-				updateForm += '' + cName + '';
 				updateForm += '</div>';
-				updateForm += '<button id="" class="badge btn-warning update-comment">수정</button>';
-				updateForm += '<span> | </span>';
-				updateForm += '<button id="" class="badge btn-danger update-close">취소</button>';
+				updateForm += '<button id="" class="btn btn-sm btn-outline-primary update-comment">수정</button>';
+				updateForm += '<span style="margin: 0 3px;"></span>';
+				updateForm += '<button id="" class="btn btn-sm btn-outline-danger update-close">취소</button>';
 				updateForm += '</div>';
 				updateForm += '</li>';
 				updateForm += '</ul>';
@@ -210,7 +210,10 @@
 						});
 
 		});
-
+		</script>
+		
+		</body>
+		<script type="text/javascript">
 	$(document).ready(function() {
 		gBno = '${postId}';
 		gBoardWriter = '${nick}';
@@ -254,21 +257,23 @@
 	            alert(JSON.stringify(err));
 	        });
 
+		});
 	});
-
-	$(".comment-btn-delete").click(function(){
-		let commentId=$(this).val();
-		console.log(commentId);
-		console.log(postId);
-	    $.ajax({
-			type:"DELETE",
-			url:'/commentDelete/${postId}/'+commentId,
-		}).done(function (res) {
-            alert("댓글삭제가 완료되었습니다.");
-            location.href = '/board/${postId}';
-        }).fail(function (err) {
-            alert(JSON.stringify(err));
-        });
+	$(document).ready(function() {
+		$(".comment-btn-delete").click(function(){
+			let commentId=$(this).val();
+			console.log(commentId);
+			console.log(postId);
+		    $.ajax({
+				type:"DELETE",
+				url:'/commentDelete/${postId}/'+commentId,
+			}).done(function (res) {
+	            alert("댓글삭제가 완료되었습니다.");
+	            location.href = '/board/${postId}';
+	        }).fail(function (err) {
+	            alert(JSON.stringify(err));
+	        });
+		});
 	});
 
 	// (가격 : , 위치 : ) 커뮤니티에서 안보이게 하기 -> 공백이 있으면 아예 싹다 숨겨버리도록 설계
@@ -324,5 +329,6 @@ geocoder.addressSearch( placeinfo , function(result, status) {
     } 
 });    
 </script>
-    </body>
+
+    
 </html>
