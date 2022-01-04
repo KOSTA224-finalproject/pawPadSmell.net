@@ -53,7 +53,7 @@ function connectWS() {
          <div class="text-center text-muted">Copyright &copy; 2021
             - Kosta224 pawPadSmell</div>
             <a href="https://github.com/KOSTA224-finalproject/pawPadSmell.net">Github</a>
-         <a href="https://ggosoonnet.notion.site/application-properties-5f1884f2d201415e9c1f5d401991b980">Notion</a>
+         <a href="https://ggosoonnet.notion.site/b8819d4820e6440cb239c431c44b508d">Notion</a>
       </div>
    </div>
 

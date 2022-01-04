@@ -21,9 +21,9 @@
 			<!-- <button type="button" class="btn btn-primary"
 			onclick="location.href='/';">메인페이지</button> -->
 			<form action="/board/search/${boardId}/${categoryId}">
-				<input type="text" name="search">
-				<button><img src="https://w7.pngwing.com/pngs/509/879/png-transparent-google-search-keyword-research-company-search-miscellaneous-company-logo.png"
-				 height ="20px" width="30px" style="border: none;"></button>
+				<input type="text" name="search" class="form-control" placeholder="Search" style="width: 300px; display: inline;">
+				<button class="btn btn-success" type="submit" style="position:relative; top:-2px; left:-5px;'">Go<!-- <img src="https://cdn-icons-png.flaticon.com/128/483/483356.png"
+				 height ="30px" width="30px" style="border: none;"> --></button>
 			</form>
 				<div style="margin-bottom: 20px; display: inline-block;">
 					<h5 style="display: inline-block; position: relative; top: 7px;">
@@ -40,7 +40,7 @@
 						<tr>
 							<th>No</th>
 							<th>작성자</th>
-							<th width="60%">제목</th>
+							<th width="50%">제목</th>
 							<th>날짜</th>
 							<th>조회수</th>
 							<th>댓글수</th>
@@ -59,12 +59,12 @@
 						</c:forEach>
 					</tbody>
 				</table>
-      		</div>
+      		
 		<%-- 페이징 처리 --%>
 		<c:choose>
 		<c:when test="${search != null}">
 			<nav aria-label="Page navigation example">
-			<ul class="pagination" style="margin: 20px 0">
+			<ul class="pagination" style="margin: 20px 0; display: block; text-align: center;">
 				<c:if test="${pagingBean.previousPageGroup}">
 					<li class="page-item" style="display: inline-block;"><a
 							style="" class="page-link"
@@ -75,12 +75,12 @@
 					end="${pagingBean.endPageOfPageGroup}" var="page">
 					<c:choose>
 						<c:when test="${page == pagingBean.nowPage}">
-							<li class="page-item active"><a class="page-link"
+							<li class="page-item active" style="display: inline-block;"><a class="page-link"
 								href="${path}/board/search/${boardId}/${categoryId}?pageNo=${page}&&search=${search}">
 									${page}</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="page-item"><a class="page-link"
+							<li class="page-item" style="display: inline-block;"><a class="page-link"
 								href="${path}/board/search/${boardId}/${categoryId}?pageNo=${page}&&search=${search}">${page}</a></li>
 						</c:otherwise>
 					</c:choose>
@@ -130,8 +130,7 @@
 			</nav>
 		</c:otherwise>
 		</c:choose>
-		<button class="btn btn-primary btn-xl" type="button" value="글쓰기" style="float: right;"
-			onclick="location.href='${path}/board/write/${boardId}/${categoryId}'">글쓰기</button>
+		</div>
 	</sec:authorize>
 	
 </body>

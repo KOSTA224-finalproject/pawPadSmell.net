@@ -46,7 +46,7 @@ public class MypageController {
 		model.addAttribute("pagingBean", pagingBean);
 		model.addAttribute("list", boardMapper.getAllMypage(memberDTO.getMemberId(), pagingBean.getStartRowNumber(),
 				pagingBean.getEndRowNumber()));
-		return "member/mypage";
+		return "member/mypage.tiles2";
 	}
 
 	@RequestMapping("member/mypage/upload")
