@@ -186,8 +186,7 @@
 
 		select b.title, b.price, b.place, b.locinfo_x, b.locinfo_y,
 		b.content,b.post_id,
-
-		m.nickname, b.regdate,b.hits,
+		m.nickname, m.member_id, b.regdate,b.hits,
 		b.category_id,
 		b.board_id, c.category_name,
 		b.filename,

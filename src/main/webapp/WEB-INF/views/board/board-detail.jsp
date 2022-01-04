@@ -34,7 +34,9 @@
 						</tr>
 						<tr style="height: 20px;">
 							<td style="padding: 0 12px; padding-bottom: 5px;">Post by <span
-								style="font-weight: bold; font-size: 20px;">${list.memberDTO.nickname}</span><br><span id="realPriLoc">가격: ${list.price} 원<br></span></td>
+								style="font-weight: bold; font-size: 20px;">
+								<a href="<c:url value='/member/memberpage/${list.memberDTO.memberId}'/>">${list.memberDTO.nickname}</a></span>
+								<br><span id="realPriLoc">가격: ${list.price} 원<br></span></td>
 						</tr>
 						<tr style="height: 20px;">
 							<td width="18%" style="padding: 0 12px">${list.regdate }</td>
@@ -108,7 +110,7 @@
 				<c:forEach items="${comment}" var="li">
 					<div class="card-header">
 						<div class="text-monospace">
-							<c:out value="${li.memberDTO.nickname}" />
+							<a href='/member/memberpage/${li.memberDTO.memberId}'><c:out value="${li.memberDTO.nickname}"/></a>
 						</div>
 					</div>
 					<%-- <input type="hidden" id="commentId" value="${li.commentId}"> --%>
