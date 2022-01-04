@@ -47,11 +47,7 @@
 		content = #{content},
 		regdate = sysdate,
 		filename = #{filename},
-		filepath =#{filepath},
-		price = #{price},
-		place = #{place},
-		locinfoX = #{locinfoX}, 
-		locinfoY = #{locinfoY}
+		filepath =#{filepath}
 		WHERE
 		post_id = #{postId}
 	</update>
