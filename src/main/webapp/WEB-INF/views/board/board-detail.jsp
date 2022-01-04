@@ -34,7 +34,7 @@
 						</tr>
 						<tr style="height: 20px;">
 							<td style="padding: 0 12px; padding-bottom: 5px;">Post by <span
-								style="font-weight: bold; font-size: 20px;">${list.memberDTO.nickname}</span></td>
+								style="font-weight: bold; font-size: 20px;">${list.memberDTO.nickname}</span><br><span id="realPriLoc">가격: ${list.price} 원<br></span></td>
 						</tr>
 						<tr style="height: 20px;">
 							<td width="18%" style="padding: 0 12px">${list.regdate }</td>
@@ -44,6 +44,7 @@
 
 					</table>
 				</div>
+
 				<div class="card-body" style="min-height: 220px;">
 
 					${list.content }<br> <%-- <img src="${list.filepath}"
@@ -51,14 +52,24 @@
 						<c:set var="name" value="${list.filename}"/>
 						<c:if test="${name ne null}">
 						    <img src="${pageContext.request.contextPath}/newfiles/${list.filename}" style="width: 350px;">
+
 						</c:if>
 						<%-- <jsp:include page="../../include/AdminTopFixMenu.jsp" /> --%>
 				</div>
-				<!-- <div class="card-footer"></div> -->
-			</div>
-			<%-- <input type="file" value="파일">${list.filename } --%>
 
-			<form name="detailForm">
+				<div class="card-footer" id="invisible">
+						<div class="text-center">
+						  <div>
+							<div id="x" style="display: none;">${list.locinfoX}</div>
+							<div id="y" style="display: none;">${list.locinfoY}</div>
+							<div id="place" style="display: none;">${list.place}</div>	
+								위치: <span id="priLoc">${list.place}</span>
+								<div id="map" class="text-center" style="width:100%;height:350px;margin-top:10px; text-align: center;"></div>
+							</div>
+						</div>
+					</div>
+					<br>
+				<form name="detailForm">
 				<!-- script에서 user_pwd에 접근하기 위한 폼 -->
 				<div
 					style="text-align: right; position: relative; right: 0%; top: 50%;">
@@ -72,6 +83,8 @@
 						onclick="location.href='${path}/board/list/${list.boardTypeDTO.boardId}/${list.categoryDTO.categoryId}/';" />
 				</div>
 			</form>
+
+			
 			<div class="card mb-2 mt-5">
 				<div class="card-header bg-light">
 					<i class="fa fa-comment fa">댓글&nbsp;[${list.commentCount }]</i>
@@ -257,73 +270,59 @@
             alert(JSON.stringify(err));
         });
 	});
-});
 
+	// (가격 : , 위치 : ) 커뮤니티에서 안보이게 하기 -> 공백이 있으면 아예 싹다 숨겨버리도록 설계
+	$(function(){
+		if( $('#priLoc').html() == "" ) {
+            	$("#realPriLoc").hide();
+            	$("#invisible").hide();
+            	
+    	} else {
+            	$("#realPriLoc").show();
+            	$("#invisible").show();
+    	}
+	});
 </script>
-<!-- 	<script type="text/javascript"> -->
-<%-- /* 	$(document).ready(function() {
-		gBno = '${postId}';
-		gBoardWriter = '${nick}';
-		gIsDirect = true;
-		$('#comment-btn-save').on('click', function(evt) {
-			evt.preventDefault();
-			if (socket.readyState !== 1)
-				return;
-			let msg = $('textarea#commentContent').val();
-			socket.send(msg);
-		});
-	}); */
-/* 	$(document).ready(	function() {
-		// var $boxFooter = $("section.content div.box-footer");
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=433417bfd6e1fa6506b99a2e8d9b205f&libraries=services"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
 
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-		//listPage(1, '${postId}'); // QQQ
-		gBno = '${postId}';
-		gBoardWriter = '${postId}';
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
 
-		//$('#myModal').modal('show');
-		
-	    showAttaches(${postId});	
-	    
-	    gIsDirect = true;
-	    
-	    $('#btnSend').on('click', function(evt) {
-	    	evt.preventDefault();
-	    	if (socket.readyState !== 1) return;
-	    	
-	   	    let msg = $('textarea#commentContent').val();
-	   	    socket.send(msg);
-	   	});
-	    
-	}); */ */
-	/* function save() {
-		let jsonData = getValidData( $('#replyer'), $('#replytext') );
-		if (!jsonData) return;
-		
-		let url = gIsEdit ? "/replies/" + gRno : "/replies/",
-			method = gIsEdit ? 'PATCH' : 'POST';
-		
-		console.debug("QQQ>>", gIsEdit, gBno)
-		if (!gIsEdit)
-			jsonData.bno = gBno;//게시글 번호
-		
-		sendAjax(url, (isSuccess, res) => {
-			if (isSuccess) {
-				let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다." : "댓글이 등록되었습니다.";  
-				alert(resultMsg);
-				listPage(gIsEdit ? gPage : 1);
-				closeMod();
+var placeinfo = $('#place').html();
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch( placeinfo , function(result, status) {
 
-				if (socket) {
-					// websocket에 보내기!! (reply,댓글작성자,게시글작성자,글번호)
-					let socketMsg = "reply," + jsonData.replyer + "," + gBoardWriter + "," + gBno;
-					console.debug("sssssssmsg>>", socketMsg)
-					socket.send(socketMsg);
-				}
-			} else {
-				console.debug("Error on editReply>>", res);
-			}
-		}, method, jsonData);
-	} */ --%>
-<!-- </script> -->
+    // 정상적으로 검색이 완료됐으면 
+     if (status === kakao.maps.services.Status.OK) {
+
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">거래 장소</div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});    
+</script>
+    </body>
 </html>

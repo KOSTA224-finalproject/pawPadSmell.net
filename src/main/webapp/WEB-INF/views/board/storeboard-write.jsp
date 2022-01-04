@@ -11,58 +11,59 @@
 <title>게시물 작성폼</title>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<style>
-.layout {
-	width: 500px;
-	margin: 0 auto;
-	margin-top: 40px;
-}
-
-.layout input {
-	width: 100%;
-	box-sizing: border-box
-}
-
-.layout textarea {
-	width: 100%;
-	margin-top: 10px;
-	min-height: 300px;
-}
-</style>
+<sec:csrfInput />
 <sec:authorize access="isAuthenticated()">
 
 	<body>
-		<div class="layout">
-
+		<div class="container px-4 px-lg-5" style="margin-top: 130px;">
 			<!-- 파일 업로드를 위한 속성 추가 : enctype="multipart/form-data"  method는 항상 post 방식이어야 한다. -->
-			<form action="/board/storewritepro/${boardId}/${categoryId}" 
-				 method="post" enctype="multipart/form-data">
-				 <sec:csrfInput />
-				<span class="label label-danger">${boardname.boardName}</span>
-				<span
-					class="label label-primary">${categoryname.categoryName}</span><br>
-				작성자: ${nick} <input name="title" type="text"
-					placeholder="제목을 입력하세요.">
+			<form action="/board/storewritepro/${boardId}/${categoryId}"
+				enctype="multipart/form-data" method="post">
+				<sec:csrfInput />
+				<div class="card">
+					<div class="card-header form-group">
+						<span class="badge badge-danger">${boardname.boardName}</span>
+						<span class="badge badge-primary">${categoryname.categoryName}</span> <br>
+						<span>작성자: ${nick}</span>
+						<input name="title" class="form-control" type="text" placeholder="제목을 입력하세요.">
+						<input name="price" class="form-control" type="number" placeholder="판매 가격 (원)">
+					</div>
+					<div class="card-body form-group">
+						<textarea name="content" class="form-control" rows="10" placeholder="내용을 입력하세요."></textarea>
+					</div>
+					<div class="card-footer" >
+						<input type="file" class="form-control" name="file">
+					</div>
+					<div class="card-footer" >
+						<div class="text-center">
+							<input type="text" class="form-control text-center" id="sample5_address" name="place" placeholder="주소" readonly="readonly"><br>
+							<input type="button" class="btn btn-primary  text-center" style="width: 25%; text-align: center;" onclick="sample5_execDaumPostcode()" value="거래 위치 설정"><br><br>	
+							<div id="map" class="text-center" style="width:100%;height:350px;margin-top:10px;display:none; text-align: center;"></div>
+						</div>
+					</div>
+				</div>
 				<br>
-				<input name="price" type="number" placeholder="판매 가격 (원)"><br>
-				<textarea name="content" placeholder="내용을 입력하세요."></textarea><br>
-				
-				<input type="file" name="file"><br>
-				거래를 원하는 위치를 표시해주세요!<br>
-				<input type="text" id="sample5_address" name="place" placeholder="주소" readonly="readonly">
-				<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-				<div id="map" style="width:500px;height:300px;margin-top:10px;display:none"></div>
-				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+				<button id="btn_boardwrite" class="btn btn-primary" style="position: relative; float:right; margin-top: 15px;  margin-left: 10px;" type="submit">작성</button>
+				<button id="btn_boardwrite" class="btn btn-danger" style="position: relative; float:right; margin-top: 15px;" type="button" onclick="closeBtn()">취소</button>
+				<br><br><br><br>
+				<input type="hidden" id="xinfo" name="locinfoX" value="" readonly="readonly">
+				<input type="hidden" id="yinfo" name="locinfoY" value="" readonly="readonly">
+			</form>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function closeBtn(){
+			console.log("${path}/board/list/${boardId}/${categoryId}")
+			location.href="${path}/board/list/${boardId}/${categoryId}";
+			//${path}/board/list/${boardId}/${categoryId}
+		}
+	</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=433417bfd6e1fa6506b99a2e8d9b205f&libraries=services"></script>
 <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -138,25 +139,5 @@
     console.log(distance/1000);
     ouyputtest.innerHTML=distance;
 </script>
-<input type="hidden" id="xinfo" name="locinfoX" value="" readonly="readonly">
-<input type="hidden" id="yinfo" name="locinfoY" value="" readonly="readonly">
-
-				<br> 
-				<!-- 
-            name 값이름 지정 시 서버에서 이 이름으로 데이터를 얻게 된다. 
-            accept는 전송 허용 가능한 파일의 타입을 지정하는 것 -> 악성 파일 공격 대비
-            ex)
-             accept="image/png, image/jpeg"
-            -->
-				<button id="btn_boardwrite" type="submit">작성</button>
-			</form>
-		</div>
-	
-	
-
-
-
-
-</body>	
 </sec:authorize>
-</html>
+</html> 
