@@ -37,7 +37,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto my-2 my-lg-0">
-					<li class="nav-item"><a class="nav-link" href="member/mypage"><h4
+					<li class="nav-item"><a class="nav-link" href="/member/mypage"><h4
 								style="color: #000;">${member.name}님</h4></a></li>
 					<li class="nav-item"><a class="nav-link" href="#"
 						id="logoutAction"><h4 style="color: #000;">로그아웃</h4></a></li>
