@@ -56,7 +56,7 @@
 							</td>
 							<td>${dto.place}</td>
 							<td>${dto.price}</td>
-							<td>${dto.memberDTO.nickname}</td>
+							<td><a style="color: #000; text-decoration: none;" href="<c:url value='/member/${dto.memberDTO.memberId}'/>">${dto.memberDTO.nickname}</a></td>
 							<td>${dto.regdate}</td>
 							<td>${dto.hits}</td>
 							<td>${dto.commentCount}</td>
