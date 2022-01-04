@@ -4,7 +4,6 @@
 <%-- spring security custom tag를 사용하기 위한 선언 --%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<sec:authentication property="principal" var="member" />
 <html>
 
 <!-- ajax 통신을 위한 meta tag -->
@@ -20,7 +19,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>mypage</title>
+<title>회원 정보 조회</title>
 
 </head>
 <style>
@@ -40,9 +39,9 @@
 			<div class="card" style="margin-bottom: 20px;">
 				<div class="card-body">
 				<c:choose>
-					<c:when test="${mypage==null }">
+					<c:when test="${memberpage == null }">
 					<br>
-					<form action="mypage/upload" method="post" enctype="multipart/form-data">
+					<form action="memberpage/upload" method="post" enctype="multipart/form-data">
 						<div class="row">
 						<div class="col-4">
 							<div class="card">
@@ -51,18 +50,16 @@
 							style="display:block; width: 280px; height: 350px; margin:auto;">
 								</div>
 							<div class="filebox" > 
-								<label class="btn btn-primary" for="file">사진 변경</label> 
 								<input type="file" name="file" id="file"> 
 							</div>
 							</div>
 						</div>
 						<div class="col-8">
 							<sec:csrfInput />
-							<textarea name="profileText" id="profileText" class="form-control" rows="15" placeholder="내용을 입력하세요.">${mypage.profileText }</textarea>
+							<textarea name="profileText" id="profileText" class="form-control" rows="15" placeholder="내용을 입력하세요.">${memberpage.profileText }</textarea>
 							<%-- <input class="form-control"
 								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > --%> <br>
-							<button id="updateBtn" class="btn btn-primary" style="position:relative; top:-15px; float: right;">저장</button>
+								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${memberpage.profileText }" > --%> <br>
 						</div>
 						</div>
 					</form>
@@ -74,7 +71,7 @@
 						<div class="col-4">
 							<div class="card">
 								<div class="card-header">
-									<img src="${pageContext.request.contextPath}/myfiles/${mypage.profileFilepath}"
+									<img src="${pageContext.request.contextPath}/myfiles/${memberpage.profileFilepath}"
 							style="display:block; width: 280px; height: 350px; margin:auto;">
 								</div>
 
@@ -82,11 +79,7 @@
 						</div>
 						<div class="col-8">
 							<sec:csrfInput />
-							<textarea name="profileText" id="profileText" class="form-control" rows="15" placeholder="내용을 입력하세요.">${mypage.profileText }</textarea>
-							<%-- <input class="form-control"
-								style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
-								type="text" name="profileText" id="profileText" placeholder="자기소개글" value="${mypage.profileText }" > --%> <br>
-							<button type="button" id="updateBtn" class="btn btn-primary" style="position:relative; top:-15px; float: right;">저장</button>
+							<textarea name="profileText" id="profileText" class="form-control" rows="15" placeholder="내용을 입력하세요.">${memberpage.profileText}</textarea>
 						</div>
 						</div>
 					</form>
@@ -143,17 +136,17 @@
 						<c:choose>
 							<c:when test="${page == pagingBean.nowPage}">
 								<li class="page-item active" style="display: inline-block;"><a class="page-link"
-									href="/member/mypage?pageNo=${page}"> ${page}</a></li>
+									href="${path}/member/memberpage/${member.memberId}?pageNo=${page}">${page}</a></li>
 							</c:when>
 							<c:otherwise>
 								<li class="page-item" style="display: inline-block;"><a class="page-link"
-									href="/member/mypage?pageNo=${page}">${page}</a></li>
+									href="${path}/member/memberpage/${member.memberId}?pageNo=${page}">${page}</a></li>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${pagingBean.nextPageGroup}">
 						<li class="page-item" style="display: inline-block;"><form
-								action="/member/mypage?pageNo=${pagingBean.endPageOfPageGroup+1}">Next</form></li>
+								action="${path}/member/memberpage/${member.memberId}?pageNo=${pagingBean.endPageOfPageGroup+1}">Next</form></li>
 					</c:if>
 				</ul>
 			</nav>

@@ -72,5 +72,7 @@ public interface BoardMapper {
 
 	int getSearchCount(int boardId, int categoryId,String search);
 
+	void myPageWrite1(MyPageDTO mypageDTO);
+
 	
 }

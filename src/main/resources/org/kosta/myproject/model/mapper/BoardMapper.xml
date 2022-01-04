@@ -238,6 +238,10 @@
 		insert into mypage(member_id,profile_filename,profile_filepath,profile_text) 
 		values(#{memberDTO.memberId},#{profileFilename},#{profileFilepath},#{profileText})
 	</insert>
+	<insert id="myPageWrite1" parameterType="mypageDTO">
+		insert into mypage(member_id,profile_text) 
+		values(#{memberDTO.memberId},#{profileText})
+	</insert>
 	
 	<select id="myPageProfile" resultType="mypageDTO">
 		select profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
