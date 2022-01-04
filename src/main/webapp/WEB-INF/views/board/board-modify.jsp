@@ -41,7 +41,9 @@
 						<input type="file" class="form-control" name="file" accept=".gif, .jpg, .png, .PNG">
 					</div>
 				</div>
+				<button id="btn_boardwrite" class="btn btn-danger" style="float:right; margin-top: 15px; margin-left: 5px;" type="button" onclick="closeBtn()">취소</button>
 				<button id="btn_modify" class="btn btn-primary" type="submit" style="position: relative; float:right; margin-top: 15px;">수정</button>
+				
 			</form>
 			<!-- 			<form >
 			    <input type="file" name="file" />
@@ -57,7 +59,11 @@
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	}); 
-	
+	function closeBtn(){
+		console.log("/board/${postId}")
+		location.href="/board/${postId}";
+		//${path}/board/list/${boardId}/${categoryId}
+	}
 	
 	
 	$(function(){
