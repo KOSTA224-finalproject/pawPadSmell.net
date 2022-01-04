@@ -21,12 +21,14 @@ public class CommentBoardController {
 		CommentBoardMapper commentBoardMapper;
 		@Autowired
 		BoardMapper boardMapper;
+	
 
 		
 		public CommentBoardController(CommentBoardMapper commentBoardMapper, BoardMapper boardMapper) {
 			super();
 			this.commentBoardMapper = commentBoardMapper;
 			this.boardMapper = boardMapper;
+		
 		}
 		@ResponseBody
 		@PostMapping("/commentSave/{postId}")

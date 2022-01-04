@@ -65,7 +65,7 @@
 					<h1>마이페이지</h1>
 					<br>
 					<h2>프로필사진</h2>
-					<img src=""
+					<img src="/img/profile.png"
 						style="width: 350px;">
 					<form action="mypage/upload" method="post" enctype="multipart/form-data">
 						<input type="file" name="file">
