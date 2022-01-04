@@ -185,7 +185,7 @@ public class MypageController {
 		  pagingBean.getStartRowNumber(), pagingBean.getEndRowNumber()));
 		  //List<BoardDTO> getAllMemberInfo(int memberId,int getStartRowNumber, int getEndRowNumber );//회원 정보 조회 - 작성한 게시글 리스트
 		
-		return "member/memberInfo";
+		return "member/mypage.tiles2";
 	}
 
 }

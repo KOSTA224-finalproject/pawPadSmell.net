@@ -100,7 +100,7 @@
 			
 			<br>
 
-			<h2>${member.name }님이작성하신 글 목록입니다!</h2>
+			<h2>${member.name }님이 작성하신 글 목록입니다!</h2>
 
 			<table class="table" style="text-align: center;">
 				<thead>
