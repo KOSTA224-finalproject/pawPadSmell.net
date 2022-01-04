@@ -35,21 +35,21 @@
 <script src="/myweb/js/scripts.js"></script>
 </head>
 <body>
-	<div id="header">
+
 		<!-- Tiles header 영역 -->
 		<tiles:insertAttribute name="header" />
-	</div>
 
 
-	<div id="main">
-		<!-- Tiles main 영역 -->
-		<tiles:insertAttribute name="main" />
-	</div>
 
-	<div id="footer">
+
+		<!-- Tiles content 영역 -->
+		<tiles:insertAttribute name="content" />
+
+
+
 		<!-- Tiles footer 영역 -->
 		<tiles:insertAttribute name="footer" />
-	</div>
+
 </body>
 </html>
 

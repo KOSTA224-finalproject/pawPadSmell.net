@@ -15,6 +15,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from g_member
 	</select>
 	
+	<update id="updateMember">
+		update g_member set name=#{name}, password=#{password}, address=#{address}, phonenum=#{phonenum}, 
+		birth=to_date(#{birth},'YYYY-MM-DD') where email=#{email}
+	</update>
+	
+	
 	<insert id="registerMember" parameterType="MemberDTO">
 		insert into 
 		g_member(member_id,email,name,nickname,address,phonenum,password,birth)
@@ -59,6 +65,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT email
 		FROM g_member
 		WHERE name=#{value}
+		AND enable=1
+	</select>
+	<select id="getMember" resultType="MemberDTO">
+		SELECT member_id,email,address,nickname,name,phonenum,birth
+		FROM g_member
+		WHERE member_id=#{value}
 		AND enable=1
 	</select>
 </mapper>

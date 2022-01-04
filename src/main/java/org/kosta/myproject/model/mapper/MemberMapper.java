@@ -30,6 +30,8 @@ public interface MemberMapper {
 
 	MemberDTO findEmailByName(String name);
 	
+	MemberDTO getMember(int memberId);
+	
 	
 
 }

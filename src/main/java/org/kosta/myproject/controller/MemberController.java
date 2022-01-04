@@ -50,23 +50,8 @@ public class MemberController {
 		System.out.println("post ajax 는 csrf token 이 필요합니다 "+message);
 		return message+" ajax 요청에 대한 응답입니다";
 	}	
-	
-	@RequestMapping("updateForm")
-	public String updateForm() {
-		return "member/updateForm";
-	}
 
-	@PostMapping("updateMemberAction")
-	//첫번째 매개변수 Authentication : Spring Security 인증 정보 , 두번째 매개변수 memberDTO : 수정폼에서 전달받는 데이터 
-	public String updateMemberAction(Authentication authentication, MemberDTO memberDTO) {
-		MemberDTO dto = (MemberDTO)authentication.getPrincipal();			
-		memberService.updateMember(memberDTO);//service에서 변경될 비밀번호를 암호화한다 
-		// 수정한 회원정보로 Spring Security 회원정보를 업데이트한다
-		dto.setPassword(memberDTO.getPassword());
-		dto.setName(memberDTO.getName());
-		dto.setAddress(memberDTO.getAddress());	
-		return "member/update_result.tiles";
-	}
+
 	//로그인화면에서 회원가입을 눌렀을 경우 회원가입으로 이동하는 컨트롤러
 	@RequestMapping("guest/registerForm")
 	public String registerForm() {

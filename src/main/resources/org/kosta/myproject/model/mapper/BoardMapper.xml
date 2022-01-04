@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kosta.myproject.model.mapper.BoardMapper">
+
+
+	<!-- <resultMap type="BoardDTO" id="boardDTORM"> <result column= /> <result 
+		column="member_id" property="memberDTO.memberID" /> <result column="nickname" 
+		property="memberDTO.nickname" /> <result column="post_id" property="boardDTO.postId" 
+		/> </resultMap> -->
+  
+	<insert id="boardWrite" useGeneratedKeys="true" keyColumn="post_id" keyProperty="postId"
+		parameterType="BoardDTO">
+		insert into g_board(post_id, title, content,
+		member_id,
+		regdate, hits, board_id,
+		category_id, comment_count,
+		filename, filepath,
+		price, place, locinfo_x, locinfo_y)
+		values(board_seq.nextval,#{title},#{content},
+		#{memberDTO.memberId},
+		sysdate,0,#{boardTypeDTO.boardId},
+		#{categoryDTO.categoryId},0,
+		#{filename},#{filepath},
+		#{price}, null, #{locinfoX},#{locinfoY})
+	</insert>
+	<insert id="storeboardWrite" useGeneratedKeys="true" keyColumn="post_id" keyProperty="postId"
+		parameterType="BoardDTO">
+		insert into g_board(post_id, title, content,
+		member_id,
+		regdate, hits, board_id,
+		category_id, comment_count,
+		filename, filepath,
+		price, place, locinfo_x, locinfo_y)
+		values(board_seq.nextval,#{title},#{content},
+		#{memberDTO.memberId},
+		sysdate,0,#{boardTypeDTO.boardId},
+		#{categoryDTO.categoryId},0,
+		#{filename},#{filepath},
+		#{price}, #{place}, #{locinfoX},#{locinfoY})
+	</insert>
+	
+	<update id="boardUpdate"
+		parameterType="BoardDTO">
+		UPDATE g_board
+		SET
+		title = #{title},
+		content = #{content},
+		regdate = sysdate,
+		filename = #{filename},
+		filepath =#{filepath},
+		price = #{price},
+		place = #{place},
+		locinfoX = #{locinfoX}, 
+		locinfoY = #{locinfoY}
+		WHERE
+		post_id = #{postId}
+	</update>
+
+	<sql id="selectBoardList">
+		select
+		post_id,title,content,member_id,regdate,hits from
+		g_board
+	</sql>
+
+
+	<select id="getBoardList" resultType="BoardDTO">
+		<include refid="selectBoardList"></include>
+		order by post_id desc
+	</select>
+
+
+	<update id="hitsUpdate">
+		update g_board set hits=hits+1 where
+		post_id=#{postId}
+	</update>
+	<update id="commentUpdateUp">
+		update g_board set comment_count=comment_count+1 where
+		post_id=#{postId}
+	</update>
+	<update id="commentUpdateDown">
+		update g_board set comment_count=comment_count-1 where
+		post_id=#{postId}
+	</update>
+
+	<select id="getCategoryList" resultType="CategoryDTO">
+		select * from category
+	</select>
+
+
+
+	<select id="getCategoryCount" resultType="int">
+		select count(*) from
+		g_board
+		where board_id=#{boardId}
+		and category_id=#{categoryId}
+
+	</select>
+
+
+	<resultMap type="BoardDTO" id="boardRM">
+		<result column="nickname" property="memberDTO.nickname" />
+		<result column="category_name"
+			property="categoryDTO.categoryName" />
+	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM1">
+		<result column="nickname" property="memberDTO.nickname" />
+		<result column="member_id" property="memberDTO.memberId" />
+		<result column="board_id" property="boardTypeDTO.boardId" />
+		<result column="board_name" property="boardTypeDTO.boardId" />
+		<result column="category_id" property="categoryDTO.categoryId" />
+		<result column="rnum" property="rnum" />
+		<result column="category_name"
+			property="categoryDTO.categoryName" />
+	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM2">
+		<result column="nickname" property="memberDTO.nickname"/>
+		<result column="board_name" property="boardTypeDTO.boardName"/>
+		<result column="rnum" property="rnum"/>
+		<result column="category_name" property="categoryDTO.categoryName"/>
+	</resultMap>
+	<resultMap type="BoardDTO" id="boardRM3">
+		<result column="nickname" property="memberDTO.nickname"/>
+	</resultMap>
+
+
+	<select id="getBoardType"
+		resultType="org.kosta.myproject.model.domain.BoardTypeDTO">
+		select * from boardtype
+	</select>
+
+
+	<select id="getBoardName"
+		resultType="org.kosta.myproject.model.domain.BoardTypeDTO">
+		select board_name from boardtype where board_id=#{boardId}
+	</select>
+
+
+
+	<select id="getCatName"
+		resultType="org.kosta.myproject.model.domain.CategoryDTO">
+		select category_name from category where
+		category_id=#{categoryId}
+	</select>
+
+
+	<select id="getAllLists" resultMap="boardRM1">
+		select v.rnum, v.post_id,
+		v.title, to_char(v.regdate, 'yyyy-mm-dd')
+		as
+
+		regdate, m.nickname, m.member_id,
+		v.price, v.place,
+
+		v.hits, v.category_id, v.comment_count,
+		v.board_id
+		from (
+		select
+		row_number() over(
+		order by b.regdate desc)
+		as rnum, b.post_id, b.title,
+		b.regdate,b.place,b.price,
+		b.hits, b.member_id, b.board_id,
+		t.board_name,
+		c.category_name, b.comment_count,
+		c.category_id
+		from g_board b,
+		boardtype t, category c
+		where b.board_id =
+		t.board_id and b.board_id =
+		#{boardId}
+		and c.category_id =
+		b.category_id and
+		b.category_id=#{categoryId}
+		) v,
+		g_member m
+		where
+		v.member_id =
+		m.member_id and v.rnum between #{getStartRowNumber} and
+		#{getEndRowNumber}
+		order by v.regdate desc
+	</select>
+
+
+	<delete id="deletePost">
+		delete from g_board where post_id = #{postId}
+	</delete>
+
+
+	<select id="getpostDetail" resultMap="boardRM1">
+
+		select b.title, b.price, b.place, b.locinfo_x, b.locinfo_y,
+		b.content,b.post_id,
+
+		m.nickname, b.regdate,b.hits,
+		b.category_id,
+		b.board_id, c.category_name,
+		b.filename,
+		b.filepath,
+		b.comment_count
+		from category c,
+		g_board
+		b,
+		g_member m
+		where b.member_id =
+		m.member_id
+		and
+		b.category_id=c.category_id
+		and b.post_id=#{postId}
+	</select>
+	
+
+	<select id="getSecId" resultType="BoardTypeDTO">
+		select board_id
+		from boardtype
+		where board_id=2
+	</select>
+	<select id="getComId" resultType="BoardTypeDTO">
+		select board_id
+		from boardtype
+		where board_id=1
+	</select>
+
+	<select id="getMypageCount" resultType="int">
+		SELECT count(*)
+		FROM g_board
+		WHERE member_id=#{memberId}
+	</select>
+	
+	<select id="getAllMypage" resultMap="boardRM2">
+		select rnum, post_id, title,member_id, to_char(regdate, 'yyyy-mm-dd') as regdate, nickname, hits, category_name,board_name
+		from ( 
+		select row_number() over(
+		order by b.regdate desc) 
+		as rnum, b.post_id, b.title,m.member_id, b.regdate, m.nickname, b.hits, t.board_name, c.category_name
+		from g_board b, g_member m ,boardtype t,category c
+		where b.member_id=m.member_id and b.member_id=#{memberId} and c.category_id=b.category_id and t.board_id=b.board_id
+				) 
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by post_id desc
+	</select>
+	<insert id="myPageWrite" parameterType="mypageDTO">
+		insert into mypage(member_id,profile_filename,profile_filepath,profile_text) 
+		values(#{memberDTO.memberId},#{profileFilename},#{profileFilepath},#{profileText})
+	</insert>
+	
+	<select id="myPageProfile" resultType="mypageDTO">
+		select profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
+	</select>
+	<update id="updateProfile">
+		update mypage set profile_filename=#{profileFilename} ,profile_filepath=#{profileFilepath},profile_text=#{profileText}
+		where member_id=#{memberDTO.memberId}
+	</update>
+	<select id="searchPost" resultMap="boardRM3">
+		SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname , title
+		FROM (
+		select row_number() over(
+		order by regdate desc)
+		as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
+		from g_board b , g_member m
+		WHERE content LIKE '%'||#{search}||'%' and
+		b.category_id=#{categoryId} and b.board_id=#{boardId} and b.member_id=m.member_id
+		)
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by regdate desc
+	</select>
+	<select id="getSearchCount" resultType="int">
+		select count(*) from g_board where content like '%'||#{search}||'%' and category_id=#{categoryId} and board_id=#{boardId}
+	</select>
+	<select id="getMemberInfo" resultType="mypageDTO">
+		select member_id,profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
+	</select>
+	<select id="getMemberInfoCount" resultType="int">
+		SELECT count(*)
+		FROM g_board
+		WHERE member_id=#{memberId}
+	</select>
+	<select id="getAllMemberInfo" resultMap="boardRM2">
+		select rnum, post_id, title,member_id, to_char(regdate, 'yyyy-mm-dd') as regdate, nickname, hits, category_name,board_name
+		from ( 
+		select row_number() over(
+		order by b.regdate desc) 
+		as rnum, b.post_id, b.title,m.member_id, b.regdate, m.nickname, b.hits, t.board_name, c.category_name
+		from g_board b, g_member m ,boardtype t,category c
+		where b.member_id=m.member_id and b.member_id=#{memberId} and c.category_id=b.category_id and t.board_id=b.board_id
+				) 
+		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
+		order by post_id desc
+	</select>
+	
+</mapper>
