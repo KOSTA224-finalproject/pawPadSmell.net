@@ -67,6 +67,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE name=#{value}
 		AND enable=1
 	</select>
+	<select id="getMember" resultType="MemberDTO">
+		SELECT member_id,email,address,nickname,name,phonenum,birth
+		FROM g_member
+		WHERE member_id=#{value}
+		AND enable=1
+	</select>
 </mapper>
 
 

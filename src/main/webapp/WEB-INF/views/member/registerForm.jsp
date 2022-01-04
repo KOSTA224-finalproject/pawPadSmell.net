@@ -60,7 +60,7 @@
 					<div class="form-floating mb-3">
 						<input class="form-control" name="password" type="password"
 							onkeyup="passwordStrength()" placeholder="name@example.com"
-							data-sb-feedback="name:required" /> <label for="name">비밀번호
+							data-sb-feedback="name:required" id="password" /> <label for="name">비밀번호
 						</label>
 
 						<div class="invalid-feedback" data-sb-feedback="email:required">An
@@ -107,12 +107,12 @@
 						<br> <input class="form-control"
 							style="font-family: 'Jua'; font-weight: 500; width: 70%; display: inline-block; float: left; margin-bottom: 20px; background-color: white;"
 							type="text" name="address1" id="sample2_postcode"
-							placeholder="우편번호" readonly="readonly"> <br> <input
-							class="btn btn-light btn-xl bg-primary"
-							style="position: relative; margin: 0; padding: 0; height: 42px; width: 24%; left: 3%; font-weight: bold;"
+							placeholder="우편번호" readonly="readonly"> <br> 
+							<input class="btn btn-light btn-xl bg-primary"
+							style="position: relative; margin: 0; padding: 0; height: 42px; width: 25%; left: 2%; top:-17px; font-weight: bold;"
 							type="button" onclick="sample2_execDaumPostcode()"
-							value="우편번호 찾기"> <br> <input
-							class="form-control  input-box bg-100"
+							value="우편번호 찾기"> <br> 
+							<input class="form-control  input-box bg-100"
 							style="background-color: white; font-weight: 500;" type="text"
 							name="address2" id="sample2_address" placeholder="주소"
 							readonly="readonly"><br> <input
@@ -134,7 +134,7 @@
 					<div class="form-floating mb-3">
 
 						<input class="form-control" name="phonenum" type="tel"
-							placeholder="01012345678" data-sb-validations="required" /> <label
+							placeholder="01012345678" data-sb-validations="required" required="required" /> <label
 							for="password">전화번호 </label>
 
 						<div class="invalid-feedback" data-sb-feedback="email:required">An
@@ -154,7 +154,7 @@
 					</div>
 					<br>
 					<div class="d-grid gap-2">
-						<button class="btn btn-light btn-xl bg-primary" type="submit">
+						<button class="btn btn-light btn-xl bg-primary" type="submit" id="reg_submit">
 							<h5>가입하기</h5>
 						</button>
 
@@ -195,11 +195,15 @@
 											if (result == 1) {
 												document.getElementById("idck").style.color = "red";
 												document.getElementById("idck").innerHTML = "이미 사용중인 아이디입니다.";
-												
+
+												$("#reg_submit").attr("disabled",true);
+												i = 1;
 											} else {
 												document.getElementById("idck").style.color = "green";
 												document.getElementById("idck").innerHTML = "사용 가능한 아이디입니다.";
-												
+												$("#reg_submit").attr("disabled",false);
+												i = 0;
+
 											}
 										}
 									});
@@ -228,11 +232,15 @@
 											if (result == 1) {
 												document.getElementById("idck1").style.color = "red";
 												document.getElementById("idck1").innerHTML = "이미 사용중인 닉네임입니다.";
-												return false;
+
+												$("#reg_submit").attr("disabled",true);
+												return result=false;
 											} else {
 												document.getElementById("idck1").style.color = "green";
 												document.getElementById("idck1").innerHTML = "사용 가능한 닉네임입니다.";
-												
+												$("#reg_submit").attr("disabled",false);
+												return result=true;
+
 											}
 										}
 									});
@@ -255,8 +263,20 @@
 				
 			}
 		});
+
+		$("#reg_submit").click(function(){
+			let password = document.forms[0];
+			let pass1 = password.password.value;
+			let pass2 = password.joinPwck.value;
+			if(pass1 != pass2){
+				alert("비밀번호가 일치하지 않습니다");
+				document.getElementById("password").focus();
+				return false
+			}
+		});
 	});
-	
+
+
 
 </script>
 <script

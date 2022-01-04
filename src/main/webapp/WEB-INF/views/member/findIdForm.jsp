@@ -40,12 +40,12 @@
 				<a href="/"><img src="/myweb/images/logo-2.png"
 					style="width: 350px;"></a><br> <br>
 				<form id="findForm" action="/guest/findIdByName">
-					<input class="form-control" type="text" name="name" size="20" placeholder="아이디"><br>
+					<input class="form-control" type="text" name="name" size="20" placeholder="이름을 입력해주세요"><br>
 				<br> <input
 					class="btn btn-light btn-xl bg-primary"	type="submit" value="아이디 찾기">
 				</form>
 				<br><br>
-				<h1>당신의 등록된 E-mail은 "${requestScope.dto.email}" 입니다!</h1>	
+				<h1>당신의 등록된 E-mail은 ${requestScope.dto.email}입니다!</h1>	
 			</div> 
 		</div>
 	</div>

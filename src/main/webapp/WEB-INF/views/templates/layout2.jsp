@@ -36,14 +36,19 @@
 </head>
 <body>
 
-		<!-- Tiles header 영역 -->
-		<tiles:insertAttribute name="header2" />
+	<!-- Tiles header 영역 -->
+	<tiles:insertAttribute name="header2" />
 
 
 
 
-		<!-- Tiles content 영역 -->
-		<tiles:insertAttribute name="content2" />
+	<!-- Tiles content 영역 -->
+	<tiles:insertAttribute name="content2" />
+
+
+
+	<!-- Tiles content 영역 -->
+	<tiles:insertAttribute name="footer" />
 
 
 
