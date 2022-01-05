@@ -256,14 +256,14 @@
 		order by regdate desc)
 		as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
 		from g_board b , g_member m
-		WHERE content LIKE '%'||#{search}||'%' and
+		WHERE title LIKE '%'||#{search}||'%' and
 		b.category_id=#{categoryId} and b.board_id=#{boardId} and b.member_id=m.member_id
 		)
 		where rnum between #{getStartRowNumber} and #{getEndRowNumber}
 		order by regdate desc
 	</select>
 	<select id="getSearchCount" resultType="int">
-		select count(*) from g_board where content like '%'||#{search}||'%' and category_id=#{categoryId} and board_id=#{boardId}
+		select count(*) from g_board where title like '%'||#{search}||'%' and category_id=#{categoryId} and board_id=#{boardId}
 	</select>
 	<select id="getMemberInfo" resultType="mypageDTO">
 		select member_id,profile_filename,profile_filepath,profile_text from mypage where member_id=#{memberId}
