@@ -171,7 +171,7 @@
 					<c:if test="${pagingBean.previousPageGroup}">
 						<li class="page-item" style="display: inline-block;"><a
 							class="page-link"
-							href="${path}/board/list/${boardId}/${categoryId}?pageNo=${pagingBean.startPageOfPageGroup-1}">Previous
+							href="/member/mypage?pageNo=${pagingBean.startPageOfPageGroup-1}">이전
 						</a></li>
 					</c:if>
 					<c:forEach begin="${pagingBean.startPageOfPageGroup}"
@@ -189,8 +189,8 @@
 						</c:choose>
 					</c:forEach>
 					<c:if test="${pagingBean.nextPageGroup}">
-						<li class="page-item" style="display: inline-block;"><form
-								action="/member/mypage?pageNo=${pagingBean.endPageOfPageGroup+1}">Next</form></li>
+						<li class="page-item" style="display: inline-block;"><a class="page-link"
+								href="/member/mypage?pageNo=${pagingBean.endPageOfPageGroup+1}">다음</a></li>
 					</c:if>
 				</ul>
 			</nav>
