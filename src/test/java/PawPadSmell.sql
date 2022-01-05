@@ -1,11 +1,10 @@
+12/31 -> store, g_board 칼럼 추가 및 변경
+
 ----------------현재테이블 조회
 SELECT * FROM tab;
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
 --회원 
-
-select * from G_MEMBER;
-
 
 SELECT g.email,a.user_id,a.authority
 FROM g_member g, authorities a
@@ -50,7 +49,7 @@ SELECT * FROM g_member;
 DELETE 
   FROM g_member
  WHERE g_member_id = 1;
-delete from g_member where member_id=21;
+delete from g_member where member_id=2;
 commit;
 
 -----------------------------------------------------------------------------------------------
@@ -130,7 +129,9 @@ select profile_filename,profile_filepath,profile_text from mypage where member_i
 -----------------------------------------------------------------------------------------------
 -- 친구
 
-drop table friend;
+
+
+
 create table friend(
     friendrequest_id number primary key,
     friend_id number not null,
@@ -151,6 +152,7 @@ create table category(
 );
 
 -- create sequence
+drop sequence category_seq;
 create sequence category_seq;
 
 insert into category(category_id,category_name) values(category_seq.nextval,'고양이');
@@ -172,7 +174,7 @@ create table boardtype(
 	board_id number primary key,
 	board_name varchar2(100) not null
 )
-
+drop sequence board_type_seq;
 create sequence board_type_seq;
 
 insert into boardtype(board_id,board_name) values(board_type_seq.nextval,'커뮤니티');
@@ -194,13 +196,17 @@ CREATE TABLE g_board(
 	title VARCHAR2(100) NOT NULL,
 	content CLOB NOT NULL,
 	member_id number not null,
-  regdate date NOT NULL,
+ 	regdate date NOT NULL,
 	hits number default 0,
 	board_id number not null,
 	category_id number not null,
 	comment_count number default 0,
 	filename varchar2(100),
 	filepath varchar2(100),
+	price number,
+	place varchar2(100),
+	locinfo_x number,
+	locinfo_y number,
 	constraint fk_board_category_id foreign key(category_id) references category(category_id)on delete cascade,
 	constraint fk_board_board_id foreign key(board_id) references boardtype(board_id)on delete cascade,
 	constraint fk_board_member_id foreign key(member_id) references g_member(member_id)on delete cascade
@@ -211,20 +217,16 @@ drop sequence board_seq;
 
 select * from g_board
 
-
 create sequence board_seq;
 
 SELECT count(*)
 FROM g_board
-WHERE member_id=1 
+WHERE member_id=1
 
 
-insert into g_board values(board_seq.nextval,'123팔아여','하이루2',4,
-sysdate,0,1,1,0,null,null);
-insert into g_board values(board_seq.nextval,'검색 test2','하이루1',4,
-sysdate,0,1,1,0,null,null);
-insert into g_board values(board_seq.nextval,'검색 test1','하이루',3,
-sysdate,0,1,1,0,null,null);
+insert into g_board values(board_seq.nextval,'123갱얼쥐용품팔아여','강아지사용품이에여진',4,
+sysdate,0,2,2,0,null,null);
+
 
 
 
@@ -233,22 +235,44 @@ delete from g_board where member_id=1;
 
 select * from g_board;
 
-drop table store;
+-- 중고거래
 
-create table store(
-   post_id number primary key,
-   price number not null,
-   place varchar2(100) not null,
-   locinfo_x number,
-   locinfo_y number,
-   constraint fk_store_post_id foreign key(post_id) references g_board(post_id) on delete cascade
-)
-create sequence store_id_seq;
 select * from store;
 
-insert into store values(1,3000,'서울시 강남구 삼성동 어쩌구');
+insert into store values(1,3000,'서울시 강남구 삼성동 어쩌구','192823,93489');
 
-
+select v.rnum, v.post_id,
+		s.price, s.place
+		v.title, to_char(v.regdate, 'yyyy-mm-dd')
+		as
+		regdate, m.nickname,
+		v.hits, v.category_id, v.comment_count,
+		v.board_id
+		from (
+		select
+		row_number() over(
+		order by b.regdate desc)
+		as rnum, b.post_id, b.title,
+		b.regdate,
+		b.hits, b.member_id, b.board_id,
+		t.board_name,
+		c.category_name, b.comment_count,
+		c.category_id
+		from g_board b, store s,
+		boardtype t, category c
+		where b.board_id =
+		t.board_id and b.board_id =
+		1
+		and c.category_id =
+		b.category_id and
+		b.category_id=1
+		) v,
+		g_member m
+		where
+		v.member_id =
+		m.member_id and v.rnum between 1 and
+		5
+		order by v.regdate desc;
 
 
 -----------------------------------------------------------------------------------------------
@@ -333,36 +357,3 @@ where b.member_id=m.member_id and b.member_id=2 and c.category_id=b.category_id 
 ) 
 where rnum between 1 and 5
 order by post_id desc
-
-
-SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname ,title
-FROM (
-select row_number() over(
-order by regdate desc)
-as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
-from g_board b , g_member m
-WHERE content LIKE '%검색%' and
-b.category_id=1 and b.board_id=1 and b.member_id=m.member_id
-)
-where rnum between 1 and 5
-order by regdate desc
-
-
-SELECT rnum, post_id, content,to_char(regdate,'yyyy-mm-dd') as regdate,hits, nickname ,title
-FROM (
-select row_number() over(
-order by regdate desc)
-as rnum , b.regdate , b.post_id, b.content, b.hits, m.nickname , b.title
-from g_board b , g_member m
-WHERE content LIKE '%하이%' and
-b.category_id=1 and b.board_id=1 and b.member_id=m.member_id
-)
-where rnum between 1 and 5
-order by regdate desc
-
-select * from g_board where board_id=2 and category_id=2
-
-select count(*) from g_board where content like '%검색%'
-
-
-

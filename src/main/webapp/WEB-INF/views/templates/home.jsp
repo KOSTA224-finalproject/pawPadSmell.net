@@ -55,7 +55,7 @@
 								style="width: 230px;"></cat>
 						</div>
 						<h3 class="text-white-75 mb-4">위치 기반 중고거래가 가능합니다</h3>
-						<a class="btn btn-light btn-xl" href="${path}/second-list"><h5>중고거래하러
+						<a class="btn btn-light btn-xl" href="/board/list/2/1"><h5>중고거래하러
 								가기</h5></a>
 					</div>
 				</div>

@@ -60,7 +60,7 @@
 
 					<div class="form-floating mb-3">
 						<input class="form-control" name="password" type="password"
-							onkeyup="passwordStrength()" placeholder="name@example.com"
+							  placeholder="name@example.com" id="password"
 							data-sb-feedback="name:required" required="required" /> <label for="name">비밀번호
 						</label>
 
@@ -71,7 +71,7 @@
 					</div>
 
 					<div class="form-floating mb-3">
-						<input class="form-control" name="joinPwck" type="password"
+						<input class="form-control" name="joinPwck" id="pwCheck" type="password"
 							onkeyup="pwCheck()" placeholder="name@example.com"
 							data-sb-feedback="name:required" required="required" /> <label for="name">비밀번호
 							재확인</label> <span
@@ -139,7 +139,7 @@
 					<div class="form-floating mb-3">
 
 						<input class="form-control" name="phonenum" type="tel"
-							placeholder="01012345678" data-sb-validations="required" /> <label
+							placeholder="01012345678" data-sb-validations="required" value="${member.phonenum}" /> <label
 							for="password">전화번호 </label>
 
 						<div class="invalid-feedback" data-sb-feedback="email:required">An
@@ -159,8 +159,8 @@
 					</div>
 					<br>
 					<div class="d-grid gap-2">
-						<button class="btn btn-light btn-xl bg-primary" type="submit">
-							<h5>가입하기</h5>
+						<button class="btn btn-light btn-xl bg-primary" type="submit" id="reg_submit">
+							<h5>수정하기</h5>
 						</button>
 
 					</div>
@@ -232,18 +232,33 @@
 	});
 
 	// 패스워드 일치 확인
-	function pwCheck() {
-		let password = document.forms[0];
-		let pass1 = password.password.value;
-		let pass2 = password.joinPwck.value;
-		if (pass1 != pass2) {
-			document.getElementById("checkPwd").style.color = "red";
-			document.getElementById("checkPwd").innerHTML = "비밀번호가 일치하지 않습니다.";
-		} else {
-			document.getElementById("checkPwd").style.color = "green";
-			document.getElementById("checkPwd").innerHTML = "비밀번호가 일치합니다.";
-		}
-	}
+	$(function() {
+		$("#pwCheck").keyup(function(){
+			let password = document.forms[0];
+			let pass1 = password.password.value;
+			let pass2 = password.joinPwck.value;
+			if (pass1 != pass2) {
+				document.getElementById("checkPwd").style.color = "red";
+				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치하지 않습니다.";
+				return false;
+			} else {
+				document.getElementById("checkPwd").style.color = "green";
+				document.getElementById("checkPwd").innerHTML = "비밀번호가 일치합니다.";
+				
+			}
+		});
+
+		$("#reg_submit").click(function(){
+			let password = document.forms[0];
+			let pass1 = password.password.value;
+			let pass2 = password.joinPwck.value;
+			if(pass1 != pass2){
+				alert("비밀번호가 일치하지 않습니다");
+				document.getElementById("password").focus();
+				return false
+			}
+		});
+	});
 
 </script>
 <script
